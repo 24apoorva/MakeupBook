@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MakeUpBook</string>
+    <string name="login">LOGIN</string>
+    <string name="loginhint">Email Address</string>
+    <string name="passwordhint">Password</string>
+    <string name="forgotPassword">Forgot Password?</string>
+    <string name="newUser">New User? SignUp Here</string>
+    <string name="usernameMissingToast">Enter email address!</string>
+    <string name="passwordToast">Enter password!</string>
+    <string name="auth_failed">Email or Password incorrect</string>
+    <string name="resetPassword">Reset Password</string>
+    <string name="resetText">Plese enter your e-mail adress below and we will send you password reset instructions.</string>
+    <string name="resendemail">Email Address</string>
+    <string name="logo_description">This is the app logo</string>
+    <string name="enterEmail">Enter your registered email address.</string>
+    <string name="emailSent">Password reset email is sent to your registered email address.</string>
+    <string name="failedSending">Failed to send reset email!</string>
+    <string name="signUp">Register</string>
+    <string name="member">Already a member ?</string>
+    <string name="passwordTooShotToast">Password too short, enter minimum 6 characters!</string>
+    <string name="registrationFailed">Registration Failed !</string>
+    <string name="userNameHint">Name</string>
+    <string name="favPage">Favorites</string>
+    <string name="wantPage_title">I want these Items</string>
+    <string name="havePage_title">I have these Items</string>
+
+</resources>

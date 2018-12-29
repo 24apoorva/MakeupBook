@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item-->
+        <!--android:id="@+id/fav_page_id"-->
+        <!--android:title="@string/favPage" />-->
+
+    <!--<item android:id="@+id/want_list_pageId"-->
+        <!--android:title="@string/wantPage_title"/>-->
+
+    <!--<item android:id="@+id/have_list_pageId"-->
+        <!--android:title="@string/havePage_title"/>-->
+</menu>

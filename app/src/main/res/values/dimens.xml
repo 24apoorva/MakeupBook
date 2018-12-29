@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_height_50">50dp</dimen>
+    <dimen name="dimen_height_100">100dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+
+
+</resources>

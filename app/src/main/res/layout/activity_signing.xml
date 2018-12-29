@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_5dp"
+    tools:context=".accounts.SigningActivity"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_height_100"
+        android:layout_marginTop="@dimen/dimen_height_50"
+        android:src="@drawable/ic_bag"
+        android:contentDescription="@string/logo_description" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textAllCaps="true"
+        android:layout_marginTop="@dimen/margin_10"
+        android:padding="@dimen/margin_5dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorPrimary"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_height_50"
+        android:id="@+id/username_id"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_5dp"
+        android:layout_marginRight="@dimen/margin_5dp"
+        android:padding="@dimen/margin_5dp"
+        android:hint="@string/loginhint"
+        android:inputType="textEmailAddress|text" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_height_50"
+        android:id="@+id/password_id"
+        android:layout_marginLeft="@dimen/margin_5dp"
+        android:layout_marginRight="@dimen/margin_5dp"
+        android:hint="@string/passwordhint"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forgotPassword_id"
+        android:text="@string/forgotPassword"
+        android:layout_gravity="end"
+        android:padding="@dimen/margin_5dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_height_50"
+        android:id="@+id/login_id"
+        android:layout_margin="@dimen/margin_5dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/login" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_height_50"
+        android:id="@+id/signUp_id"
+        android:layout_margin="@dimen/margin_5dp"
+        android:text="@string/newUser"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        />
+
+</LinearLayout>

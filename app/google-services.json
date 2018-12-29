@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "72449787590",
+    "firebase_url": "https://makeup-book-80b55.firebaseio.com",
+    "project_id": "makeup-book-80b55",
+    "storage_bucket": "makeup-book-80b55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72449787590:android:517f144388ac4dec",
+        "android_client_info": {
+          "package_name": "com.example.android.makeupbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72449787590-b73npaij663pqkuq49otkmbe2vvhaoeb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.makeupbook",
+            "certificate_hash": "aa77318e9d8195a1d69942cddbf6e19458be8618"
+          }
+        },
+        {
+          "client_id": "72449787590-v30tr155688kbi26grgal84kait75j3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADWwDOzJTNnxt256btFdqvK1qP-Oq2KzM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72449787590-v30tr155688kbi26grgal84kait75j3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
