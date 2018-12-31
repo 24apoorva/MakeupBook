@@ -6,9 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.makeupbook.MainActivity;
@@ -28,15 +26,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SignUpActivity extends AppCompatActivity {
 
     @BindViews({R.id.email_editField,R.id.password_editField,R.id.username_field})
     List<EditText> signUpDetails;
-    @BindView(R.id.signUpButton)
-    Button signUp;
-    @BindView(R.id.alredyMember)
-    TextView alreadyMember;
     private FirebaseAuth auth;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -49,72 +44,60 @@ public class SignUpActivity extends AppCompatActivity {
         auth =FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference("users");
+    }
 
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String userName = signUpDetails.get(2).getText().toString().trim();
-                final String email = signUpDetails.get(0).getText().toString().trim();
-                String password = signUpDetails.get(1).getText().toString().trim();
+    public void alreadyMember(View view){
+        startActivity(new Intent(SignUpActivity.this,SigningActivity.class));
+    }
 
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.usernameMissingToast), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwordToast), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(password.length() < 6){
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwordTooShotToast), Toast.LENGTH_SHORT).show();
-                    return;
-                }
+    public void signUpPressed(View view) {
+        final String userName = signUpDetails.get(2).getText().toString().trim();
+        final String email = signUpDetails.get(0).getText().toString().trim();
+        String password = signUpDetails.get(1).getText().toString().trim();
 
-                auth.createUserWithEmailAndPassword(email,password)
-                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.registrationFailed) + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.usernameMissingToast), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwordToast), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(password.length() < 6){
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwordTooShotToast), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                                    User user = new User(userName,email);
+        auth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(SignUpActivity.this, getResources().getString(R.string.registrationFailed) + task.getException(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
 
-                                    mDatabaseReference.child(auth.getCurrentUser()
-                                            .getUid()).push().setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                mFirebaseDatabase.getReference(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        String name = dataSnapshot.getValue(User.class).getUserName().toUpperCase();
-                                                        Intent homeScreenIntent = new Intent(SignUpActivity.this, MainActivity.class);
-                                                        homeScreenIntent.putExtra(MainActivity.USERNAME,name);
-                                                        startActivity(homeScreenIntent);
-                                                        finish();
-                                                    }
+                            User user = new User(userName,email);
 
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                    }
-                                                });
-
-                                            }else {
-                                                Toast.makeText(SignUpActivity.this, getResources().getString(R.string.registrationFailed) + task.getException(),
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-
-
-
+                            mDatabaseReference.child(auth.getCurrentUser()
+                                    .getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                                Intent homeScreenIntent = new Intent(SignUpActivity.this, MainActivity.class);
+                                                startActivity(homeScreenIntent);
+                                                finish();
+                                    }else {
+                                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.registrationFailed) + task.getException(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-            }
-        });
+                            });
+
+
+
+                        }
+                    }
+                });
     }
 }

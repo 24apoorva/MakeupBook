@@ -20,8 +20,6 @@ import butterknife.ButterKnife;
 public class ForgotPasswordActivity extends AppCompatActivity {
     @BindView(R.id.email_id)
     EditText emailId;
-    @BindView(R.id.resetPassword_id)
-    Button resetButton;
     private FirebaseAuth auth;
 
     @Override
@@ -31,28 +29,25 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        //When reset button is clicked
-        resetButton.setOnClickListener(new View.OnClickListener() {
+
+    }
+
+    public void resetButtonPressed(View view){
+        String email = emailId.getText().toString().trim();
+        //Checking if email field is empty
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(getApplication(), getResources().getString(R.string.enterEmail), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onClick(View v) {
-                String email = emailId.getText().toString().trim();
-                //Checking if email field is empty
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplication(), getResources().getString(R.string.enterEmail), Toast.LENGTH_SHORT).show();
-                    return;
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.emailSent), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.failedSending), Toast.LENGTH_SHORT).show();
                 }
-                auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.emailSent), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.failedSending), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
             }
         });
-
     }
 }

@@ -1,31 +1,37 @@
-package com.example.android.makeupbook;
+package com.example.android.makeupbook.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Switch;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.android.makeupbook.accounts.SigningActivity;
+import com.example.android.makeupbook.NavigationBarClass;
+import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.accounts.User;
-import com.example.android.makeupbook.ui.ProductsDisplayActivity;
+import com.example.android.makeupbook.adapters.FragmentSelectionAdapter;
+import com.example.android.makeupbook.adapters.ProductsRecyclerViewAdapter;
+import com.example.android.makeupbook.network.VolleySingleton;
+import com.example.android.makeupbook.objects.Products;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,65 +41,101 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.main_toolbar)
-    Toolbar toolBar;
-    @BindView(R.id.main_drawer)
-    DrawerLayout drawerLayout;
+public class ProductsDisplayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    @BindView(R.id.products_toolbar)
+    android.support.v7.widget.Toolbar prodTooldbar;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+    @BindView(R.id.prod_draw)
+    DrawerLayout drawerLayoutProducts;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-    @BindView(R.id.home_name)
-    TextView welcomeName;
     FirebaseAuth auth;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_products_display);
         ButterKnife.bind(this);
-        setSupportActionBar(toolBar);
+        setSupportActionBar(prodTooldbar);
         auth = FirebaseAuth.getInstance();
+        Intent intent = getIntent();
+        //    private ArrayList<Products> mProducts = new ArrayList<>();
+        //    private String partTwo;
+        int tabNumber = intent.getIntExtra("tabs", 0);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolBar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayoutProducts,prodTooldbar,
                 R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
+        drawerLayoutProducts.addDrawerListener(toggle);
         toggle.syncState();
-        displayUserData();
-        if(savedInstanceState == null){
-            displayUserData();
-        }
         navigationView.setNavigationItemSelectedListener(this);
+        // Create an adapter that knows which fragment should be shown on each page
+        FragmentSelectionAdapter adapter = new FragmentSelectionAdapter(getSupportFragmentManager(), this, tabNumber);
+
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
     }
+    @Override
+    public void onBackPressed() {
+        if(drawerLayoutProducts.isDrawerOpen(GravityCompat.START)){
+            drawerLayoutProducts.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+//    private void getJsonData(final View view){
+//        String url = urlFirstPart+partTwo;
+//        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//
+//                GsonBuilder gsonBuilder = new GsonBuilder();
+//                Gson gson = gsonBuilder.create();
+//                Type type = new TypeToken<ArrayList<Products>>(){
+//                }.getType();
+//                mProducts = gson.fromJson(response,type);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
+//        RequestQueue queue = VolleySingleton.getVolleySingleton(getApplicationContext()).getRequestQueue();
+//        queue.add(request);
+//    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.product_filter_menu, menu);
         /* Return true so that the menu is displayed in the Toolbar */
         return true;
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.nav_signOut:
                 new NavigationBarClass(this).signOutOfApp();
                 break;
 
             case R.id.nav_home:
-                displayUserData();
+                new NavigationBarClass(this).displayHomeScreen();
                 break;
 
             case R.id.nav_eyes:
@@ -109,18 +151,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new NavigationBarClass(this).displayNailsProducts();
                 break;
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
+        drawerLayoutProducts.closeDrawer(GravityCompat.START);
         return true;
     }
-    @Override
-    public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
-            super.onBackPressed();
-        }
-    }
-
     private void displayUserData(){
 
         String id = auth.getCurrentUser().getUid();
@@ -136,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 TextView userEmail = headerView.findViewById(R.id.nav_email_display);
                 userName.setText(name);
                 userEmail.setText(email.trim());
-                String displayText = "Hello "+name+" !";
-                welcomeName.setText(displayText);
 
             }
 
@@ -149,8 +180,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
-
-
-    }
-
+}

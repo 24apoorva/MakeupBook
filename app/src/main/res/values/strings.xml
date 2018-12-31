@@ -23,5 +23,35 @@
     <string name="favPage">Favorites</string>
     <string name="wantPage_title">I want these Items</string>
     <string name="havePage_title">I have these Items</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="allProducts">All</string>
+    <string name="eyes">Eyes</string>
+    <string name="face">Face</string>
+    <string name="lips">Lips</string>
+    <string name="nails">Nails</string>
+    <string name="view_list">Your Lists</string>
+    <string name="about">About Us</string>
+    <string name="eyeshadow">eyeshadow</string>
+    <string name="eyebrow">eyebrow</string>
+    <string name="eyeliner">eyeliner</string>
+    <string name="mascara">mascara</string>
+    <string name="nailPolish">nail_polish</string>
+    <string name="blush">blush</string>
+    <string name="bronzer">bronzer</string>
+    <string name="foundation">foundation</string>
+    <string name="lip_liner">lip_liner</string>
+    <string name="lipstick">lipstick</string>
+    <string name="signOut">Sign out</string>
+    <string name="welcomMessage">Welcome to your Makeup book</string>
+    <string name="filter">Filter</string>
+    <string name="imagedes">Image of the product</string>
+    <string name="by">By</string>
 
 </resources>

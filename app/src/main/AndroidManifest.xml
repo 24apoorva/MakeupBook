@@ -18,11 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".accounts.ForgotPasswordActivity">
-        </activity>
-        <activity android:name=".accounts.SignUpActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".accounts.ForgotPasswordActivity" />
+        <activity android:name=".accounts.SignUpActivity" />
+        <activity
+            android:name=".NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.ProductsDisplayActivity">
         </activity>
     </application>
 
