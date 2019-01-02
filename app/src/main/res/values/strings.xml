@@ -53,5 +53,52 @@
     <string name="filter">Filter</string>
     <string name="imagedes">Image of the product</string>
     <string name="by">By</string>
+    <string name="brands">Brands</string>
+
+    <string-array name="brandsArray">
+        <item>Select a Brand.....</item>
+        <item>Almay</item>
+        <item>Alva</item>
+        <item>Anna Sui</item>
+        <item>Annabelle</item>
+        <item>Benefit</item>
+        <item>Boosh</item>
+        <item>Burts Bees</item>
+        <item>Butter London</item>
+    </string-array>
+
+    <string-array name="MakeupArray">
+        <item>EyeBrow</item>
+        <item>Eyeliner</item>
+        <item>Eyeshadow</item>
+        <item>Mascara</item>
+        <item>Blush</item>
+        <item>Bronzer</item>
+        <item>Foundation</item>
+        <item>Lip liner</item>
+        <item>Lipstick</item>
+        <item>Nail polish</item>
+    </string-array>
+
+    <string-array name="categoryArray">
+        <item>EyeBrow</item>
+        <item>Eyeliner</item>
+        <item>Eyeshadow</item>
+        <item>Mascara</item>
+        <item>Blush</item>
+        <item>Bronzer</item>
+        <item>Foundation</item>
+        <item>Lip liner</item>
+        <item>Lipstick</item>
+        <item>Nail polish</item>
+    </string-array>
+    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="makeUp">Makeup</string>
 
 </resources>

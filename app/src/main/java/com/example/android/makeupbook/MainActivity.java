@@ -1,9 +1,8 @@
 package com.example.android.makeupbook;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,52 +10,35 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.android.makeupbook.accounts.SigningActivity;
 import com.example.android.makeupbook.accounts.User;
-import com.example.android.makeupbook.ui.ProductsDisplayActivity;
+import com.example.android.makeupbook.ui.HomeFragment;
+import com.example.android.makeupbook.ui.MakeupFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_toolbar)
     Toolbar toolBar;
-    @BindView(R.id.main_drawer)
-    DrawerLayout drawerLayout;
+    @BindView(R.id.navigation)
+    BottomNavigationView navigation;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-    @BindView(R.id.home_name)
-    TextView welcomeName;
+    @BindView(R.id.main_drawer)
+    DrawerLayout drawerLayout;
     FirebaseAuth auth;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,53 +47,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ButterKnife.bind(this);
         setSupportActionBar(toolBar);
         auth = FirebaseAuth.getInstance();
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolBar,
                 R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        displayUserData();
         if(savedInstanceState == null){
-            displayUserData();
+            displayHomeScreen();
         }
-        navigationView.setNavigationItemSelectedListener(this);
+        displayUserData();
+
+        navigation.setOnNavigationItemSelectedListener(mOnBottomNavigationItemSelectedListener);
+        navigationView.setNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        /* Return true so that the menu is displayed in the Toolbar */
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu, menu);
+//        /* Return true so that the menu is displayed in the Toolbar */
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if(id == R.id.nav_signOut){
+//            signOutOfApp();
+//        }
+//        return true;
+//    }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()){
-            case R.id.nav_signOut:
-                new NavigationBarClass(this).signOutOfApp();
-                break;
-
-            case R.id.nav_home:
-                displayUserData();
-                break;
-
-            case R.id.nav_eyes:
-                new NavigationBarClass(this).displayEyeProducts();
-                break;
-            case R.id.nav_face:
-                new NavigationBarClass(this).displayFaceProducts();
-                break;
-            case R.id.nav_lips:
-                new NavigationBarClass(this).displayLipProducts();
-                break;
-            case R.id.nav_nails:
-                new NavigationBarClass(this).displayNailsProducts();
-                break;
+    //for right navigation drawer
+    private NavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            int id = menuItem.getItemId();
+            if(id == R.id.nav_signOut){
+                signOutOfApp();
+                return true;
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
+    };
+
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -119,6 +99,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else {
             super.onBackPressed();
         }
+    }
+
+
+    //for Bottom navigation
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnBottomNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    displayHomeScreen();
+                    return true;
+                case R.id.navigation_fav:
+                    return true;
+                case R.id.navigation_makeup:
+                    displayMakeupScreen();
+                    return true;
+                case R.id.navigation_iWant:
+                    return true;
+                case R.id.navigation_iHave:
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    private void displayHomeScreen(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeFragment()).commit();
+    }
+
+    private void displayMakeupScreen(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new MakeupFragment()).commit();
+    }
+
+    public void signOutOfApp() {
+        auth = FirebaseAuth.getInstance();
+        auth.signOut();
+        startActivity(new Intent(MainActivity.this, SigningActivity.class));
     }
 
     private void displayUserData(){
@@ -136,9 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 TextView userEmail = headerView.findViewById(R.id.nav_email_display);
                 userName.setText(name);
                 userEmail.setText(email.trim());
-                String displayText = "Hello "+name+" !";
-                welcomeName.setText(displayText);
-
             }
 
             @Override
@@ -151,6 +167,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-    }
-
+}
