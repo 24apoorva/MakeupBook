@@ -4,6 +4,8 @@ package com.example.android.makeupbook.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.accounts.User;
+import com.example.android.makeupbook.adapters.TagsRecyAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +40,7 @@ public class HomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         TextView welcomeName = view.findViewById(R.id.home_name);
         displayUserData(welcomeName);
+        displayTagsDetails(view);
         return view;
     }
 
@@ -49,15 +53,8 @@ public class HomeFragment extends Fragment {
                 User userData = dataSnapshot.getValue(User.class);
                 String name = userData.getUserName();
                 name = name.substring(0,1).toUpperCase() + name.substring(1);
-                //String email = userData.getEmail();
-//                View headerView = navigationView.getHeaderView(0);
-//                TextView userName = headerView.findViewById(R.id.nav_userName_display);
-//                TextView userEmail = headerView.findViewById(R.id.nav_email_display);
-//                userName.setText(name);
-//                userEmail.setText(email.trim());
                 String displayText = "Hello "+name+" !";
                 view.setText(displayText);
-
             }
 
             @Override
@@ -67,6 +64,15 @@ public class HomeFragment extends Fragment {
         });
 
 
+    }
+
+    private void displayTagsDetails(View view){
+        RecyclerView.LayoutManager layoutManager
+                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView myList = (RecyclerView)view.findViewById(R.id.tags_recy);
+        myList.setLayoutManager(layoutManager);
+        TagsRecyAdapter adapter = new TagsRecyAdapter(getContext());
+        myList.setAdapter(adapter);
     }
 
 }

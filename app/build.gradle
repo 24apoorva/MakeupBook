@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -27,6 +28,7 @@ dependencies {
 
     //Volley
     implementation 'com.android.volley:volley:1.1.1'
+
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
     //Gson
@@ -35,6 +37,7 @@ dependencies {
     //ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:support-vector-drawable:28.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     //Firebase

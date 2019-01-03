@@ -4,18 +4,16 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.example.android.makeupbook.accounts.SigningActivity;
 import com.example.android.makeupbook.accounts.User;
 import com.example.android.makeupbook.ui.HomeFragment;
@@ -61,31 +59,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu, menu);
-//        /* Return true so that the menu is displayed in the Toolbar */
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if(id == R.id.nav_signOut){
-//            signOutOfApp();
-//        }
-//        return true;
-//    }
-
-    //for right navigation drawer
     private NavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             int id = menuItem.getItemId();
-            if(id == R.id.nav_signOut){
-                signOutOfApp();
-                return true;
+            switch (id){
+                case R.id.nav_home:
+                    displayHomeScreen();
+                    break;
+                case R.id.nav_eyes:
+                    displayMakeupScreen(getResources().getString(R.string.eyes),R.drawable.eyemakeup_background);
+                    break;
+                case R.id.nav_brands:
+                    displayMakeupScreen(getResources().getString(R.string.brands),R.drawable.makeup_products);
+                    break;
+                case R.id.nav_face:
+                    displayMakeupScreen(getResources().getString(R.string.face),R.drawable.beauty_all_products);
+                    break;
+                case R.id.nav_lips:
+                    displayMakeupScreen(getResources().getString(R.string.lips),R.drawable.lips);
+                    break;
+                case R.id.nav_nails:
+                    displayMakeupScreen(getResources().getString(R.string.nails),R.drawable.nailpolish_beauty);
+                    break;
+                case R.id.share:
+                    shareThisApp();
+                    break;
+                case R.id.nav_signOut:
+                    signOutOfApp();
+                    break;
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -109,13 +111,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    displayHomeScreen();
-                    return true;
                 case R.id.navigation_fav:
-                    return true;
-                case R.id.navigation_makeup:
-                    displayMakeupScreen();
                     return true;
                 case R.id.navigation_iWant:
                     return true;
@@ -130,8 +126,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeFragment()).commit();
     }
 
-    private void displayMakeupScreen(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new MakeupFragment()).commit();
+    private void displayMakeupScreen(String makeUp, int image){
+        Bundle bundle = new Bundle();
+        bundle.putString("makeupItem",makeUp);
+        bundle.putInt("image",image);
+        MakeupFragment makeupFragment = new MakeupFragment();
+        makeupFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,makeupFragment).commit();
     }
 
     public void signOutOfApp() {
@@ -167,4 +168,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void shareThisApp(){
+        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(MainActivity.this)
+                .setType(getString(R.string.share_type))
+                .setText(getString(R.string.shareText))
+                .getIntent(), getString(R.string.shareMakeupBook)));
+    }
 }

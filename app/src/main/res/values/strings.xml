@@ -41,7 +41,7 @@
     <string name="eyeshadow">eyeshadow</string>
     <string name="eyebrow">eyebrow</string>
     <string name="eyeliner">eyeliner</string>
-    <string name="mascara">mascara</string>
+    <string name="mascara">Mascara</string>
     <string name="nailPolish">nail_polish</string>
     <string name="blush">blush</string>
     <string name="bronzer">bronzer</string>
@@ -56,7 +56,6 @@
     <string name="brands">Brands</string>
 
     <string-array name="brandsArray">
-        <item>Select a Brand.....</item>
         <item>Almay</item>
         <item>Alva</item>
         <item>Anna Sui</item>
@@ -65,6 +64,91 @@
         <item>Boosh</item>
         <item>Burts Bees</item>
         <item>Butter London</item>
+        <item>cest moi</item>
+        <item>cargo cosmetics</item>
+        <item>china glaze</item>
+        <item>clinique</item>
+        <item>coastal classic creation</item>
+        <item>colourpop</item>
+        <item>covergirl</item>
+        <item> dalish</item>
+        <item>deciem</item>
+        <item>dior</item>
+        <item>dr. hauschka</item>
+        <item>e.l.f.</item>
+        <item>essie</item>
+        <item>fenty</item>
+        <item>glossier</item>
+        <item>green people</item>
+        <item>iman</item>
+        <item>loreal</item>
+        <item> lotus cosmetics usa</item>
+        <item>maias mineral galaxy</item>
+        <item>marcelle</item>
+        <item>marienatie</item>
+        <item>maybelline</item>
+        <item>milani</item>
+        <item>mineral fusion</item>
+        <item>misa</item>
+        <item>mistura</item>
+        <item>moov</item>
+        <item>nudus</item>
+        <item>nyx</item>
+        <item>orly</item>
+        <item>pacifica</item>
+        <item>penny lane organics</item>
+        <item>physicians formula</item>
+        <item>piggy paint</item>
+        <item>pure anada</item>
+        <item>rejuva minerals</item>
+        <item>revlon</item>
+        <item>sally bs skin yummies</item>
+        <item>salon perfect</item>
+        <item>sante</item>
+        <item>sinful colours</item>
+        <item>smashbox</item>
+        <item>stila</item>
+        <item>suncoat</item>
+        <item>w3llpeople</item>
+        <item>wet n wild</item>
+        <item>zorah</item>
+        <item>zorah biocosmetiques</item>
+    </string-array>
+
+    <string-array name="foundationArray">
+        <item>Liquid</item>
+        <item>Contour</item>
+        <item>Bb cc</item>
+        <item>Concealer</item>
+        <item>Cream</item>
+        <item>Mineral</item>
+        <item>Powder</item>
+        <item>Highlighter</item>
+    </string-array>
+
+    <string-array name="eyelinerArray">
+        <item>Liquid</item>
+        <item>Pencil</item>
+        <item>Gel</item>
+        <item>Cream</item>
+    </string-array>
+
+    <string-array name="lipstickArray">
+        <item>Lipstick</item>
+        <item>Lip gloss</item>
+        <item>Liquid</item>
+        <item>Lip stain</item>
+    </string-array>
+
+    <string-array name="eyeShadowArray">
+        <item>Palette</item>
+        <item>Pencil</item>
+        <item>Cream</item>
+    </string-array>
+
+    <string-array name="blushArray">
+        <item>Powder</item>
+        <item>Cream</item>
     </string-array>
 
     <string-array name="MakeupArray">
@@ -80,25 +164,61 @@
         <item>Nail polish</item>
     </string-array>
 
-    <string-array name="categoryArray">
+    <string-array name="categoryEyesArray">
         <item>EyeBrow</item>
         <item>Eyeliner</item>
         <item>Eyeshadow</item>
         <item>Mascara</item>
+    </string-array>
+
+    <string-array name="categoryFaceArray">
         <item>Blush</item>
         <item>Bronzer</item>
         <item>Foundation</item>
+    </string-array>
+
+    <string-array name="categoryLipsArray">
         <item>Lip liner</item>
         <item>Lipstick</item>
-        <item>Nail polish</item>
     </string-array>
+
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="makeUp">Makeup</string>
+    <string name="pencil">Pencil</string>
+    <string name="powder">Powder</string>
+    <string name="share">Share</string>
+    <string name="shareMakeupBook">Share Makeup Book</string>
+    <string name="share_type">text/plain</string>
+    <string name="shareText">Hey Check out this new App Makeup Book</string>
+    <string name="nailPolishTitle">Nail Polish</string>
+    <string name="high_rated_text">Top Rated Products</string>
+    <string name="featuredTags">Featured Tags</string>
+
+    <string-array name="tagsArray">
+        <item>Natural</item>
+        <item>Organic</item>
+        <item>silicone free</item>
+        <item>Non-GMO</item>
+        <item>Chemical Free</item>
+        <item>Dairy Free</item>
+        <item>Gluten Free</item>
+        <item>USDA Organic</item>
+        <item>Vegan</item>
+        <item>cruelty free</item>
+
+    </string-array>
+    <string-array name="tagsImageArray">
+        <item>https://d3t32hsnjxo7q6.cloudfront.net/i/4daf84bee451c265ec04f7cc1b8bb7c3_ra,w158,h184_pa,w158,h184.jpeg</item>
+        <item>https://www.purpicks.com/wp-content/uploads/2018/03/lotus-cosmetics-usa-creme-to-powder-blush.png</item>
+        <item>https://3bc01d2807fb1bc0d25c-a86d2521f1af8989841b9619f5314be5.ssl.cf1.rackcdn.com/products/market-img/rdn-coverage-foundation-33-n-30ml.png?v=daa322f179d80e450613c75826602292</item>
+        <item>https://d3t32hsnjxo7q6.cloudfront.net/i/43071cd57ecffc55c1e0bff29278c3a7_ra,w158,h184_pa,w158,h184.jpeg</item>
+        <item>https://cdn.shopify.com/s/files/1/1016/3243/products/LIPBALM_LID_grande.jpg?v=1496848378</item>
+        <item>https://d3t32hsnjxo7q6.cloudfront.net/i/65ca894afba3c4351a3db71c24234c50_ra,w158,h184_pa,w158,h184.jpg</item>
+        <item>https://d3t32hsnjxo7q6.cloudfront.net/i/4d7d79376ed827d7e587d849e16f2136_ra,w158,h184_pa,w158,h184.jpg</item>
+        <item>https://www.purpicks.com/wp-content/uploads/2018/03/lotus-cosmetics-usa-eye-shadow-palette-deluxe.png</item>
+        <item>https://cdn.shopify.com/s/files/1/1338/0845/collections/lippie-pencil_grande.jpg?v=1512588769</item>
+        <item>https://cdn.shopify.com/s/files/1/1338/0845/products/foundations-lineup_800x1200.jpg?v=1528927785</item>
+    </string-array>
 
 </resources>

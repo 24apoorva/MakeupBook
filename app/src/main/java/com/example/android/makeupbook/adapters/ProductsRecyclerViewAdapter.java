@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.android.makeupbook.R;
+import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.Products;
 import com.squareup.picasso.Picasso;
 
@@ -49,18 +51,38 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductsRe
     public void onBindViewHolder(@NonNull ProductsViewHolder productsViewHolder, int position) {
         Products currentProduct = mProducts.get(position);
         String url = currentProduct.getImageUrl();
+        if(!url.contains("https")){
+            url = url.replace("http","https");
+        }
         Picasso.with(mContext)
                 .load(url)
                 .fit()
-                .placeholder(R.color.white)
+                .placeholder(R.drawable.beauty_all_products)
                 .into(productsViewHolder.productImage);
 
         String name = currentProduct.getName();
-        String brand = mContext.getResources().getString(R.string.by)+" "+currentProduct.getBrand();
-        String price = currentProduct.getPriceSign()+currentProduct.getPrice();
-        productsViewHolder.productName.setText(name);
-        productsViewHolder.brandDisplay.setText(brand);
-        productsViewHolder.price.setText(price);
+        if(name == null){
+            productsViewHolder.productName.setVisibility(View.INVISIBLE);
+        }else {
+            productsViewHolder.productName.setVisibility(View.VISIBLE);
+            productsViewHolder.productName.setText(name.trim());
+        }
+        if(currentProduct.getBrand() == null){
+            productsViewHolder.brandDisplay.setVisibility(View.INVISIBLE);
+        }else {
+            String brand = mContext.getResources().getString(R.string.by)+" "+currentProduct.getBrand().trim();
+            productsViewHolder.brandDisplay.setVisibility(View.VISIBLE);
+            productsViewHolder.brandDisplay.setText(brand);
+        }
+        String priceSign = "$";
+        String price = priceSign+currentProduct.getPrice();
+        if(currentProduct.getPrice() == null){
+            productsViewHolder.price.setVisibility(View.INVISIBLE);
+        }else {
+            productsViewHolder.price.setVisibility(View.VISIBLE);
+            productsViewHolder.price.setText(price);
+        }
+
     }
 
     @Override

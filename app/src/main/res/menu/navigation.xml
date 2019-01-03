@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+    <!--<item-->
+        <!--android:id="@+id/navigation_home"-->
+        <!--android:icon="@drawable/ic_home_black_24dp"-->
+        <!--android:title="@string/title_home" />-->
 
     <item
         android:id="@+id/navigation_fav"
         android:icon="@drawable/ic_favorite_black_24dp"
         android:title="@string/favPage" />
 
-    <item
-        android:id="@+id/navigation_makeup"
-        android:icon="@drawable/ic_makeup_all"
-        android:title="@string/makeUp" />
+    <!--<item-->
+        <!--android:id="@+id/navigation_makeup"-->
+        <!--android:icon="@drawable/ic_makeup_all"-->
+        <!--android:title="@string/makeUp" />-->
 
     <item
         android:id="@+id/navigation_iWant"

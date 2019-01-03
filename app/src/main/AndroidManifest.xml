@@ -21,11 +21,17 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".accounts.ForgotPasswordActivity" />
         <activity android:name=".accounts.SignUpActivity" />
-        <activity
-            android:name=".NavigationActivity"
-            android:label="@string/title_activity_navigation"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- <activity -->
+        <!-- android:label="@string/title_activity_navigation" -->
+        <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
+        <!-- android:name="" /> -->
         <activity android:name=".ui.ProductsDisplayActivity">
+        </activity>
+        <activity android:name=".ui.ItemsActivity">
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
     </application>
 

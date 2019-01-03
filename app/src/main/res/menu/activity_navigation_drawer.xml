@@ -3,6 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
+
+        <item
+            android:id="@+id/nav_brands"
+            android:icon="@drawable/ic_makeup_all"
+            android:title="@string/brands" />
+        <item
+            android:id="@+id/nav_eyes"
+            android:icon="@drawable/ic_eyes"
+            android:title="@string/eyes" />
+        <item
+            android:id="@+id/nav_face"
+            android:icon="@drawable/ic_face"
+            android:title="@string/face" />
+        <item
+            android:id="@+id/nav_lips"
+            android:icon="@drawable/ic_lipstick"
+            android:title="@string/lips" />
+
+        <item
+            android:id="@+id/nav_nails"
+            android:icon="@drawable/ic_nails"
+            android:title="@string/nails" />
+    </group>
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_menu_share"
+        android:title="@string/share"/>
+
+    <item
+        android:id="@+id/about"
+        android:title="@string/about" />
     <item
         android:id="@+id/nav_signOut"
         android:title="@string/signOut" />

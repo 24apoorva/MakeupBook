@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.EyebrowFragment">
+    tools:context=".ui.ProductsFragment">
 
-    <android.support.v4.widget.ContentLoadingProgressBar
+    <ProgressBar
         android:layout_width="@dimen/dimen_height_100"
         android:layout_height="@dimen/dimen_height_100"
         android:id="@+id/progress_rec"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:visibility="gone"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="visible"
         android:layout_gravity="center_horizontal|center_vertical"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/eyeProducts_recyclerView"

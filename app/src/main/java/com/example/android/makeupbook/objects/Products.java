@@ -3,8 +3,10 @@ package com.example.android.makeupbook.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Products implements Parcelable {
-    private int productId;
+import java.util.ArrayList;
+
+public class Products{
+    private int id;
     private String name;
     private String brand;
     private String image_link;
@@ -17,9 +19,9 @@ public class Products implements Parcelable {
 
     }
 
-    public Products(int productId,String name,String brand, String image_link, String price_sign, String price,
-            String category,String product_type ){
-        this.productId= productId;
+    public Products(int id,String name,String brand, String image_link, String price_sign, String price,
+            String category,String product_type){
+        this.id = id;
         this.name = name;
         this.brand = brand;
         this.image_link = image_link;
@@ -29,31 +31,8 @@ public class Products implements Parcelable {
         this.product_type = product_type;
     }
 
-    protected Products(Parcel in) {
-        productId = in.readInt();
-        name = in.readString();
-        brand = in.readString();
-        image_link = in.readString();
-        price_sign = in.readString();
-        price = in.readString();
-        category = in.readString();
-        product_type = in.readString();
-    }
-
-    public static final Creator<Products> CREATOR = new Creator<Products>() {
-        @Override
-        public Products createFromParcel(Parcel in) {
-            return new Products(in);
-        }
-
-        @Override
-        public Products[] newArray(int size) {
-            return new Products[size];
-        }
-    };
-
     public int getProductId() {
-        return productId;
+        return id;
     }
 
     public String getName() {
@@ -76,20 +55,4 @@ public class Products implements Parcelable {
         return price_sign;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(productId);
-        dest.writeString(name);
-        dest.writeString(brand);
-        dest.writeString(image_link);
-        dest.writeString(price_sign);
-        dest.writeString(price);
-        dest.writeString(category);
-        dest.writeString(product_type);
-    }
 }

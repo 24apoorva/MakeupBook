@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     tools:context=".ui.ProductsDisplayActivity"
-    android:id="@+id/prod_draw"
-    tools:openDrawer="start">
+    android:id="@+id/prod_draw">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,14 +18,15 @@
         android:id="@+id/products_toolbar"
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:elevation="4dp"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:layout_height="wrap_content"/>
+        app:tabTextColor="@color/white"
+        app:tabSelectedTextColor="@color/white" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
