@@ -3,33 +3,34 @@ package com.example.android.makeupbook.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class Products{
+    @SerializedName("id")
     private int id;
-    private String name;
+    @SerializedName("brand")
     private String brand;
-    private String image_link;
-    private String price_sign;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("price")
     private String price;
-    private String category;
-    private String product_type;
+    @SerializedName("image_link")
+    private String image_link;
 
     public Products(){
 
     }
 
-    public Products(int id,String name,String brand, String image_link, String price_sign, String price,
-            String category,String product_type){
-        this.id = id;
-        this.name = name;
-        this.brand = brand;
-        this.image_link = image_link;
-        this.price_sign = price_sign;
-        this.price = price;
-        this.category = category;
-        this.product_type = product_type;
-    }
+//    public Products(int id,String name,String brand, String image_link, String price_sign, String price){
+//        this.id = id;
+//        this.name = name;
+//        this.brand = brand;
+//        this.image_link = image_link;
+//        this.price_sign = price_sign;
+//        this.price = price;
+//    }
 
     public int getProductId() {
         return id;
@@ -49,10 +50,6 @@ public class Products{
 
     public String getPrice() {
         return price;
-    }
-
-    public String getPriceSign() {
-        return price_sign;
     }
 
 }

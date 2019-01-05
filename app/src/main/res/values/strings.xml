@@ -221,4 +221,12 @@
         <item>https://cdn.shopify.com/s/files/1/1338/0845/products/foundations-lineup_800x1200.jpg?v=1528927785</item>
     </string-array>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="buyNow">Buy Now</string>
+    <string name="haveButton_title">I have this item</string>
+    <string name="wantButton_title">I want to buy this</string>
+    <string name="itemDescriptionText">Item Description</string>
+    <string name="seeAll">See all the products</string>
+
 </resources>

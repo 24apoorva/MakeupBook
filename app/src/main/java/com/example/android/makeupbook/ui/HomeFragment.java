@@ -39,8 +39,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         auth = FirebaseAuth.getInstance();
         TextView welcomeName = view.findViewById(R.id.home_name);
-        displayUserData(welcomeName);
         displayTagsDetails(view);
+        displayUserData(welcomeName);
         return view;
     }
 

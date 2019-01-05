@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -99,8 +101,23 @@ public class MainActivity extends AppCompatActivity {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
-            super.onBackPressed();
+            if (checkNavigationMenuItem() != 0)
+            {
+                navigationView.setCheckedItem(R.id.nav_home);
+                HomeFragment fragment = new HomeFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, fragment).commit();
+            }
+            else
+                super.onBackPressed();
         }
+    }
+    private int checkNavigationMenuItem() {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            if (menu.getItem(i).isChecked())
+                return i;
+        }
+        return -1;
     }
 
 

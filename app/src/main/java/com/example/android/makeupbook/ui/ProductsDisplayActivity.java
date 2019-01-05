@@ -1,6 +1,7 @@
 package com.example.android.makeupbook.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +19,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -37,15 +41,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ProductsDisplayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     @BindView(R.id.products_toolbar)
@@ -72,17 +70,15 @@ public class ProductsDisplayActivity extends AppCompatActivity implements Naviga
         //    private ArrayList<Products> mProducts = new ArrayList<>();
         //    private String partTwo;
         int tabNumber = intent.getIntExtra("tabs", 0);
-
+        displayUserData();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayoutProducts,prodTooldbar,
                 R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayoutProducts.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         // Create an adapter that knows which fragment should be shown on each page
-        FragmentSelectionAdapter adapter = new FragmentSelectionAdapter(getSupportFragmentManager(), this, tabNumber);
 
         // Set the adapter onto the view pager
-        viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -95,29 +91,6 @@ public class ProductsDisplayActivity extends AppCompatActivity implements Naviga
         }
     }
 
-//    private void getJsonData(final View view){
-//        String url = urlFirstPart+partTwo;
-//        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//
-//                GsonBuilder gsonBuilder = new GsonBuilder();
-//                Gson gson = gsonBuilder.create();
-//                Type type = new TypeToken<ArrayList<Products>>(){
-//                }.getType();
-//                mProducts = gson.fromJson(response,type);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//        RequestQueue queue = VolleySingleton.getVolleySingleton(getApplicationContext()).getRequestQueue();
-//        queue.add(request);
-//    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,14 +101,19 @@ public class ProductsDisplayActivity extends AppCompatActivity implements Naviga
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+//        if(id == R.id.filter_menuId){
+//            filterClicked();
+//        }
+        return true;
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.nav_signOut:
                 new NavigationBarClass(this).signOutOfApp();
-                break;
-
-            case R.id.nav_home:
-                new NavigationBarClass(this).displayHomeScreen();
                 break;
 
             case R.id.nav_eyes:
@@ -179,5 +157,45 @@ public class ProductsDisplayActivity extends AppCompatActivity implements Naviga
         });
 
 
+    }
+
+    private void filterClicked(){
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ProductsDisplayActivity.this);
+
+       View view = getLayoutInflater().inflate(R.layout.filter_dialog,null);
+//
+        Spinner brandsSpinner = (Spinner)view.findViewById(R.id.brand_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProductsDisplayActivity.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.brandsArray));
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        brandsSpinner.setAdapter(adapter);
+
+        Spinner catSpinner = (Spinner)view.findViewById(R.id.category_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<String>(ProductsDisplayActivity.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.brandsArray));
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        brandsSpinner.setAdapter(catAdapter);
+
+        mBuilder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+
+        mBuilder.setView(view);
+        mBuilder.create().show();
     }
 }
