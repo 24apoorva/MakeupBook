@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_height_100"
         android:layout_marginTop="@dimen/dimen_height_50"
-        android:src="@drawable/ic_bag"
+        app:srcCompat="@drawable/ic_bag"
         android:contentDescription="@string/logo_description" />
 
     <TextView

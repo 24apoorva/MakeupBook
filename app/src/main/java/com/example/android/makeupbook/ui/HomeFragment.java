@@ -1,14 +1,18 @@
 package com.example.android.makeupbook.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.makeupbook.R;
@@ -20,11 +24,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.example.android.makeupbook.ui.ItemsActivity.BRANDTYPE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
     FirebaseAuth auth;
+    @BindView(R.id.home_name)
+    TextView welcomeName;
 
 
     public HomeFragment() {
@@ -37,8 +49,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        ButterKnife.bind(this, view);
         auth = FirebaseAuth.getInstance();
-        TextView welcomeName = view.findViewById(R.id.home_name);
         displayTagsDetails(view);
         displayUserData(welcomeName);
         return view;
@@ -73,6 +85,18 @@ public class HomeFragment extends Fragment {
         myList.setLayoutManager(layoutManager);
         TagsRecyAdapter adapter = new TagsRecyAdapter(getContext());
         myList.setAdapter(adapter);
+    }
+
+    @OnClick(R.id.toprated_home)
+    public void displayTopRatedProducts(){
+        String item = "Top Rated Products";
+        String urlOne ="http://makeup-api.herokuapp.com/api/v1/products.json?rating_greater_than=4.99";
+        Intent intent = new Intent(getContext(),ItemsActivity.class);
+        intent.putExtra(ItemsActivity.ITEMTYPE,item);
+        intent.putExtra(ItemsActivity.BRANDTYPE,true);
+        intent.putExtra(ItemsActivity.ONEURL,urlOne);
+        intent.putExtra(ItemsActivity.TWOURL,urlOne);
+        getContext().startActivity(intent);
     }
 
 }

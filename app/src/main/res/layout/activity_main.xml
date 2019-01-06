@@ -41,7 +41,7 @@
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@color/white"
         app:menu="@menu/navigation"
-        android:background="@drawable/side_nav_bar"
+        android:background="@drawable/bottom_nav_bar"
         android:elevation="@dimen/elev_4dp"
         app:labelVisibilityMode="labeled"
         android:layout_alignParentLeft="true" />

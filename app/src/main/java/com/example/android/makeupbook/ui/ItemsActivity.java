@@ -1,6 +1,4 @@
 package com.example.android.makeupbook.ui;
-
-
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +7,6 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.android.makeupbook.R;
-
-import java.util.Arrays;
-import java.util.HashSet;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,6 +15,9 @@ public class ItemsActivity extends AppCompatActivity {
     Toolbar itemToolBar;
     public static String ITEMTYPE = "item type";
     public static String BRANDTYPE = "is brand";
+    public static String ONEURL = "one url";
+    public static String TWOURL = "two url";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,37 +25,26 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        String page = intent.getStringExtra(ITEMTYPE);
-        Log.i("ProductType::",page);
-        Boolean isBrandName = intent.getBooleanExtra(BRANDTYPE,false);
-        itemToolBar.setTitle(page);
-        setSupportActionBar(itemToolBar);
-        // Create an adapter that knows which fragment should be shown on each page
-        ProductsFragment productsFragment = new ProductsFragment();
-        Bundle bundle = new Bundle();
-
-        String urlFirstPart = "https://makeup-api.herokuapp.com/api/v1/products.json?";
-        String url;
-        String allUrl = null;
-        if((isBrandName)){
-            String brandsType = "brand=";
-            page = page.toLowerCase().trim();
-            url = urlFirstPart + brandsType +page;
-            Log.i("ProductTypeurl::",url);
-
-        }else {
-            String productType = "rating_greater_than=4.5&product_type=";
-            String allProduct = "product_type=";
-            page = page.toLowerCase().trim();
-            url = urlFirstPart + productType +page;
-            allUrl= urlFirstPart+allProduct+page;
-            Log.i("ProductTypeurl::",url);
+            String page = intent.getStringExtra(ITEMTYPE);
+            Log.i("ProductType::",page);
+            Boolean isBrandName = intent.getBooleanExtra(BRANDTYPE,false);
+            String urlOne = intent.getStringExtra(ONEURL);;
+            String urlAll = intent.getStringExtra(TWOURL);;
+            itemToolBar.setTitle(page);
+            setSupportActionBar(itemToolBar);
+            // Create an adapter that knows which fragment should be shown on each page
+            ProductsFragment productsFragment = new ProductsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(ProductsFragment.PRODUCTSURL, urlOne);
+            bundle.putBoolean(BRANDTYPE,isBrandName);
+            bundle.putString(ProductsFragment.FULLURL,urlAll);
+            productsFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.items_frame,productsFragment).commit();
         }
-        bundle.putString(ProductsFragment.PRODUCTSURL, url);
-        bundle.putBoolean(BRANDTYPE,isBrandName);
-        bundle.putString(ProductsFragment.FULLURL,allUrl);
-        productsFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.items_frame,productsFragment).commit();
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -81,5 +67,15 @@ public class ItemsActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+//
+//    private void displayTopRatedItems(String url){
+//        ProductsFragment productsFragment = new ProductsFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString(ProductsFragment.PRODUCTSURL, url);
+//        bundle.putBoolean(BRANDTYPE,true);
+//        bundle.putString(ProductsFragment.FULLURL,null);
+//        productsFragment.setArguments(bundle);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.items_frame,productsFragment).commit();
+//    }
 
 }

@@ -2,6 +2,8 @@ package com.example.android.makeupbook.objects;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Colors {
 
 
@@ -35,4 +37,6 @@ public class Colors {
     public void setHex_value(String hex_value) {
         this.hex_value = hex_value;
     }
+
+
 }

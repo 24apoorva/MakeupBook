@@ -149,7 +149,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     String sendUrl = url+end;
                     ItemDetailsFragment itemDetailsFragment = new ItemDetailsFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString(sendUrl,ItemDetailsFragment.DETAILSURL);
+                    bundle.putString(ItemDetailsFragment.DETAILSURL,sendUrl);
                     itemDetailsFragment.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.items_frame, itemDetailsFragment).addToBackStack(null).commit();
 

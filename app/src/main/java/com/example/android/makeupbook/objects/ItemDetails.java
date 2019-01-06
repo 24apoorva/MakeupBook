@@ -2,6 +2,8 @@ package com.example.android.makeupbook.objects;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class ItemDetails {
     @SerializedName("brand")
     private String brand;
@@ -11,19 +13,36 @@ public class ItemDetails {
     private String price;
     @SerializedName("image_link")
     private String image_link;
-    @SerializedName("image_link")
+    @SerializedName("product_link")
     private String product_link;
-    @SerializedName("image_link")
+    @SerializedName("description")
     private String description;
-    @SerializedName("image_link")
-    private double rating;
-    @SerializedName("image_link")
+    @SerializedName("rating")
+    private float rating;
+    @SerializedName("category")
     private String category;
-    @SerializedName("image_link")
-    private Colors product_colors;
+    @SerializedName("product_colors")
+    private ArrayList<Colors> product_colors;
+    @SerializedName("tag_list")
+    private ArrayList<String> tag_list;
+
 
     public ItemDetails(){
 
+    }
+
+    public ItemDetails(String brand, String name, String price, String image_link, String product_link, String description,
+                       float rating, String category, ArrayList<Colors> product_colors, ArrayList<String> tag_list) {
+        this.brand = brand;
+        this.name = name;
+        this.price = price;
+        this.image_link = image_link;
+        this.product_link = product_link;
+        this.description = description;
+        this.rating = rating;
+        this.category = category;
+        this.product_colors = product_colors;
+        this.tag_list = tag_list;
     }
 
     public String getBrand() {
@@ -74,11 +93,11 @@ public class ItemDetails {
         this.description = description;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -90,11 +109,19 @@ public class ItemDetails {
         this.category = category;
     }
 
-    public Colors getProduct_colors() {
+    public ArrayList<Colors> getProduct_colors() {
         return product_colors;
     }
 
-    public void setProduct_colors(Colors product_colors) {
+    public void setProduct_colors(ArrayList<Colors> product_colors) {
         this.product_colors = product_colors;
+    }
+
+    public ArrayList<String> getTag_list() {
+        return tag_list;
+    }
+
+    public void setTag_list(ArrayList<String> tag_list) {
+        this.tag_list = tag_list;
     }
 }

@@ -61,17 +61,12 @@ public class ProductsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_products_tab, container, false);
         p = view.findViewById(R.id.progress_rec);
         if(getArguments() != null){
-            if(getArguments().getBoolean(JUSTDISPLAY)){
-
-            }else {
                 String url = getArguments().getString(PRODUCTSURL);
                 mainUrl = getArguments().getString(FULLURL);
                 isBrand = getArguments().getBoolean(ItemsActivity.BRANDTYPE);
                 loadData(url, view,0);
-            }
 
         }
-
         return view;
     }
 

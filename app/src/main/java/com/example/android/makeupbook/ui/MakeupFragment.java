@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.makeupbook.R;
+import com.example.android.makeupbook.objects.ItemDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +72,26 @@ public class MakeupFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = arrayAdapter.getItem(position).trim();
+                String urlFirstPart = "https://makeup-api.herokuapp.com/api/v1/products.json?";
+                String productType = "rating_greater_than=4.5&product_type=";
+                String allProduct = "product_type=";
+                String brandsType = "brand=";
+                String urlOne;
+                String urlTwo;
+                if(isBrand){
+                    urlOne = urlFirstPart+brandsType+item;
+                    urlTwo = urlOne;
+                }else {
+                    urlOne= urlFirstPart+productType+item;
+                    urlTwo=urlFirstPart+allProduct+item;
+                }
+
                 Intent intent = new Intent(getContext(),ItemsActivity.class);
-                String item = arrayAdapter.getItem(position);
                 intent.putExtra(ItemsActivity.ITEMTYPE,item);
                 intent.putExtra(ItemsActivity.BRANDTYPE,isBrand);
+                intent.putExtra(ItemsActivity.ONEURL,urlOne);
+                intent.putExtra(ItemsActivity.TWOURL,urlTwo);
                 getContext().startActivity(intent);
             }
         });
