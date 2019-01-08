@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">My Products Library</string>
+    <string name="youHave">You Have</string>
+    <string name="products">Items</string>
+    <string name="imagedes">Product Image is displayed</string>
+    <string name="color">Color:</string>
+    <string name="noItemsText">You haven\'t added anything yet.</string>
+    <string name="addProducts_button">Add Items</string>
+
+    <string-array name="product_type">
+        <item>Blush</item>
+        <item>Bronzer</item>
+        <item>Eyebrow</item>
+        <item>Eyeliner</item>
+        <item>Eyeshadow</item>
+        <item>Foundation</item>
+        <item>Lip liner</item>
+        <item>Lipstick</item>
+        <item>Mascara</item>
+        <item>Nail polish</item>
+    </string-array>
+</resources>

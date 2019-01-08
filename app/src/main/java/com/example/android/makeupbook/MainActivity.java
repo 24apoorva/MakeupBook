@@ -20,6 +20,7 @@ import com.example.android.makeupbook.accounts.SigningActivity;
 import com.example.android.makeupbook.accounts.User;
 import com.example.android.makeupbook.ui.HomeFragment;
 import com.example.android.makeupbook.ui.MakeupFragment;
+import com.example.android.myproductslibrary.WantFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -128,9 +129,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_fav:
-                    return true;
                 case R.id.navigation_iWant:
+                    displayIwantFragment();
                     return true;
                 case R.id.navigation_iHave:
                     return true;
@@ -138,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    private void displayIwantFragment(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new WantFragment()).commit();
+    }
+
 
     private void displayHomeScreen(){
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeFragment()).commit();

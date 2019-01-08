@@ -26,6 +26,8 @@ public class TagsRecyAdapter extends RecyclerView.Adapter<TagsRecyAdapter.TagsVi
     public TagsRecyAdapter(Context context){
         mContext = context;
     }
+
+
     @Override
     public TagsRecyAdapter.TagsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.grid_tag_list,viewGroup,false);

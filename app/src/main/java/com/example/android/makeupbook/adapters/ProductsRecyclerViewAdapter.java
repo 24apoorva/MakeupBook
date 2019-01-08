@@ -1,6 +1,7 @@
 package com.example.android.makeupbook.adapters;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.Products;
 import com.example.android.makeupbook.ui.ItemDetailsFragment;
 import com.example.android.makeupbook.ui.ProductsFragment;
+import com.example.android.myproductslibrary.Database.ItemViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,12 +56,14 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         this.hasFooter = hasFooter;
     }
 
+
     public class ProductsViewHolder extends RecyclerView.ViewHolder {
         public ImageView productImage;
         public TextView productName;
         public TextView brandDisplay;
         public TextView price;
         public CardView cardView;
+        private ImageView haveImage;
         public ProductsViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage = (ImageView)itemView.findViewById(R.id.listImage);
@@ -67,6 +71,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             brandDisplay = (TextView)itemView.findViewById(R.id.brandName);
             price = (TextView)itemView.findViewById(R.id.price);
             cardView = itemView.findViewById(R.id.card_recy_products);
+            haveImage = itemView.findViewById(R.id.iHave_button);
         }
     }
 
@@ -140,6 +145,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 itemViewHolder.price.setVisibility(View.VISIBLE);
                 itemViewHolder.price.setText(price);
             }
+
             itemViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -155,6 +161,8 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
                 }
             });
+
+            itemViewHolder.haveImage.setOnClickListener(buttonClickListener);
         }
     }
 

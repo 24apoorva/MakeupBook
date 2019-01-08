@@ -110,7 +110,7 @@ public class ItemDetailsFragment extends Fragment {
     private void displayDetails(final ItemDetails itemDetails){
 
         String name = itemDetails.getName();
-        if(name == null){
+        if(name == null || name.isEmpty()){
             detailsTextViews.get(0).setVisibility(View.GONE);
         }else {
             String cap = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -119,7 +119,7 @@ public class ItemDetailsFragment extends Fragment {
         }
 
         String brand = itemDetails.getBrand();
-        if(brand == null){
+        if(brand == null || brand.isEmpty()){
             detailsTextViews.get(1).setVisibility(View.GONE);
         }else {
             String cap = brand.substring(0, 1).toUpperCase() + brand.substring(1);
@@ -140,7 +140,7 @@ public class ItemDetailsFragment extends Fragment {
         ratingBar.setRating(itemDetails.getRating());
 
         String desc = itemDetails.getDescription();
-        if(desc == null ){
+        if(desc == null || desc.isEmpty()){
             detailsTextViews.get(3).setVisibility(View.GONE);
         }else {
             desc = desc.trim().replaceAll(" +", " ");
@@ -149,7 +149,7 @@ public class ItemDetailsFragment extends Fragment {
         }
 
         String type = itemDetails.getCategory();
-        if(type == null ){
+        if(type == null || type.isEmpty()){
             detailsTextViews.get(4).setVisibility(View.GONE);
         }else {
             detailsTextViews.get(4).setVisibility(View.VISIBLE);

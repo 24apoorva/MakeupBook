@@ -3,6 +3,8 @@ package com.example.android.makeupbook.ui;
 import android.graphics.drawable.Drawable;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,10 +46,10 @@ public class ProductsFragment extends Fragment {
     public static String PRODUCTSURL = "urlReq";
     public static String FULLURL = "full data url";
     private boolean isBrand = false;
-    public static final String JUSTDISPLAY = "just display data";
+    private final String SAVEDATA = "savedlist";
     private String mainUrl;
     private RecyclerView mRecyclerView;
-
+    private View rootView;
 
 
     public ProductsFragment() {
@@ -57,22 +59,27 @@ public class ProductsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_products_tab, container, false);
-        p = view.findViewById(R.id.progress_rec);
-        if(getArguments() != null){
+
+        if (rootView == null) {
+            // Inflate the layout for this fragment
+            rootView = inflater.inflate(R.layout.fragment_products_tab, container, false);
+            p = rootView.findViewById(R.id.progress_rec);
+            if (getArguments() != null) {
                 String url = getArguments().getString(PRODUCTSURL);
                 mainUrl = getArguments().getString(FULLURL);
                 isBrand = getArguments().getBoolean(ItemsActivity.BRANDTYPE);
-                loadData(url, view,0);
+                loadData(url, rootView, 0);
+            }
 
         }
-        return view;
+
+
+        return rootView;
     }
 
 
-    private void displaySelectedProducts (ArrayList<Products> productsList, View view,
-                                          boolean footer, ProductsRecyclerViewAdapter.OnItemClicked  onItemClicked){
+    private void displaySelectedProducts(ArrayList<Products> productsList, View view,
+                                         boolean footer, ProductsRecyclerViewAdapter.OnItemClicked onItemClicked) {
         mRecyclerView = view.findViewById(R.id.eyeProducts_recyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -83,7 +90,7 @@ public class ProductsFragment extends Fragment {
     }
 
 
-    private void loadData(final String requestUrl, final View view, final int code ) {
+    private void loadData(final String requestUrl, final View view, final int code) {
         p.setVisibility(View.VISIBLE);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, requestUrl, null, new Response.Listener<JSONArray>() {
             @Override
@@ -91,9 +98,9 @@ public class ProductsFragment extends Fragment {
                 p.setVisibility(View.INVISIBLE);
 
 
-                if(responseArray == null | responseArray.length()==0){
-                    loadData(mainUrl, view,1);
-                }else{
+                if (responseArray == null | responseArray.length() == 0) {
+                    loadData(mainUrl, view, 1);
+                } else {
                     List<Products> mProducts = new ArrayList<>();
                     GsonBuilder gsonBuilder = new GsonBuilder();
                     Gson gson = gsonBuilder.create();
@@ -102,12 +109,12 @@ public class ProductsFragment extends Fragment {
                         mProducts = Arrays.asList(gson.fromJson(responseArray.toString(), Products[].class));
                     }
                     mProductsData.addAll(mProducts);
-                    if(isBrand){
-                        displaySelectedProducts(mProductsData,view,false,null);
-                    }else if(code == 1){
-                        displaySelectedProducts(mProductsData,view,false,null);
-                    }else {
-                        displaySelectedProducts(mProductsData,view,true,new ProductsRecyclerViewAdapter.OnItemClicked() {
+                    if (isBrand) {
+                        displaySelectedProducts(mProductsData, view, false, null);
+                    } else if (code == 1) {
+                        displaySelectedProducts(mProductsData, view, false, null);
+                    } else {
+                        displaySelectedProducts(mProductsData, view, true, new ProductsRecyclerViewAdapter.OnItemClicked() {
                             @Override
                             public void onItemClick(int position) {
                                 p.setVisibility(View.VISIBLE);
@@ -135,11 +142,11 @@ public class ProductsFragment extends Fragment {
 
     }
 
-    private void loadFullData(final View view ){
+    private void loadFullData(final View view) {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mainUrl, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray responseArray) {
-               // new ProductsRecyclerViewAdapter(true);
+                // new ProductsRecyclerViewAdapter(true);
                 p.setVisibility(View.INVISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 List<Products> mProducts = new ArrayList<>();
@@ -149,8 +156,8 @@ public class ProductsFragment extends Fragment {
                 if (responseArray.length() > 0) {
                     mProducts = Arrays.asList(gson.fromJson(responseArray.toString(), Products[].class));
                 }
-                 mAllProductsData.addAll(mProducts);
-                displaySelectedProducts(mAllProductsData,view,false,null);
+                mAllProductsData.addAll(mProducts);
+                displaySelectedProducts(mAllProductsData, view, false, null);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -161,7 +168,6 @@ public class ProductsFragment extends Fragment {
         RequestQueue queue = VolleySingleton.getVolleySingleton(getContext()).getRequestQueue();
         queue.add(jsonArrayRequest);
     }
-
 
 
 }

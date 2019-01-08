@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <item
-        android:id="@+id/navigation_fav"
-        android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="@string/favPage" />
-
     <item
         android:id="@+id/navigation_iWant"
         android:icon="@drawable/ic_want_cart"
