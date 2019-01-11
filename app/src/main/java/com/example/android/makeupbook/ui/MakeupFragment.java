@@ -89,7 +89,7 @@ public class MakeupFragment extends Fragment {
 
                 Intent intent = new Intent(getContext(),ItemsActivity.class);
                 intent.putExtra(ItemsActivity.ITEMTYPE,item);
-                intent.putExtra(ItemsActivity.BRANDTYPE,isBrand);
+                intent.putExtra(ItemsActivity.ISBRAND,isBrand);
                 intent.putExtra(ItemsActivity.ONEURL,urlOne);
                 intent.putExtra(ItemsActivity.TWOURL,urlTwo);
                 getContext().startActivity(intent);

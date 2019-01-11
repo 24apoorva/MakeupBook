@@ -4,22 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/background_light"
-    tools:context=".WantListsFragment">
+    tools:context=".HaveListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/notAddedLayout"
+        android:id="@+id/notAddedLayoutHave"
         android:visibility="visible"
         android:orientation="vertical">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_margin="50dp"
-            android:id="@+id/want_logo"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_want_cart"/>
+            android:id="@+id/have_logo"
+            android:src="@drawable/ic_have_yes"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +28,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/addItems"
+            android:id="@+id/addItemsHave"
             android:textColor="@color/white"
             android:backgroundTint="@color/colorPrimary"
             style="@style/Widget.AppCompat.Button.Small"
@@ -46,18 +44,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/youWantTextview"
-        tools:text="You Want 10 makeup products"
+        android:id="@+id/youHaveTextview"
+        tools:text="You have 10 makeup products"
         android:gravity="center"
         android:padding="@dimen/margin_5dp"
         style="@style/TextAppearance.AppCompat.Medium"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/typeNum"/>
+        android:id="@+id/typeNumHave"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/wantList"/>
+        android:id="@+id/haveList"/>
 
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,13 +19,12 @@ import com.example.android.makeupbook.accounts.SigningActivity;
 import com.example.android.makeupbook.accounts.User;
 import com.example.android.makeupbook.ui.HomeFragment;
 import com.example.android.makeupbook.ui.MakeupFragment;
-import com.example.android.myproductslibrary.WantFragment;
+import com.example.android.myproductslibrary.MyListsMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -133,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     displayIwantFragment();
                     return true;
                 case R.id.navigation_iHave:
+                    displayIhaveFragment();
                     return true;
             }
             return false;
@@ -140,11 +139,20 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void displayIwantFragment(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new WantFragment()).commit();
+        Intent intent = new Intent(MainActivity.this,MyListsMainActivity.class);
+        intent.putExtra(MyListsMainActivity.LISTTYPE,2);
+        startActivity(intent);
+    }
+
+    private void displayIhaveFragment(){
+        Intent intent = new Intent(MainActivity.this,MyListsMainActivity.class);
+        intent.putExtra(MyListsMainActivity.LISTTYPE,1);
+        startActivity(intent);
     }
 
 
     private void displayHomeScreen(){
+        navigationView.setCheckedItem(R.id.nav_home);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeFragment()).commit();
     }
 

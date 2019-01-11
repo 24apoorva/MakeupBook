@@ -2,6 +2,7 @@
     <string name="app_name">MakeUpBook</string>
     <string name="login">LOGIN</string>
     <string name="loginhint">Email Address</string>
+    <string name="transition_photo_details">transition image</string>
     <string name="passwordhint">Password</string>
     <string name="forgotPassword">Forgot Password?</string>
     <string name="newUser">New User? SignUp Here</string>
@@ -226,5 +227,28 @@
     <string name="wantButton_title">I want to buy this</string>
     <string name="itemDescriptionText">About this product</string>
     <string name="seeAll">See all the products</string>
+    <string name="itemAddedToHaveList">Item added to I have list</string>
+    <string name="item_added_havelist">Item added to have List</string>
+    <string name="transition_photoenter">Treasition entername</string>
+    <string name="transition_product_details">praduct details transaction</string>
+    <string name="chooseHave">Choose the colour You have</string>
+    <string name="chooseWant">Choose the colour you want</string>
+    <string name="selectColor">Please select a color</string>
+    <string name="liquid">Liquid</string>
+    <string name="gel">Gel</string>
+    <string name="cream">Cream</string>
+    <string name="palette">Palette</string>
+    <string name="contour">Contour</string>
+    <string name="bbcc">Bb cc</string>
+    <string name="concealer">Concealer</string>
+    <string name="minaral">Mineral</string>
+    <string name="highlighter">Highlighter</string>
+    <string name="lipgloss">Lip Gloss</string>
+    <string name="lip_stain">Lip stain</string>
+    <string name="customerRating">Rating</string>
+    <string name="ratingHigh">Rating above 4.0</string>
+    <string name="ratingmid">Rating above 3.0</string>
+    <string name="rating_any">Any Rating</string>
+    <string name="price">Price</string>
 
 </resources>

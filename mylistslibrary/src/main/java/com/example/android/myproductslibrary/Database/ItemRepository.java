@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
+import com.example.android.myproductslibrary.ProductCount;
+
 import java.util.List;
 
 public class ItemRepository {
@@ -11,11 +13,11 @@ public class ItemRepository {
     private LiveData<List<Item>> allItems;
     private LiveData<List<Item>> iHaveItems;
     private LiveData<List<Item>> iWantItem;
-    private LiveData<Integer> haveProductsCount;
-    private LiveData<Integer> wantProductsCount;
     private LiveData<Integer> wantCount;
     private LiveData<Integer> haveCount;
-    private String product;
+    private LiveData<List<ProductCount>> wantCountProductsList;
+    private LiveData<List<ProductCount>> haveCountProductsList;
+
 
 
     public ItemRepository(Application application){
@@ -23,11 +25,19 @@ public class ItemRepository {
         itemsDao = database.itemsDao();
         iHaveItems = itemsDao.loadHaveList();
         iWantItem = itemsDao.loadWantList();
-        haveProductsCount = itemsDao.getCountOfHaveProducts(product);
-        wantProductsCount = itemsDao.getCountOfWantProducts(product);
         haveCount = itemsDao.getHaveListCount();
         wantCount = itemsDao.getWantListCount();
+        wantCountProductsList = itemsDao.getWantProductCountList();
+        haveCountProductsList = itemsDao.getHaveProductCountList();
 
+    }
+
+    public LiveData<List<ProductCount>> getHaveCountProductsList() {
+        return haveCountProductsList;
+    }
+
+    public LiveData<List<ProductCount>> getWantCountProductsList() {
+        return wantCountProductsList;
     }
 
     public LiveData<Integer> getHaveCount() {
@@ -52,13 +62,6 @@ public class ItemRepository {
 
     public void deleteWantList() {
         new DeleteWantItemsAsynTask(itemsDao).execute();
-    }
-    public LiveData<Integer> getHaveProductsCount(String productType){
-        return haveProductsCount;
-    }
-
-    public LiveData<Integer> getWantProductsCount(String productType) {
-        return wantProductsCount;
     }
 
     public LiveData<List<Item>> loadHaveList(){

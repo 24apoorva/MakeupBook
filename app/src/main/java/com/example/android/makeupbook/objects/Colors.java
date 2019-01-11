@@ -17,7 +17,7 @@ public class Colors {
 
     }
 
-    public  Colors(String hex_value,String colour_name){
+    public  Colors(String colour_name,String hex_value){
         this.colour_name = colour_name;
         this.hex_value = hex_value;
     }
@@ -37,6 +37,7 @@ public class Colors {
     public void setHex_value(String hex_value) {
         this.hex_value = hex_value;
     }
+
 
 
 }

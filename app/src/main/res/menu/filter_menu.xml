@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/filter_makeupproduct"
+        android:title="@string/makeUp">
+        <menu>
+    <group android:id="@+id/filter_prod_group">
+        <item
+            android:id="@+id/filter_eyes"
+            android:title="@string/eyes" >
+            <menu>
+                <group android:id="@+id/group_eyeprod">
+                    <item
+                        android:id="@+id/filter_brows"
+                        android:title="@string/eyebrow" >
+                        <menu>
+                            <group android:id="@+id/group_browCat">
+                                <item
+                                    android:id="@+id/filter_browAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_broPencil"
+                                    android:title="@string/pencil" />
+                            </group>
+                        </menu>
+                    </item>
+                    <item
+                        android:id="@+id/filter_liner"
+                        android:title="@string/eyeliner">
+                        <menu>
+                            <group android:id="@+id/group_eyeLinerCat">
+                                <item
+                                    android:id="@+id/filter_eyeLinerAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_eyeLinerPencil"
+                                    android:title="@string/pencil" />
+                                <item
+                                    android:id="@+id/filter_eyeLinerliquid"
+                                    android:title="@string/liquid" />
+                                <item
+                                    android:id="@+id/filter_eyeLinergel"
+                                    android:title="@string/gel" />
+                                <item
+                                    android:id="@+id/filter_eyeLinercream"
+                                    android:title="@string/cream" />
+                            </group>
+                        </menu>
+                    </item>
+                    <item
+                        android:id="@+id/filter_shadow"
+                        android:title="@string/eyeshadow">
+                        <menu>
+                            <group android:id="@+id/group_eyeShadowCat">
+                                <item
+                                    android:id="@+id/filter_eyeShadowAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_eyeShadowPencil"
+                                    android:title="@string/pencil" />
+                                <item
+                                    android:id="@+id/filter_eyeShadowPallet"
+                                    android:title="@string/palette" />
+                                <item
+                                    android:id="@+id/filter_eyeShadowcream"
+                                    android:title="@string/cream" />
+                            </group>
+                        </menu>
+                    </item>
+                    <item
+                        android:id="@+id/filter_mascara"
+                        android:title="@string/mascara"/>
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/filter_face"
+            android:title="@string/face" >
+            <menu>
+                <group android:id="@+id/group_faceprod">
+                    <item
+                        android:id="@+id/filter_blush"
+                        android:title="@string/blush" >
+                        <menu>
+                            <group android:id="@+id/group_blushCat">
+                                <item
+                                    android:id="@+id/filter_blushAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_blush_powder"
+                                    android:title="@string/powder" />
+
+                                <item android:id="@+id/filter_blushcream"
+                                    android:title="@string/cream" />
+                            </group>
+                        </menu>
+                    </item>
+                    <item
+                        android:id="@+id/filter_bronzer"
+                        android:title="@string/bronzer" >
+                        <menu>
+                            <group android:id="@+id/group_brongerCat">
+                                <item
+                                    android:id="@+id/filter_bronzerAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_bronzer_powder"
+                                    android:title="@string/powder" />
+                            </group>
+                        </menu>
+                    </item>
+                    <item
+                        android:id="@+id/filter_foundation"
+                        android:title="@string/foundation">
+                        <menu>
+                            <group android:id="@+id/group_foundationCat">
+                                <item
+                                    android:id="@+id/filter_foundationAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_foundationLiquid"
+                                    android:title="@string/liquid" />
+                                <item
+                                    android:id="@+id/filter_foundationContour"
+                                    android:title="@string/contour" />
+                                <item
+                                    android:id="@+id/filter_foundationbbcc"
+                                    android:title="@string/bbcc" />
+                                <item
+                                    android:id="@+id/filter_foundationconcealer"
+                                    android:title="@string/concealer" />
+                                <item
+                                    android:id="@+id/filter_foundationcream"
+                                    android:title="@string/cream" />
+                                <item
+                                    android:id="@+id/filter_foundationminaral"
+                                    android:title="@string/minaral" />
+                                <item
+                                    android:id="@+id/filter_foundationpowder"
+                                    android:title="@string/powder" />
+                                <item
+                                    android:id="@+id/filter_foundationhighlighter"
+                                    android:title="@string/highlighter" />
+                            </group>
+                        </menu>
+                    </item>
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/filter_lips"
+            android:title="@string/lips">
+            <menu>
+                <group android:id="@+id/group_lipprod">
+                    <item
+                        android:id="@+id/filter_lipliner"
+                        android:title="@string/lip_liner" >
+                        <menu>
+                            <group android:id="@+id/group_liplinerCat">
+                                <item
+                                    android:id="@+id/filter_liplinerAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_liplinerPencil"
+                                    android:title="@string/pencil" />
+                            </group>
+                        </menu>
+                    </item>
+                    <item
+                        android:id="@+id/filter_lipstick"
+                        android:title="@string/lipstick" >
+                        <menu>
+                            <group android:id="@+id/group_lipstickrCat">
+                                <item
+                                    android:id="@+id/filter_lipstickAll"
+                                    android:title="@string/allProducts" />
+                                <item
+                                    android:id="@+id/filter_lipstickcat"
+                                    android:title="@string/lipstick" />
+                                <item
+                                    android:id="@+id/filter_lipgloss"
+                                    android:title="@string/lipgloss" />
+                                <item
+                                    android:id="@+id/filter_lipLiquid"
+                                    android:title="@string/liquid" />
+                                <item
+                                    android:id="@+id/filter_lipstain"
+                                    android:title="@string/lip_stain" />
+                            </group>
+                        </menu>
+                    </item>
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/filter_nails"
+            android:title="@string/nails" />
+    </group>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/filter_rating"
+        android:title="@string/customerRating">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/rating_high"
+                    android:title="@string/ratingHigh" />
+                <item
+                    android:id="@+id/rating_mid"
+                    android:title="@string/ratingmid" />
+                <item
+                    android:id="@+id/rating_any"
+                    android:title="@string/rating_any" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title=""
+        android:icon="@drawable/ic_done_black_24dp"
+        android:id="@+id/button_ok_filter" />
+
+</menu>

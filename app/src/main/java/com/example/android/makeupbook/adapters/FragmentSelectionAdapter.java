@@ -16,90 +16,72 @@ import java.util.ArrayList;
 
 public class FragmentSelectionAdapter extends FragmentPagerAdapter {
     public Context mContext;
-    private int mPosition;
-    private ArrayList<Products> mProducts = new ArrayList<Products>();
-    private String urlFirstPart = "https://makeup-api.herokuapp.com/api/v1/products.json?product_type=";
-    private String urlPartTwo = "&product_category=";
+    private String title;
+    private boolean isBrand;
 
 
-    public FragmentSelectionAdapter(FragmentManager fm, Context context, int position) {
+    public FragmentSelectionAdapter(FragmentManager fm, Context context, String title) {
         super(fm);
         this.mContext = context;
-        this.mPosition = position;
+        this.title = title;
     }
 
-    private String[] getType(int position, Context context){
-        switch (position) {
-            case 0:
-                return null;
-            case 1:
-                return context.getResources().getStringArray(R.array.eyelinerArray);
-            case 2:
-                return context.getResources().getStringArray(R.array.eyeShadowArray);
-            case 3:
-                return null;
-            case 4:
-                return context.getResources().getStringArray(R.array.blushArray);
-            case 5:
-                return null;
-            case 6:
-                return context.getResources().getStringArray(R.array.foundationArray);
-            case 7:
-                return null;
-            case 8:
-                return context.getResources().getStringArray(R.array.lipstickArray);
-                default:
-                    return null;
-
+    private String[] getMakeupArray(String string, Context context){
+        if(string.contains(context.getResources().getString(R.string.brands))){
+            isBrand = true;
+            return context.getResources().getStringArray(R.array.brandsArray);
+        }else if(string.contains(context.getResources().getString(R.string.eyes))){
+            isBrand = false;
+            return context.getResources().getStringArray(R.array.categoryEyesArray);
+        }else if(string.contains(context.getResources().getString(R.string.lips))){
+            isBrand = false;
+            return context.getResources().getStringArray(R.array.categoryLipsArray);
+        }else{
+            isBrand = false;
+            return context.getResources().getStringArray(R.array.categoryFaceArray);
         }
     }
 
     @Override
     public Fragment getItem(int position) {
-        String typemode = mContext.getResources().getStringArray(R.array.MakeupArray)[mPosition];
-        String path;
-        if(getType(mPosition,mContext) == null){
-            path = urlFirstPart+typemode;
-        }else{
-            String string =  getType(mPosition,mContext)[position];
-            path = urlFirstPart+typemode+urlPartTwo+string;
+        String item = getMakeupArray(title,mContext)[position];
+        String urlFirstPart = "https://makeup-api.herokuapp.com/api/v1/products.json?";
+        String productType = "rating_greater_than=4.5&product_type=";
+        String allProduct = "product_type=";
+        String brandsType = "brand=";
+        String urlOne;
+        String urlTwo;
+        if(isBrand){
+            urlOne = urlFirstPart+brandsType+item;
+            urlTwo = urlOne;
+        }else {
+            urlOne= urlFirstPart+productType+item;
+            urlTwo=urlFirstPart+allProduct+item;
         }
-
-            return setUp(path);
+        return setUp(urlOne,urlTwo);
 
     }
 
     @Override
     public int getCount() {
-        if(getType(mPosition,mContext) == null){
-            return 1;
-        }
-        return getType(mPosition,mContext).length;
+        return getMakeupArray(title,mContext).length;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        if(getType(mPosition,mContext) == null){
-            if(mPosition == 0 || position == 7){
-                return mContext.getResources().getString(R.string.pencil);
-            }else if (mPosition == 3){
-                return mContext.getResources().getString(R.string.mascara);
-            }else if(mPosition == 5){
-                return mContext.getResources().getString(R.string.powder);
-            }else{
-                return "Polish";            }
-        }
-        return getType(mPosition,mContext)[position];
+        return getMakeupArray(title,mContext)[position];
     }
 
-    private Fragment setUp(String url){
-        Bundle bundle = new Bundle();
-        bundle.putString(ProductsFragment.PRODUCTSURL,url);
+    private Fragment setUp(String url1, String url2){
         ProductsFragment productsFragment = new ProductsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ProductsFragment.PRODUCTSURL, url1);
+        bundle.putBoolean(ProductsFragment.BRANDTYPE,isBrand);
+        bundle.putString(ProductsFragment.FULLURL,url2);
         productsFragment.setArguments(bundle);
         return productsFragment;
-    }
+           }
 
 }
 

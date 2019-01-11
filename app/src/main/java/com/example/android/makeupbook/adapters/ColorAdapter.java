@@ -37,7 +37,7 @@ public class ColorAdapter extends ArrayAdapter<Colors> {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.display_color, parent, false);
         }
-        ImageView iv = convertView.findViewById(R.id.color_image_back);
+        View iv = convertView.findViewById(R.id.color_image_back);
         iv.setBackgroundColor(Color.parseColor(mColors.get(position).getHex_value()));
         return convertView;
     }

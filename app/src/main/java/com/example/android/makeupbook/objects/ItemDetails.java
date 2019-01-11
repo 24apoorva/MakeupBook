@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class ItemDetails {
+    @SerializedName("id")
+    private int product_id;
     @SerializedName("brand")
     private String brand;
     @SerializedName("name")
@@ -15,6 +17,8 @@ public class ItemDetails {
     private String image_link;
     @SerializedName("product_link")
     private String product_link;
+    @SerializedName("product_type")
+    private String product_type;
     @SerializedName("description")
     private String description;
     @SerializedName("rating")
@@ -31,18 +35,36 @@ public class ItemDetails {
 
     }
 
-    public ItemDetails(String brand, String name, String price, String image_link, String product_link, String description,
+    public ItemDetails(int product_id,String brand, String name, String price, String image_link, String product_link,String product_type, String description,
                        float rating, String category, ArrayList<Colors> product_colors, ArrayList<String> tag_list) {
+        this.product_id = product_id;
         this.brand = brand;
         this.name = name;
         this.price = price;
         this.image_link = image_link;
         this.product_link = product_link;
+        this.product_type = product_type;
         this.description = description;
         this.rating = rating;
         this.category = category;
         this.product_colors = product_colors;
         this.tag_list = tag_list;
+    }
+
+    public String getProduct_type() {
+        return product_type;
+    }
+
+    public void setProduct_type(String product_type) {
+        this.product_type = product_type;
+    }
+
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
     public String getBrand() {

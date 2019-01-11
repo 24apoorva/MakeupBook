@@ -1,21 +1,28 @@
 package com.example.android.makeupbook.ui;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.example.android.makeupbook.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.makeupbook.ui.ProductsFragment.BRANDTYPE;
+
 public class ItemsActivity extends AppCompatActivity {
     @BindView(R.id.items_toolbar)
     Toolbar itemToolBar;
     public static String ITEMTYPE = "item type";
-    public static String BRANDTYPE = "is brand";
     public static String ONEURL = "one url";
     public static String TWOURL = "two url";
+    public static String ISBRAND = "com.example.android.makeupbook.ui.isbrand";
+    private Fragment mfragment;
 
 
     @Override
@@ -27,7 +34,7 @@ public class ItemsActivity extends AppCompatActivity {
             Intent intent = getIntent();
             String page = intent.getStringExtra(ITEMTYPE);
             Log.i("ProductType::",page);
-            Boolean isBrandName = intent.getBooleanExtra(BRANDTYPE,false);
+            Boolean isBrandName = intent.getBooleanExtra(ISBRAND,false);
             String urlOne = intent.getStringExtra(ONEURL);
             String urlAll = intent.getStringExtra(TWOURL);
             itemToolBar.setTitle(page);
@@ -44,24 +51,19 @@ public class ItemsActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.items_frame, productsFragment).commit();
         }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.filter_menu, menu);
+        /* Return true so that the menu is displayed in the Toolbar */
+        return true;
+    }
 
-//
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        getSupportFragmentManager().putFragment(outState, "myFragmentName", productsFragment);
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        productsFragment = (ProductsFragment) getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
-//
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
             //Title bar back press triggers onBackPressed()
             onBackPressed();
             return true;

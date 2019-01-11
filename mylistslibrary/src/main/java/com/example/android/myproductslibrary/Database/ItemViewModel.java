@@ -5,38 +5,41 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import com.example.android.myproductslibrary.ProductCount;
+
 import java.util.List;
 
 public class ItemViewModel extends AndroidViewModel {
     private ItemRepository itemRepository;
     private LiveData<List<Item>> iHaveItems;
     private LiveData<List<Item>> iWantItems;
-    private LiveData<Integer> haveProductsCount;
-    private LiveData<Integer> wantProductCount;
-    private String productType;
     private LiveData<Integer> haveCount;
     private LiveData<Integer> wantCount;
+    private LiveData<List<ProductCount>> wantCountProductsList;
+    private LiveData<List<ProductCount>> haveCountProductsList;
+
 
     public ItemViewModel(@NonNull Application application) {
         super(application);
         itemRepository = new ItemRepository(application);
         iHaveItems = itemRepository.loadHaveList();
         iWantItems = itemRepository.loadWantList();
-        haveProductsCount = itemRepository.getHaveProductsCount(productType);
-        wantProductCount = itemRepository.getWantProductsCount(productType);
         haveCount = itemRepository.getHaveCount();
         wantCount = itemRepository.getWantCount();
+        wantCountProductsList = itemRepository.getWantCountProductsList();
+        haveCountProductsList = itemRepository.getHaveCountProductsList();
+    }
+
+    public LiveData<List<ProductCount>> getHaveCountProductsList() {
+        return haveCountProductsList;
+    }
+
+    public LiveData<List<ProductCount>> getWantCountProductsList() {
+        return wantCountProductsList;
     }
 
     public void insertItem(Item item){
         itemRepository.insert(item);
-    }
-
-    public LiveData<Integer> getHaveProductsCount(String productType) {
-        return haveProductsCount;
-    }
-    public LiveData<Integer> getWantProductCount(String productType){
-        return wantProductCount;
     }
 
     public LiveData<Integer> getWantCount() {

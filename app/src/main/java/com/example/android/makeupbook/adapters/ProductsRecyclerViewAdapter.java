@@ -1,10 +1,12 @@
 package com.example.android.makeupbook.adapters;
-
-import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.transition.Fade;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +20,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.makeupbook.DetailsTransition;
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.Products;
 import com.example.android.makeupbook.ui.ItemDetailsFragment;
 import com.example.android.makeupbook.ui.ProductsFragment;
+import com.example.android.myproductslibrary.Database.Item;
 import com.example.android.myproductslibrary.Database.ItemViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.OnItemClick;
 
 public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Products> mProducts = new ArrayList<>();
@@ -42,9 +43,18 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     //make interface like this
     public interface OnItemClicked {
-        void onItemClick(int position);
+        void onFooterClick(int position);
+        void imageClick(Item item);
+
     }
 
+    /**
+     *
+     * @param context
+     * @param products
+     * @param hasFooter
+     * @param onClick
+     */
     public ProductsRecyclerViewAdapter(Context context, ArrayList<Products> products, boolean hasFooter, OnItemClicked onClick){
         this.mContext = context;
         this.mProducts = products;
@@ -64,6 +74,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         public TextView price;
         public CardView cardView;
         private ImageView haveImage;
+        private ImageView wantImage;
         public ProductsViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage = (ImageView)itemView.findViewById(R.id.listImage);
@@ -71,7 +82,8 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             brandDisplay = (TextView)itemView.findViewById(R.id.brandName);
             price = (TextView)itemView.findViewById(R.id.price);
             cardView = itemView.findViewById(R.id.card_recy_products);
-            haveImage = itemView.findViewById(R.id.iHave_button);
+            haveImage = itemView.findViewById(R.id.have_this);
+            wantImage=itemView.findViewById(R.id.want_this);
         }
     }
 
@@ -95,16 +107,16 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         }}
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof ProductsFooterViewHolder) {
             ProductsFooterViewHolder footerHolder = (ProductsFooterViewHolder) holder;
             if(hasFooter){
             footerHolder.footerText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClick.onItemClick(mProducts.size());
+                    onClick.onFooterClick(mProducts.size());
                 }
             });}else {
                 footerHolder.footerText.setVisibility(View.GONE);
@@ -112,23 +124,25 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         }else if (holder instanceof ProductsViewHolder) {
             final ProductsViewHolder itemViewHolder = (ProductsViewHolder) holder;
-            Products currentProduct = mProducts.get(position);
-            String url = currentProduct.getImageUrl();
+            final Products currentProduct = mProducts.get(position);
+            String url = currentProduct.getImage_link();
             if(!url.contains("https")){
                 url = url.replace("http","https");
             }
             Picasso.with(mContext)
                     .load(url)
                     .fit()
-                    .placeholder(R.drawable.beauty_all_products)
+                    .placeholder(R.color.white)
+                    .noFade()
                     .into(itemViewHolder.productImage);
-
+            itemViewHolder.productImage.setTransitionName(currentProduct.getName()+position);
             String name = currentProduct.getName();
             if(name == null){
                 itemViewHolder.productName.setVisibility(View.INVISIBLE);
             }else {
+                name = name.trim();
                 itemViewHolder.productName.setVisibility(View.VISIBLE);
-                itemViewHolder.productName.setText(name.trim());
+                itemViewHolder.productName.setText(name);
             }
             if(currentProduct.getBrand() == null){
                 itemViewHolder.brandDisplay.setVisibility(View.INVISIBLE);
@@ -150,21 +164,135 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 @Override
                 public void onClick(View v) {
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    String end = Integer.toString(mProducts.get(position).getProductId())+".json";
+                    String end = Integer.toString(mProducts.get(holder.getAdapterPosition()).getId())+".json";
                     String url = "https://makeup-api.herokuapp.com/api/v1/products/";
                     String sendUrl = url+end;
                     ItemDetailsFragment itemDetailsFragment = new ItemDetailsFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString(ItemDetailsFragment.DETAILSURL,sendUrl);
                     itemDetailsFragment.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.items_frame, itemDetailsFragment).addToBackStack(null).commit();
+
+
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        itemDetailsFragment.setSharedElementEnterTransition(new DetailsTransition());
+                        itemDetailsFragment.setEnterTransition(new Fade());
+                        itemDetailsFragment.setExitTransition(new Fade());
+                        itemDetailsFragment.setSharedElementReturnTransition(new DetailsTransition());
+                    }
+                    activity.getSupportFragmentManager().beginTransaction()
+                    .addSharedElement(itemViewHolder.productImage, mContext.getResources().getString(R.string.transition_photo_details))
+                            .replace(R.id.items_frame, itemDetailsFragment).addToBackStack(null).commit();
 
                 }
             });
 
-            itemViewHolder.haveImage.setOnClickListener(buttonClickListener);
+            itemViewHolder.wantImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(currentProduct.getProduct_colors().isEmpty() || currentProduct.getProduct_colors() == null){
+                        Item item = new Item(currentProduct.getId(),currentProduct.getBrand(),currentProduct.getName(),currentProduct.getPrice()
+                                ,currentProduct.getImage_link(),currentProduct.getProduct_type(),null
+                                ,null,false,true);
+                        onClick.imageClick(item);
+                    }else {
+                        displayDialog(currentProduct.getProduct_colors(),currentProduct,false);
+                    }
+
+                }
+            });
+
+            itemViewHolder.haveImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(currentProduct.getProduct_colors().isEmpty() || currentProduct.getProduct_colors() == null){
+                        Item item = new Item(currentProduct.getId(),currentProduct.getBrand(),currentProduct.getName(),currentProduct.getPrice()
+                                ,currentProduct.getImage_link(),currentProduct.getProduct_type(),null
+                                ,null,true,false);
+                        onClick.imageClick(item);
+                    }else {
+                        displayDialog(currentProduct.getProduct_colors(),currentProduct,true);
+                    }
+                }
+            });
         }
     }
+
+    private void displayDialog(final ArrayList<Colors> colours, final Products currentProduct, final boolean isHave){
+        final String[] listItems = getColorNamesArry(colours);
+        final String[] col = getColorvalueArry(colours);
+        final Colors[] color = {new Colors()};
+        String title;
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        if(isHave){
+            title = mContext.getResources().getString(R.string.chooseHave);
+        }else{
+            title = mContext.getResources().getString(R.string.chooseWant);
+        }
+
+        builder.setTitle(title)
+                .setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        color[0] = new Colors(listItems[which],col[which]);
+                    }
+                })
+        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(color[0].getColour_name() == null){
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.selectColor),Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }else{
+               Colors mColor = new Colors(color[0].getColour_name(),color[0].getHex_value());
+                Item item;
+               if(isHave) {
+                   item = new Item(currentProduct.getId(), currentProduct.getBrand(), currentProduct.getName(), currentProduct.getPrice()
+                           , currentProduct.getImage_link(), currentProduct.getProduct_type(), mColor.getColour_name()
+                           , mColor.getHex_value(), true, false);
+
+               }else {
+                    item = new Item(currentProduct.getId(), currentProduct.getBrand(), currentProduct.getName(), currentProduct.getPrice()
+                           , currentProduct.getImage_link(), currentProduct.getProduct_type(), mColor.getColour_name()
+                           , mColor.getHex_value(), false, true);
+
+               }
+               onClick.imageClick(item);
+            }}
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private String[] getColorNamesArry(ArrayList<Colors> colors){
+        String[] name = new String[colors.size()];
+        for(int i=0; i<colors.size(); i++){
+            if(colors.get(i).getColour_name() == null || colors.get(i).getColour_name().isEmpty())
+            {
+                name[i] = mContext.getResources().getString(R.string.color);
+            }else{
+                name[i] = colors.get(i).getColour_name();
+            }
+        }
+        return name;
+    }
+
+    public String[] getColorvalueArry(ArrayList<Colors> colors){
+        String[] name = new String[colors.size()];
+        for(int i=0; i<colors.size(); i++){
+            name[i] = colors.get(i).getHex_value();
+        }
+        return name;
+    }
+
 
     @Override
     public int getItemViewType(int position) {

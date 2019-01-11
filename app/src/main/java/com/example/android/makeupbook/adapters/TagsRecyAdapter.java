@@ -1,7 +1,10 @@
 package com.example.android.makeupbook.adapters;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +38,7 @@ public class TagsRecyAdapter extends RecyclerView.Adapter<TagsRecyAdapter.TagsVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TagsRecyAdapter.TagsViewHolder tagsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final TagsViewHolder tagsViewHolder, int i) {
         final String name = mContext.getResources().getStringArray(R.array.tagsArray)[i];
         tagsViewHolder.tagText.setText(name);
         String url = mContext.getResources().getStringArray(R.array.tagsImageArray)[i];
@@ -44,13 +47,15 @@ public class TagsRecyAdapter extends RecyclerView.Adapter<TagsRecyAdapter.TagsVi
                 .fit()
                 .placeholder(R.color.white)
                 .into(tagsViewHolder.tagImage);
+
         tagsViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String urlOne ="https://makeup-api.herokuapp.com/api/v1/products.json?product_tags="+name;
                 Intent intent = new Intent(mContext,ItemsActivity.class);
                 intent.putExtra(ItemsActivity.ITEMTYPE,name);
-                intent.putExtra(ItemsActivity.BRANDTYPE,true);
+                intent.putExtra(ItemsActivity.ISBRAND,true);
                 intent.putExtra(ItemsActivity.ONEURL,urlOne);
                 intent.putExtra(ItemsActivity.TWOURL,urlOne);
                 mContext.startActivity(intent);

@@ -6,6 +6,8 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import com.example.android.myproductslibrary.ProductCount;
+
 import java.util.List;
 
 @Dao
@@ -29,16 +31,16 @@ public interface ItemsDao {
     @Query("SELECT * FROM myList_Products WHERE inWantList = 1")
     LiveData<List<Item>> loadWantList();
 
-    @Query("SELECT COUNT(id) FROM myList_Products WHERE inHaveList = 1 AND productType IN (:type)" )
-    LiveData<Integer> getCountOfHaveProducts(String type );
-
-    @Query("SELECT COUNT(id) FROM myList_Products WHERE inWantList = 1 AND productType IN (:type)" )
-    LiveData<Integer> getCountOfWantProducts(String type );
-
-    @Query("SELECT COUNT(id) FROM myList_Products WHERE inHaveList = 1")
+    @Query("SELECT COUNT(*) FROM myList_Products WHERE inHaveList = 1")
     LiveData<Integer> getHaveListCount();
 
-    @Query("SELECT COUNT(id) FROM myList_Products WHERE inHaveList = 1")
-            LiveData<Integer> getWantListCount();
+    @Query("SELECT COUNT(*) FROM myList_Products WHERE inWantList = 1")
+    LiveData<Integer> getWantListCount();
+
+    @Query("SELECT DISTINCT productType,COUNT(productType) as count FROM myList_Products WHERE inWantList=1 GROUP BY productType")
+    LiveData<List<ProductCount>> getWantProductCountList();
+
+    @Query("SELECT DISTINCT productType,COUNT(productType) as count FROM myList_Products WHERE inHaveList=1 GROUP BY productType")
+    LiveData<List<ProductCount>> getHaveProductCountList();
 
 }

@@ -1,5 +1,6 @@
 package com.example.android.makeupbook.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -29,6 +30,8 @@ import com.example.android.makeupbook.adapters.ColorAdapter;
 import com.example.android.makeupbook.network.VolleySingleton;
 import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.ItemDetails;
+import com.example.android.myproductslibrary.Database.Item;
+import com.example.android.myproductslibrary.Database.ItemViewModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -52,13 +55,11 @@ public class ItemDetailsFragment extends Fragment {
     ImageView image_itemView;
     @BindView(R.id.color_grid)
     GridView gridview;
-//    @BindView(R.id.color_image)
-//    ImageView colorDisplay;
-//    @BindView(R.id.color_spinner)
-//    Spinner colorSpinner;
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
     private ItemDetails itemDetails;
+    private ItemViewModel itemViewModel;
+    private Colors selectedColor;
 
 
     public ItemDetailsFragment() {
@@ -73,6 +74,7 @@ public class ItemDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_item_details, container, false);
         ButterKnife.bind(this, view);
         if(getArguments()!=null){
+            itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
             String url = getArguments().getString(DETAILSURL);
             loadDetails(url);
         }
@@ -165,7 +167,7 @@ public class ItemDetailsFragment extends Fragment {
         Picasso.with(getContext())
                 .load(url)
                 .fit()
-                .placeholder(R.drawable.beauty_all_products)
+                .placeholder(R.color.white)
                 .into(image_itemView);
 
         if(itemDetails.getProduct_colors().size() != 0){
@@ -175,12 +177,14 @@ public class ItemDetailsFragment extends Fragment {
             setDynamicHeight(gridview);
 
             String color = "Color: "+itemDetails.getProduct_colors().get(0).getColour_name();
+            selectedColor = new Colors(color, itemDetails.getProduct_colors().get(0).getHex_value());
             detailsTextViews.get(5).setText(color);
 
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v,
                                         int position, long id) {
                     String color = "Color: "+itemDetails.getProduct_colors().get(position).getColour_name();
+                    selectedColor = new Colors(color, itemDetails.getProduct_colors().get(position).getHex_value());
                     detailsTextViews.get(5).setText(color);
                 }
             });
@@ -223,6 +227,42 @@ public class ItemDetailsFragment extends Fragment {
                 .setType(getString(R.string.share_type))
                 .setText(itemDetails.getProduct_link())
                 .getIntent(), shareText));
+    }
+
+    @OnClick(R.id.iHave_button)
+    public void iHaveButtonClicked(){
+        Item item;
+        if(itemDetails.getProduct_colors() == null || itemDetails.getProduct_colors().isEmpty()){
+            item= new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
+                    itemDetails.getProduct_type(),null,null,true,false);
+        }else{
+            if(selectedColor.getColour_name() ==null){
+                selectedColor.setColour_name("color");
+            }
+            item = new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
+                    itemDetails.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),true,false);
+        }
+
+        itemViewModel.insertItem(item);
+        Toast.makeText(getContext(),"Item added to have list",Toast.LENGTH_SHORT).show();
+
+    }
+
+    @OnClick(R.id.iWant_button)
+    public void iWantButtonClicked(){
+        Item item;
+        if(itemDetails.getProduct_colors() == null  || itemDetails.getProduct_colors().isEmpty()){
+            item= new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
+                    itemDetails.getProduct_type(),null,null,false,true);
+        }else{
+            item = new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
+                    itemDetails.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),false,true);
+        }
+
+        itemViewModel.insertItem(item);
+        Toast.makeText(getContext(),"Item added to want list",Toast.LENGTH_SHORT).show();
+
+
     }
 
     private void setDynamicHeight(GridView gridView) {

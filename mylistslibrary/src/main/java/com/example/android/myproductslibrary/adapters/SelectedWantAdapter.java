@@ -17,40 +17,40 @@ import com.example.android.myproductslibrary.Database.Item;
 import com.example.android.myproductslibrary.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
-public class SelectedItem extends ListAdapter<Item,SelectedItem.SelectedItemViewHolder>{
-Context mContext;
-    public SelectedItem() {
+public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.SelectedWantViewHolder> {
+    private Context mContext;
+    public SelectedWantAdapter() {
         super(DIFF_CALLBACK);
     }
 
     private static final DiffUtil.ItemCallback<Item> DIFF_CALLBACK = new DiffUtil.ItemCallback<Item>() {
         @Override
-        public boolean areItemsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
-            return oldItem.getId() == newItem.getId();
+        public boolean areItemsTheSame(Item oldItem, Item newItem) {
+           return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Item oldItem, @NonNull Item newItem) {
-            return oldItem.getName().equals(newItem.getName()) &&
-                    oldItem.getImage_link().equals(newItem.getImage_link()) &&
-                    oldItem.getColorName().equals(newItem.getColorName());
+        public boolean areContentsTheSame( Item oldItem, Item newItem) {
+            Boolean x =  oldItem.getId() == (newItem.getId())
+                    &&(oldItem.getName() != null &&oldItem.getName().equals(newItem.getName()))
+                    && (oldItem.getImage_link() != null && oldItem.getImage_link().equals(newItem.getImage_link()))
+                    && (oldItem.getColorName() != null && oldItem.getColorName().equals(newItem.getColorName()));
+            return x;
         }
     };
 
     @NonNull
     @Override
-    public SelectedItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public SelectedWantAdapter.SelectedWantViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         mContext = viewGroup.getContext();
         View v = LayoutInflater.from(mContext).inflate(R.layout.list_items_display,viewGroup,false);
-        return new SelectedItemViewHolder(v);
+        return new SelectedWantViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SelectedItemViewHolder selectedItemViewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull SelectedWantAdapter.SelectedWantViewHolder selectedItemViewHolder, int i) {
         Item item = getItem(i);
+
         String url = item.getImage_link();
         if(!url.contains("https")){
             url = url.replace("http","https");
@@ -82,24 +82,21 @@ Context mContext;
             selectedItemViewHolder.price.setVisibility(View.VISIBLE);
             price = "$"+price;
         }
-        selectedItemViewHolder.brand.setText(price);
+        selectedItemViewHolder.price.setText(price);
 
         String colorName = item.getColorName();
         String colorValue = item.getColorValue();
-        if((colorName == null || colorName.isEmpty())&& colorValue == null || colorValue.isEmpty()){
+        if((colorName == null || colorName.isEmpty())){
             selectedItemViewHolder.colorLayout.setVisibility(View.GONE);
         }else{
             selectedItemViewHolder.colorLayout.setVisibility(View.VISIBLE);
             formatString(colorName, selectedItemViewHolder.colorName);
-            selectedItemViewHolder.colorValue.setBackgroundColor(Color.parseColor(colorValue));
-        }
-
-        selectedItemViewHolder.deleteImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+            if(!colorValue.contains("#")){
+                colorValue = "#"+colorValue;
             }
-        });
+            selectedItemViewHolder.colorValue.setBackgroundColor(Color.parseColor(colorValue));
+
+        }
 
     }
 
@@ -113,9 +110,13 @@ Context mContext;
         }
     }
 
+    public Item getItemAt(int position){
+        return getItem(position);
+    }
 
 
-    public class SelectedItemViewHolder extends RecyclerView.ViewHolder {
+
+    public class SelectedWantViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView name;
         private TextView brand;
@@ -123,9 +124,7 @@ Context mContext;
         private LinearLayout colorLayout;
         private TextView colorName;
         private ImageView colorValue;
-        private ImageView deleteImage;
-
-        public SelectedItemViewHolder(@NonNull View itemView) {
+        public SelectedWantViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.itemImage);
             name = itemView.findViewById(R.id.itemName);
@@ -134,7 +133,6 @@ Context mContext;
             colorLayout = itemView.findViewById(R.id.color_layout);
             colorName = itemView.findViewById(R.id.itemColor);
             colorValue = itemView.findViewById(R.id.displayItemColor);
-            deleteImage = itemView.findViewById(R.id.deleteItemImage);
         }
     }
 }

@@ -12,6 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:background="@drawable/card_gradiant"
     android:padding="@dimen/margin_5dp">
 
     <ImageView
@@ -56,12 +57,14 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="30dp"
+                android:id="@+id/have_this"
                 android:layout_margin="@dimen/margin_10"
                 app:srcCompat="@drawable/ic_have_yes"/>
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="30dp"
+                android:id="@+id/want_this"
                 android:layout_margin="@dimen/margin_10"
                 app:srcCompat="@drawable/ic_want_cart"/>
 

@@ -28,8 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.example.android.makeupbook.ui.ItemsActivity.BRANDTYPE;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -93,7 +91,7 @@ public class HomeFragment extends Fragment {
         String urlOne ="http://makeup-api.herokuapp.com/api/v1/products.json?rating_greater_than=4.99";
         Intent intent = new Intent(getContext(),ItemsActivity.class);
         intent.putExtra(ItemsActivity.ITEMTYPE,item);
-        intent.putExtra(ItemsActivity.BRANDTYPE,true);
+        intent.putExtra(ItemsActivity.ISBRAND,true);
         intent.putExtra(ItemsActivity.ONEURL,urlOne);
         intent.putExtra(ItemsActivity.TWOURL,urlOne);
         getContext().startActivity(intent);

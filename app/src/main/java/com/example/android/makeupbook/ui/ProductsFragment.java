@@ -1,5 +1,6 @@
 package com.example.android.makeupbook.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.drawable.Drawable;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.adapters.ProductsRecyclerViewAdapter;
 import com.example.android.makeupbook.network.VolleySingleton;
 import com.example.android.makeupbook.objects.Products;
+import com.example.android.myproductslibrary.Database.Item;
+import com.example.android.myproductslibrary.Database.ItemViewModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -45,11 +48,13 @@ public class ProductsFragment extends Fragment {
     public ProgressBar p;
     public static String PRODUCTSURL = "urlReq";
     public static String FULLURL = "full data url";
+    public static String BRANDTYPE = "com.example.android.makeupbook.ui.isbrand";
     private boolean isBrand = false;
     private final String SAVEDATA = "savedlist";
     private String mainUrl;
     private RecyclerView mRecyclerView;
     private View rootView;
+    private ItemViewModel itemViewModel;
 
 
     public ProductsFragment() {
@@ -67,7 +72,7 @@ public class ProductsFragment extends Fragment {
             if (getArguments() != null) {
                 String url = getArguments().getString(PRODUCTSURL);
                 mainUrl = getArguments().getString(FULLURL);
-                isBrand = getArguments().getBoolean(ItemsActivity.BRANDTYPE);
+                isBrand = getArguments().getBoolean(BRANDTYPE);
                 loadData(url, rootView, 0);
             }
 
@@ -78,15 +83,32 @@ public class ProductsFragment extends Fragment {
     }
 
 
-    private void displaySelectedProducts(ArrayList<Products> productsList, View view,
-                                         boolean footer, ProductsRecyclerViewAdapter.OnItemClicked onItemClicked) {
+    private void displaySelectedProducts(ArrayList<Products> productsList, final View view,
+                                         boolean footer) {
+        itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
         mRecyclerView = view.findViewById(R.id.eyeProducts_recyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        ProductsRecyclerViewAdapter mAdapter = new ProductsRecyclerViewAdapter(getContext(), productsList, footer, onItemClicked);
-        mRecyclerView.setAdapter(mAdapter);
+        final ProductsRecyclerViewAdapter mAdapter = new ProductsRecyclerViewAdapter(getContext(), productsList, footer,
+                new ProductsRecyclerViewAdapter.OnItemClicked() {
+                    @Override
+                    public void onFooterClick(int position) {
+                        p.setVisibility(View.VISIBLE);
+                        mRecyclerView.setVisibility(View.INVISIBLE);
+                        loadFullData(view);
+                    }
+
+                    @Override
+                    public void imageClick(Item item) {
+
+                        itemViewModel.insertItem(item);
+                        Toast.makeText(getContext(),"Item added to the list",Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+         mRecyclerView.setAdapter(mAdapter);
     }
 
 
@@ -110,20 +132,11 @@ public class ProductsFragment extends Fragment {
                     }
                     mProductsData.addAll(mProducts);
                     if (isBrand) {
-                        displaySelectedProducts(mProductsData, view, false, null);
+                        displaySelectedProducts(mProductsData, view, false);
                     } else if (code == 1) {
-                        displaySelectedProducts(mProductsData, view, false, null);
+                        displaySelectedProducts(mProductsData, view, false);
                     } else {
-                        displaySelectedProducts(mProductsData, view, true, new ProductsRecyclerViewAdapter.OnItemClicked() {
-                            @Override
-                            public void onItemClick(int position) {
-                                p.setVisibility(View.VISIBLE);
-                                mRecyclerView.setVisibility(View.INVISIBLE);
-                                loadFullData(view);
-
-                            }
-                        });
-
+                        displaySelectedProducts(mProductsData, view, true);
                     }
 
                 }
@@ -157,7 +170,7 @@ public class ProductsFragment extends Fragment {
                     mProducts = Arrays.asList(gson.fromJson(responseArray.toString(), Products[].class));
                 }
                 mAllProductsData.addAll(mProducts);
-                displaySelectedProducts(mAllProductsData, view, false, null);
+                displaySelectedProducts(mAllProductsData, view, false);
             }
         }, new Response.ErrorListener() {
             @Override

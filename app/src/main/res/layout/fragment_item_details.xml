@@ -11,7 +11,9 @@
 
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:transitionName="@string/transition_photo_details"
+        >
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -49,7 +51,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
         <ImageView
             android:id="@+id/itemImage_view"
@@ -58,6 +61,8 @@
             android:layout_gravity="center"
             android:contentDescription="@string/imagedes"
             android:scaleType="centerInside"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_20"
             tools:src="@drawable/makeup_products"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
