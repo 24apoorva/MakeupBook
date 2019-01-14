@@ -2,15 +2,18 @@ package com.example.android.makeupbook.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -18,20 +21,24 @@ import android.widget.ListAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.android.makeupbook.MainActivity;
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.adapters.ColorAdapter;
 import com.example.android.makeupbook.network.VolleySingleton;
 import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.ItemDetails;
-import com.example.android.myproductslibrary.Database.Item;
-import com.example.android.myproductslibrary.Database.ItemViewModel;
+import com.example.android.makeupbook.Database.Item;
+import com.example.android.makeupbook.Database.ItemViewModel;
+import com.example.android.makeupbook.objects.Products;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -57,9 +64,12 @@ public class ItemDetailsFragment extends Fragment {
     GridView gridview;
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
-    private ItemDetails itemDetails;
+    @BindView( R.id.adv_frame)
+    AdView mAdView;
+    private Products details;
     private ItemViewModel itemViewModel;
     private Colors selectedColor;
+    private Animation anim;
 
 
     public ItemDetailsFragment() {
@@ -73,44 +83,44 @@ public class ItemDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_item_details, container, false);
         ButterKnife.bind(this, view);
+        //setHasOptionsMenu(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         if(getArguments()!=null){
             itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
-            String url = getArguments().getString(DETAILSURL);
-            loadDetails(url);
+            details = getArguments().getParcelable("makeupItemDetails");
+           // String url = getArguments().getString(DETAILSURL);
+            loadAdd();
+            displayDetails(details);
+            //loadDetails(url);
         }
 
         return view;
     }
 
-    private void loadDetails(String url){
+//    @Override
+//    public void onPrepareOptionsMenu(Menu menu) {
+//        menu.clear();
+//    }
 
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                Gson gson = gsonBuilder.create();
-                 itemDetails = gson.fromJson(response.toString(),ItemDetails.class);
-                displayDetails(itemDetails);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-
-
-
-
-        RequestQueue queue = VolleySingleton.getVolleySingleton(getContext()).getRequestQueue();
-        queue.add(jsonObjectRequest);
-
+    private void loadAdd(){
+        MobileAds.initialize(getContext(),"ca-app-pub-3940256099942544~3347511713");
+        AdRequest adRequest= new AdRequest.Builder().
+         addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("19C5BDCAE5E5F1A7A997B6A2115679CD").build();
+        mAdView.loadAd(adRequest);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
-    private void displayDetails(final ItemDetails itemDetails){
-
+    private void displayDetails(final Products itemDetails){
         String name = itemDetails.getName();
         if(name == null || name.isEmpty()){
             detailsTextViews.get(0).setVisibility(View.GONE);
@@ -179,13 +189,16 @@ public class ItemDetailsFragment extends Fragment {
             String color = "Color: "+itemDetails.getProduct_colors().get(0).getColour_name();
             selectedColor = new Colors(color, itemDetails.getProduct_colors().get(0).getHex_value());
             detailsTextViews.get(5).setText(color);
-
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v,
                                         int position, long id) {
                     String color = "Color: "+itemDetails.getProduct_colors().get(position).getColour_name();
                     selectedColor = new Colors(color, itemDetails.getProduct_colors().get(position).getHex_value());
                     detailsTextViews.get(5).setText(color);
+                    anim = AnimationUtils.loadAnimation(getContext(),R.anim.fadein);
+                    detailsTextViews.get(5).startAnimation(anim);
+                    v.setAnimation(anim);
+
                 }
             });
 
@@ -214,7 +227,7 @@ public class ItemDetailsFragment extends Fragment {
 
     @OnClick(R.id.buy_button)
     public void buyProductLink(){
-        String url = itemDetails.getProduct_link();
+        String url = details.getProduct_link();
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
@@ -222,25 +235,35 @@ public class ItemDetailsFragment extends Fragment {
 
     @OnClick(R.id.share_product_image)
     public void shareThisProduct(){
-        String shareText = "Share "+itemDetails.getName();
+        String shareText = "Share "+details.getName();
         startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
                 .setType(getString(R.string.share_type))
-                .setText(itemDetails.getProduct_link())
+                .setText(details.getProduct_link())
                 .getIntent(), shareText));
+    }
+
+    private Item addItem(Products product,String nameColor,String valueColor,Boolean inHaveList,Boolean inWantList){
+        Item item = new Item(product.getProduct_id(),product.getBrand(),product.getName(),product.getPrice()
+                ,product.getImage_link(),product.getProduct_type(),nameColor
+                ,valueColor,product.getDescription(),product.getRating(),product.getCategory(),product.getProduct_link(),inHaveList,inWantList);
+        return item;
     }
 
     @OnClick(R.id.iHave_button)
     public void iHaveButtonClicked(){
         Item item;
-        if(itemDetails.getProduct_colors() == null || itemDetails.getProduct_colors().isEmpty()){
-            item= new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
-                    itemDetails.getProduct_type(),null,null,true,false);
+        if(details.getProduct_colors() == null || details.getProduct_colors().isEmpty()){
+            item = addItem(details,null,null,true,false);
+//            item= new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
+//                    details.getProduct_type(),null,null,true,false);
         }else{
             if(selectedColor.getColour_name() ==null){
                 selectedColor.setColour_name("color");
             }
-            item = new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
-                    itemDetails.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),true,false);
+            item = addItem(details,selectedColor.getColour_name(),selectedColor.getHex_value(),true,false);
+
+//            item = new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
+//                    details.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),true,false);
         }
 
         itemViewModel.insertItem(item);
@@ -251,12 +274,15 @@ public class ItemDetailsFragment extends Fragment {
     @OnClick(R.id.iWant_button)
     public void iWantButtonClicked(){
         Item item;
-        if(itemDetails.getProduct_colors() == null  || itemDetails.getProduct_colors().isEmpty()){
-            item= new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
-                    itemDetails.getProduct_type(),null,null,false,true);
+        if(details.getProduct_colors() == null  || details.getProduct_colors().isEmpty()){
+            item = addItem(details,null,null,false,true);
+
+//            item= new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
+//                    details.getProduct_type(),null,null,false,true);
         }else{
-            item = new Item(itemDetails.getProduct_id(),itemDetails.getBrand(),itemDetails.getName(),itemDetails.getPrice(),itemDetails.getImage_link(),
-                    itemDetails.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),false,true);
+            item = addItem(details,selectedColor.getColour_name(),selectedColor.getHex_value(),false,true);
+//            item = new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
+//                    details.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),false,true);
         }
 
         itemViewModel.insertItem(item);

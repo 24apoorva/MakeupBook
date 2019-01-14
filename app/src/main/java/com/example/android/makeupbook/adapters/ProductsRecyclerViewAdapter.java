@@ -13,9 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +23,7 @@ import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.Products;
 import com.example.android.makeupbook.ui.ItemDetailsFragment;
-import com.example.android.makeupbook.ui.ProductsFragment;
-import com.example.android.myproductslibrary.Database.Item;
-import com.example.android.myproductslibrary.Database.ItemViewModel;
+import com.example.android.makeupbook.Database.Item;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,13 +44,6 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     }
 
-    /**
-     *
-     * @param context
-     * @param products
-     * @param hasFooter
-     * @param onClick
-     */
     public ProductsRecyclerViewAdapter(Context context, ArrayList<Products> products, boolean hasFooter, OnItemClicked onClick){
         this.mContext = context;
         this.mProducts = products;
@@ -164,12 +153,13 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 @Override
                 public void onClick(View v) {
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    String end = Integer.toString(mProducts.get(holder.getAdapterPosition()).getId())+".json";
-                    String url = "https://makeup-api.herokuapp.com/api/v1/products/";
-                    String sendUrl = url+end;
+                   // String end = Integer.toString(mProducts.get(holder.getAdapterPosition()).getProduct_id())+".json";
+                   // String url = "https://makeup-api.herokuapp.com/api/v1/products/";
+                   // String sendUrl = url+end;
                     ItemDetailsFragment itemDetailsFragment = new ItemDetailsFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString(ItemDetailsFragment.DETAILSURL,sendUrl);
+                    bundle.putParcelable("makeupItemDetails",mProducts.get(holder.getAdapterPosition()));
+                   // bundle.putString(ItemDetailsFragment.DETAILSURL,sendUrl);
                     itemDetailsFragment.setArguments(bundle);
 
 
@@ -191,9 +181,8 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 @Override
                 public void onClick(View v) {
                     if(currentProduct.getProduct_colors().isEmpty() || currentProduct.getProduct_colors() == null){
-                        Item item = new Item(currentProduct.getId(),currentProduct.getBrand(),currentProduct.getName(),currentProduct.getPrice()
-                                ,currentProduct.getImage_link(),currentProduct.getProduct_type(),null
-                                ,null,false,true);
+                        Item item =   addItem(currentProduct,null,null,false,true);
+
                         onClick.imageClick(item);
                     }else {
                         displayDialog(currentProduct.getProduct_colors(),currentProduct,false);
@@ -206,9 +195,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 @Override
                 public void onClick(View v) {
                     if(currentProduct.getProduct_colors().isEmpty() || currentProduct.getProduct_colors() == null){
-                        Item item = new Item(currentProduct.getId(),currentProduct.getBrand(),currentProduct.getName(),currentProduct.getPrice()
-                                ,currentProduct.getImage_link(),currentProduct.getProduct_type(),null
-                                ,null,true,false);
+                        Item item =   addItem(currentProduct,null,null,true,false);
                         onClick.imageClick(item);
                     }else {
                         displayDialog(currentProduct.getProduct_colors(),currentProduct,true);
@@ -216,6 +203,15 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
         }
+    }
+
+    private Item addItem(Products product,String nameColor,String valueColor,Boolean inHaveList,Boolean inWantList){
+        float rating = product.getRating();
+
+        Item item = new Item(product.getProduct_id(),product.getBrand(),product.getName(),product.getPrice()
+                ,product.getImage_link(),product.getProduct_type(),nameColor
+                ,valueColor,product.getDescription(),product.getRating(),product.getCategory(),product.getProduct_link(),inHaveList,inWantList);
+        return item;
     }
 
     private void displayDialog(final ArrayList<Colors> colours, final Products currentProduct, final boolean isHave){
@@ -248,14 +244,10 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                Colors mColor = new Colors(color[0].getColour_name(),color[0].getHex_value());
                 Item item;
                if(isHave) {
-                   item = new Item(currentProduct.getId(), currentProduct.getBrand(), currentProduct.getName(), currentProduct.getPrice()
-                           , currentProduct.getImage_link(), currentProduct.getProduct_type(), mColor.getColour_name()
-                           , mColor.getHex_value(), true, false);
+                   item = addItem(currentProduct,mColor.getColour_name(),mColor.getHex_value(),true,false);
 
                }else {
-                    item = new Item(currentProduct.getId(), currentProduct.getBrand(), currentProduct.getName(), currentProduct.getPrice()
-                           , currentProduct.getImage_link(), currentProduct.getProduct_type(), mColor.getColour_name()
-                           , mColor.getHex_value(), false, true);
+                   item = addItem(currentProduct,mColor.getColour_name(),mColor.getHex_value(),false,true);
 
                }
                onClick.imageClick(item);

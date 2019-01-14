@@ -1,211 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     tools:context=".ui.ItemDetailsFragment">
+
     <LinearLayout
 
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:transitionName="@string/transition_photo_details"
-        >
+        android:orientation="vertical"
+        android:transitionName="@string/transition_photo_details">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+        <com.google.android.gms.ads.AdView
+            xmlns:ads = "http://schemas.android.com/apk/res-auto"
             android:id="@+id/adv_frame"
-            android:layout_alignParentTop="true" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:text="Advertisements"/>
-        </FrameLayout>
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="?attr/actionBarSize"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
 
         <TextView
             android:id="@+id/itemName_text"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
             android:background="@color/white"
             android:padding="@dimen/margin_5dp"
-            android:layout_marginLeft="@dimen/margin_10"
             android:textStyle="bold"
-            tools:text="Liquid liner"/>
+            tools:text="Liquid liner" />
 
         <TextView
             android:id="@+id/itemBrand_text"
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
             android:background="@color/white"
             android:padding="@dimen/margin_5dp"
-            android:layout_marginLeft="@dimen/margin_10"
-            tools:text="By Lakme"/>
+            tools:text="By Lakme" />
+        <include layout="@layout/image_with_sharefab"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp">-->
 
-        <ImageView
-            android:id="@+id/itemImage_view"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/imagedes"
-            android:scaleType="centerInside"
-            android:layout_marginLeft="@dimen/margin_20"
-            android:layout_marginRight="@dimen/margin_20"
-            tools:src="@drawable/makeup_products"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
+            <!--<ImageView-->
+                <!--android:id="@+id/itemImage_view"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginLeft="@dimen/margin_20"-->
+                <!--android:layout_marginRight="@dimen/margin_20"-->
+                <!--android:contentDescription="@string/imagedes"-->
+                <!--tools:src="@drawable/makeup_products" />-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/share_product_image"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/square"
-                android:padding="@dimen/margin_10"
-                android:tint="@color/white"
-                app:srcCompat="@drawable/ic_menu_share" />
-        </RelativeLayout>
+            <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:id="@+id/share_product_image"-->
+                <!--android:layout_width="56dp"-->
+                <!--android:layout_height="56dp"-->
+                <!--android:layout_alignEnd="@+id/itemImage_view"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_gravity="bottom|end"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:backgroundTint="@color/colorPrimary"-->
+                <!--android:contentDescription="@string/action_share"-->
+                <!--android:elevation="6dp"-->
+                <!--android:stateListAnimator="@drawable/fab_state_list"-->
+                <!--android:tint="@color/white"-->
+                <!--app:fabSize="normal"-->
+                <!--app:srcCompat="@drawable/ic_menu_share"-->
+                <!--android:layout_alignRight="@+id/itemImage_view" />-->
+        <!--</RelativeLayout>-->
 
         <TextView
             android:id="@+id/itemprice_text"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
             android:background="@color/white"
             android:padding="@dimen/margin_5dp"
-            android:layout_marginLeft="@dimen/margin_10"
-            tools:text="$0.00"
-            />
+            tools:text="$0.00" />
 
         <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ratingBar"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_5dp"
             android:isIndicator="true"
             android:numStars="5"
-            android:stepSize="1"
             android:rating="5"
-            style="@style/Widget.AppCompat.RatingBar.Small"/>
+            android:stepSize="1"
+            android:layout_marginStart="@dimen/margin_10" />
 
         <TextView
+            android:id="@+id/color_Text"
+            style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/color_Text"
-            tools:text="Color: White"
-            android:padding="@dimen/margin_5dp"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:textStyle="bold"
             android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"/>
+            android:layout_marginRight="@dimen/margin_10"
+            android:padding="@dimen/margin_5dp"
+            android:textStyle="bold"
+            tools:text="Color: White" />
 
         <GridView
+            android:id="@+id/color_grid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/color_grid"
-            android:columnWidth="30dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="@dimen/margin_5dp"
-            android:horizontalSpacing="@dimen/margin_5dp"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:stretchMode="columnWidth"
             android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"/>
+            android:layout_marginRight="@dimen/margin_10"
+            android:columnWidth="30dp"
+            android:gravity="center"
+            android:horizontalSpacing="@dimen/margin_5dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/margin_5dp" />
 
         <Button
             android:id="@+id/iHave_button"
             style="@style/Widget.AppCompat.Button.Small"
-            android:padding="@dimen/margin_10"
-            android:text="@string/haveButton_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_height_50"
             android:layout_margin="@dimen/margin_5dp"
-            android:textStyle="bold"
+            android:backgroundTint="@color/light_background"
+            android:padding="@dimen/margin_10"
+            android:text="@string/haveButton_title"
             android:textColor="@color/colorPrimary"
-            android:backgroundTint="@color/light_background"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/iWant_button"
             style="@style/Widget.AppCompat.Button.Small"
-            android:text="@string/wantButton_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_height_50"
             android:layout_marginLeft="@dimen/margin_5dp"
             android:layout_marginRight="@dimen/margin_5dp"
-            android:textStyle="bold"
+            android:backgroundTint="@color/light_background"
+            android:text="@string/wantButton_title"
             android:textColor="@color/colorPrimary"
-            android:backgroundTint="@color/light_background"/>
+            android:textStyle="bold" />
 
         <Button
+            android:id="@+id/buy_button"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buy_button"
-            android:text="@string/buyNow"
             android:layout_gravity="center"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:layout_margin="@dimen/margin_5dp"
             android:backgroundTint="@color/light_background"
-            android:layout_margin="@dimen/margin_5dp"/>
+            android:text="@string/buyNow"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_10"
             android:text="@string/itemDescriptionText"
-            android:textStyle="bold"
-            style="@style/TextAppearance.AppCompat.Medium"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/type_product"
             style="@style/TextAppearance.AppCompat.Small"
-            tools:text="Category: Powder"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10"
-            android:paddingBottom="@dimen/margin_5dp"
-            android:paddingTop="@dimen/margin_5dp" />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5dp"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5dp"
+            tools:text="Category: Powder" />
+
+        <TextView
             android:id="@+id/tags_tv"
-            tools:text="Tags: "
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10"
-            android:paddingBottom="@dimen/margin_5dp"
-            android:paddingTop="@dimen/margin_5dp"/>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5dp"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5dp"
+            tools:text="Tags: " />
+
+        <TextView
             android:id="@+id/description_item_textview"
             style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5dp"
             android:paddingRight="@dimen/margin_10"
-            android:paddingBottom="@dimen/margin_10"
-            android:paddingTop="@dimen/margin_5dp" />
+            android:paddingBottom="@dimen/margin_10" />
 
     </LinearLayout>
 

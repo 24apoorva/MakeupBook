@@ -52,10 +52,8 @@ dependencies {
     //Firebase Database
     implementation "com.google.firebase:firebase-database:16.0.5"
 
-    //add projects
-    implementation project(':mylistslibrary')
-    implementation project(':widgetmodule')
-
+    //adding admob
+    implementation 'com.google.android.gms:play-services-ads:17.1.2'
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"

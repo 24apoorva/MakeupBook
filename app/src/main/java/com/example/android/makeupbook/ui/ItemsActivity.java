@@ -1,6 +1,9 @@
 package com.example.android.makeupbook.ui;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +25,6 @@ public class ItemsActivity extends AppCompatActivity {
     public static String ONEURL = "one url";
     public static String TWOURL = "two url";
     public static String ISBRAND = "com.example.android.makeupbook.ui.isbrand";
-    private Fragment mfragment;
 
 
     @Override
@@ -39,6 +41,7 @@ public class ItemsActivity extends AppCompatActivity {
             String urlAll = intent.getStringExtra(TWOURL);
             itemToolBar.setTitle(page);
             setSupportActionBar(itemToolBar);
+
             // Create an adapter that knows which fragment should be shown on each page
         ProductsFragment productsFragment = new ProductsFragment();
             Bundle bundle = new Bundle();
@@ -46,8 +49,6 @@ public class ItemsActivity extends AppCompatActivity {
             bundle.putBoolean(BRANDTYPE,isBrandName);
             bundle.putString(ProductsFragment.FULLURL,urlAll);
             productsFragment.setArguments(bundle);
-
-
         getSupportFragmentManager().beginTransaction().replace(R.id.items_frame, productsFragment).commit();
         }
 
@@ -55,7 +56,7 @@ public class ItemsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.filter_menu, menu);
-        /* Return true so that the menu is displayed in the Toolbar */
+        /* Return true so that the savedlistsmenu is displayed in the Toolbar */
         return true;
     }
 

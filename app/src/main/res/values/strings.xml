@@ -10,6 +10,8 @@
     <string name="passwordToast">Enter password!</string>
     <string name="auth_failed">Email or Password incorrect</string>
     <string name="resetPassword">Reset Password</string>
+    <string name="wantPage_title">I want these Items</string>
+    <string name="havePage_title">I have these Items</string>
     <string name="resetText">Plese enter your e-mail adress below and we will send you password reset instructions.</string>
     <string name="resendemail">Email Address</string>
     <string name="logo_description">This is the app logo</string>
@@ -22,8 +24,6 @@
     <string name="registrationFailed">Registration Failed !</string>
     <string name="userNameHint">Name</string>
     <string name="favPage">Favorites</string>
-    <string name="wantPage_title">I want these Items</string>
-    <string name="havePage_title">I have these Items</string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -115,6 +115,29 @@
         <item>zorah</item>
         <item>zorah biocosmetiques</item>
     </string-array>
+    <string name="youHave">You Have</string>
+    <string name="products">Item(s)</string>
+    <string name="color">Color:</string>
+    <string name="noItemsText">You haven\'t added anything yet.</string>
+    <string name="addProducts_button">Add Items</string>
+    <string name="deleteAll">Delete all Products</string>
+
+    <string-array name="product_type">
+        <item>Blush</item>
+        <item>Bronzer</item>
+        <item>Eyebrow</item>
+        <item>Eyeliner</item>
+        <item>Eyeshadow</item>
+        <item>Foundation</item>
+        <item>Lip liner</item>
+        <item>Lipstick</item>
+        <item>Mascara</item>
+        <item>Nail polish</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="youWant">You Want</string>
 
     <string-array name="foundationArray">
         <item>Liquid</item>
@@ -250,5 +273,8 @@
     <string name="ratingmid">Rating above 3.0</string>
     <string name="rating_any">Any Rating</string>
     <string name="price">Price</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="action_share">Action share</string>
 
 </resources>

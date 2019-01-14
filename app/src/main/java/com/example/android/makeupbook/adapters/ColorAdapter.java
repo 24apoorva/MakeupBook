@@ -1,5 +1,6 @@
 package com.example.android.makeupbook.adapters;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;

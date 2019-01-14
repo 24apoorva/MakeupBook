@@ -1,50 +1,32 @@
 package com.example.android.makeupbook.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.drawable.Drawable;
-import android.icu.text.UnicodeSetSpanner;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.android.makeupbook.MainActivity;
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.adapters.ProductsRecyclerViewAdapter;
-import com.example.android.makeupbook.network.VolleySingleton;
+import com.example.android.makeupbook.network.MyResultReceiver;
+import com.example.android.makeupbook.network.NetworkingService;
 import com.example.android.makeupbook.objects.Products;
-import com.example.android.myproductslibrary.Database.Item;
-import com.example.android.myproductslibrary.Database.ItemViewModel;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.example.android.makeupbook.Database.Item;
+import com.example.android.makeupbook.Database.ItemViewModel;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ProductsFragment extends Fragment {
-    private ArrayList<Products> mProductsData = new ArrayList<Products>();
-    private ArrayList<Products> mAllProductsData = new ArrayList<Products>();
+public class ProductsFragment extends Fragment implements MyResultReceiver.Receiver{
     public ProgressBar p;
     public static String PRODUCTSURL = "urlReq";
     public static String FULLURL = "full data url";
@@ -52,9 +34,17 @@ public class ProductsFragment extends Fragment {
     private boolean isBrand = false;
     private final String SAVEDATA = "savedlist";
     private String mainUrl;
-    private RecyclerView mRecyclerView;
     private View rootView;
     private ItemViewModel itemViewModel;
+    private MyResultReceiver mReceiver;
+    private static final int RUNNING = 24;
+    private static final int FINISHED = 25;
+    private static final int ERROR = 26;
+    @BindView(R.id.eyeProducts_recyclerView)
+    RecyclerView mRecyclerView;
+    private int code;
+    @BindView(R.id.products_framelayout)
+    FrameLayout frameLayout;
 
 
     public ProductsFragment() {
@@ -68,12 +58,13 @@ public class ProductsFragment extends Fragment {
         if (rootView == null) {
             // Inflate the layout for this fragment
             rootView = inflater.inflate(R.layout.fragment_products_tab, container, false);
+            ButterKnife.bind(this, rootView);
             p = rootView.findViewById(R.id.progress_rec);
             if (getArguments() != null) {
                 String url = getArguments().getString(PRODUCTSURL);
                 mainUrl = getArguments().getString(FULLURL);
                 isBrand = getArguments().getBoolean(BRANDTYPE);
-                loadData(url, rootView, 0);
+               startDataService(url);
             }
 
         }
@@ -82,11 +73,25 @@ public class ProductsFragment extends Fragment {
         return rootView;
     }
 
+    private void startDataService(String url){
+        mReceiver = new MyResultReceiver(new Handler());
+        mReceiver.setReceiver(this);
+        final Intent intent = new Intent(Intent.ACTION_SYNC, null,getContext(),NetworkingService.class);
+        intent.putExtra("urlvaluereciver",url);
+        intent.putExtra("receiver", mReceiver);
+        intent.putExtra("command", "query");
+        getContext().startService(intent);
+    }
 
-    private void displaySelectedProducts(ArrayList<Products> productsList, final View view,
+    public void onPause() {
+        super.onPause();
+        mReceiver.setReceiver(null); // clear receiver so no leaks.
+    }
+
+
+    private void displaySelectedProducts(ArrayList<Products> productsList,
                                          boolean footer) {
         itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
-        mRecyclerView = view.findViewById(R.id.eyeProducts_recyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -95,9 +100,8 @@ public class ProductsFragment extends Fragment {
                 new ProductsRecyclerViewAdapter.OnItemClicked() {
                     @Override
                     public void onFooterClick(int position) {
-                        p.setVisibility(View.VISIBLE);
-                        mRecyclerView.setVisibility(View.INVISIBLE);
-                        loadFullData(view);
+                        code=1;
+                        startDataService(mainUrl);
                     }
 
                     @Override
@@ -111,76 +115,34 @@ public class ProductsFragment extends Fragment {
          mRecyclerView.setAdapter(mAdapter);
     }
 
-
-    private void loadData(final String requestUrl, final View view, final int code) {
-        p.setVisibility(View.VISIBLE);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, requestUrl, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray responseArray) {
-                p.setVisibility(View.INVISIBLE);
-
-
-                if (responseArray == null | responseArray.length() == 0) {
-                    loadData(mainUrl, view, 1);
-                } else {
-                    List<Products> mProducts = new ArrayList<>();
-                    GsonBuilder gsonBuilder = new GsonBuilder();
-                    Gson gson = gsonBuilder.create();
-
-                    if (responseArray.length() > 0) {
-                        mProducts = Arrays.asList(gson.fromJson(responseArray.toString(), Products[].class));
-                    }
-                    mProductsData.addAll(mProducts);
-                    if (isBrand) {
-                        displaySelectedProducts(mProductsData, view, false);
-                    } else if (code == 1) {
-                        displaySelectedProducts(mProductsData, view, false);
-                    } else {
-                        displaySelectedProducts(mProductsData, view, true);
-                    }
-
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        RequestQueue queue = VolleySingleton.getVolleySingleton(getContext()).getRequestQueue();
-        queue.add(jsonArrayRequest);
-
-
-    }
-
-    private void loadFullData(final View view) {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mainUrl, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray responseArray) {
-                // new ProductsRecyclerViewAdapter(true);
-                p.setVisibility(View.INVISIBLE);
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        switch (resultCode) {
+            case RUNNING:
+                p.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+                break;
+            case FINISHED:
                 mRecyclerView.setVisibility(View.VISIBLE);
-                List<Products> mProducts = new ArrayList<>();
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                Gson gson = gsonBuilder.create();
+                ArrayList<Products> makeupProducts= resultData.getParcelableArrayList("results");
+                if(makeupProducts.size() == 0){
+                    code = 1;
+                    startDataService(mainUrl);
+                }else{
+                p.setVisibility(View.GONE);
+                if (isBrand ) {
+                    displaySelectedProducts(makeupProducts,false);
+                } else if (code == 1) {
+                    displaySelectedProducts(makeupProducts,false);
+                } else {
+                    displaySelectedProducts(makeupProducts,true);
+                }}
 
-                if (responseArray.length() > 0) {
-                    mProducts = Arrays.asList(gson.fromJson(responseArray.toString(), Products[].class));
-                }
-                mAllProductsData.addAll(mProducts);
-                displaySelectedProducts(mAllProductsData, view, false);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
 
-            }
-        });
-        RequestQueue queue = VolleySingleton.getVolleySingleton(getContext()).getRequestQueue();
-        queue.add(jsonArrayRequest);
+                break;
+            case ERROR:
+                // handle the error;
+                break;
+        }
     }
-
-
 }

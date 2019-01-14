@@ -12,12 +12,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@drawable/card_gradiant"
     android:padding="@dimen/margin_5dp">
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="match_parent"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:layout_margin="@dimen/margin_10"
         android:id="@+id/listImage"
         android:contentDescription="@string/imagedes" />
     <LinearLayout
@@ -31,8 +33,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/productName"
             android:layout_margin="@dimen/margin_5dp"
+            android:layout_gravity="center"
             style="@style/TextAppearance.MaterialComponents.Body1"
-            tools:text="Eyeliner of the year "/>
+            tools:text="Eyeliner of the year dsfjdslkdjf nkdsjfjsndjksfn sdjfnkjsdnjkdsjk"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,18 +45,22 @@
             android:layout_marginRight="@dimen/margin_5dp"
             tools:text="By Sheir "/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/price"
-            android:layout_margin="@dimen/margin_5dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            tools:text="$10.66"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10"
             android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/price"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_5dp"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                tools:text="$10.66"/>
 
             <ImageView
                 android:layout_width="40dp"

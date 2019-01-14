@@ -1,33 +1,24 @@
 package com.example.android.makeupbook.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class ItemDetails {
-    @SerializedName("id")
+public class ItemDetails implements Parcelable {
     private int product_id;
-    @SerializedName("brand")
     private String brand;
-    @SerializedName("name")
     private String name;
-    @SerializedName("price")
     private String price;
-    @SerializedName("image_link")
     private String image_link;
-    @SerializedName("product_link")
     private String product_link;
-    @SerializedName("product_type")
     private String product_type;
-    @SerializedName("description")
     private String description;
-    @SerializedName("rating")
     private float rating;
-    @SerializedName("category")
     private String category;
-    @SerializedName("product_colors")
     private ArrayList<Colors> product_colors;
-    @SerializedName("tag_list")
     private ArrayList<String> tag_list;
 
 
@@ -50,6 +41,33 @@ public class ItemDetails {
         this.product_colors = product_colors;
         this.tag_list = tag_list;
     }
+
+    protected ItemDetails(Parcel in) {
+        product_id = in.readInt();
+        brand = in.readString();
+        name = in.readString();
+        price = in.readString();
+        image_link = in.readString();
+        product_link = in.readString();
+        product_type = in.readString();
+        description = in.readString();
+        rating = in.readFloat();
+        category = in.readString();
+        product_colors = in.createTypedArrayList(Colors.CREATOR);
+        tag_list = in.createStringArrayList();
+    }
+
+    public static final Creator<ItemDetails> CREATOR = new Creator<ItemDetails>() {
+        @Override
+        public ItemDetails createFromParcel(Parcel in) {
+            return new ItemDetails(in);
+        }
+
+        @Override
+        public ItemDetails[] newArray(int size) {
+            return new ItemDetails[size];
+        }
+    };
 
     public String getProduct_type() {
         return product_type;
@@ -145,5 +163,26 @@ public class ItemDetails {
 
     public void setTag_list(ArrayList<String> tag_list) {
         this.tag_list = tag_list;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(product_id);
+        dest.writeString(brand);
+        dest.writeString(name);
+        dest.writeString(price);
+        dest.writeString(image_link);
+        dest.writeString(product_link);
+        dest.writeString(product_type);
+        dest.writeString(description);
+        dest.writeFloat(rating);
+        dest.writeString(category);
+        dest.writeTypedList(product_colors);
+        dest.writeStringList(tag_list);
     }
 }

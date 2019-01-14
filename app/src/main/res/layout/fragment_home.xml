@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
-        android:background="@drawable/card_gradiant"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_margin="15dp"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/colorPrimaryDark"
                 tools:text="Hello Apoorva!" />
@@ -77,6 +78,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="@dimen/elev_4dp"
             android:layout_marginTop="@dimen/margin_20">
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -95,5 +97,7 @@
                 android:orientation="horizontal" />
         </android.support.v7.widget.CardView>
 
+
     </LinearLayout>
+
 </ScrollView>

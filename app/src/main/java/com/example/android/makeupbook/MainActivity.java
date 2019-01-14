@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ import com.example.android.makeupbook.accounts.SigningActivity;
 import com.example.android.makeupbook.accounts.User;
 import com.example.android.makeupbook.ui.HomeFragment;
 import com.example.android.makeupbook.ui.MakeupFragment;
-import com.example.android.myproductslibrary.MyListsMainActivity;
+import com.example.android.makeupbook.savedlistsui.MyListsMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -118,7 +119,28 @@ public class MainActivity extends AppCompatActivity {
         }
         return -1;
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.navigation, menu);
+        /* Return true so that the savedlistsmenu is displayed in the Toolbar */
+        return true;
+    }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.navigation_iWant) {
+            //Title bar back press triggers onBackPressed()
+            displayIwantFragment();
+            return true;
+        }else if(id == R.id.navigation_iHave){
+            displayIhaveFragment();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     //for Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnBottomNavigationItemSelectedListener

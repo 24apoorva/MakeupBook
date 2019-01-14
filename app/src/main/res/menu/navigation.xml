@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/navigation_iWant"
         android:icon="@drawable/ic_want_cart"
-        android:title="@string/wantPage_title" />
+        android:title="@string/wantPage_title"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/navigation_iHave"
         android:icon="@drawable/ic_have_yes"
-        android:title="@string/havePage_title" />
+        android:title="@string/havePage_title"
+        app:showAsAction="always"/>
 
 </menu>
