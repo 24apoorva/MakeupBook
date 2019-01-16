@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.transition.Fade;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import com.example.android.makeupbook.ui.ItemsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ArrayList<Products> mProducts;
@@ -146,6 +148,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             }
 
             itemViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void onClick(View v) {
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
@@ -168,7 +171,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             itemDetailsFragment.setSharedElementReturnTransition(new DetailsTransition());
                         }
                         activity.getSupportFragmentManager().beginTransaction()
-                                .hide(activity.getSupportFragmentManager().findFragmentByTag(ItemsActivity.PRODUCTFRAGMENTTAG))
+                                .hide(Objects.requireNonNull(activity.getSupportFragmentManager().findFragmentByTag(ItemsActivity.PRODUCTFRAGMENTTAG)))
                                  .addSharedElement(itemViewHolder.productImage,mContext.getResources().getString(R.string.transition_photo_details))
                                 .add(R.id.items_frame, itemDetailsFragment).addToBackStack(null).commit();
 

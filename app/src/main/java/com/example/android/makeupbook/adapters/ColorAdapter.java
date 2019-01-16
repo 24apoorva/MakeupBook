@@ -1,6 +1,5 @@
 package com.example.android.makeupbook.adapters;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -8,16 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.objects.Colors;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class ColorAdapter extends ArrayAdapter<Colors> {
     private final ArrayList<Colors> mColors;

@@ -3,10 +3,13 @@ package com.example.android.makeupbook.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -67,12 +72,14 @@ public class ItemDetailsFragment extends Fragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_item_details, container, false);
         ButterKnife.bind(this, view);
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).hide();
         if(savedInstanceState != null){
             if(savedInstanceState.containsKey(MAKEUPITEMSAVING)){
                 details = savedInstanceState.getParcelable(MAKEUPITEMSAVING);
@@ -81,7 +88,9 @@ public class ItemDetailsFragment extends Fragment {
             linearLayout.setVisibility(View.VISIBLE);
             if(getArguments()!=null){
                 loadAdd();
-                itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    itemViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ItemViewModel.class);
+                }
                 details = getArguments().getParcelable(MAKEUPITEMDETAILS);
             }else {
                 hidePage();
@@ -89,6 +98,19 @@ public class ItemDetailsFragment extends Fragment {
         displayDetails(details);
 
         return view;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).hide();
+    }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onStop() {
+        super.onStop();
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).show();
     }
 
     @Override
@@ -286,7 +308,7 @@ public class ItemDetailsFragment extends Fragment {
         listItem.measure(0, 0);
         totalHeight = listItem.getMeasuredHeight();
 
-        float x = 1;
+        float x;
         if( items > 9 ){
             x = items/9;
             rows = (int) (x + 1);

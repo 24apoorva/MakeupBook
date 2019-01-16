@@ -1,8 +1,9 @@
 package com.example.android.makeupbook;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.example.android.makeupbook.accounts.SigningActivity;
 import com.example.android.makeupbook.accounts.User;
+import com.example.android.makeupbook.ui.AboutFragment;
 import com.example.android.makeupbook.ui.HomeFragment;
 import com.example.android.makeupbook.ui.MakeupFragment;
 import com.example.android.makeupbook.savedlistsui.MyListsMainActivity;
@@ -26,14 +28,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_toolbar)
     Toolbar toolBar;
-//    @BindView(R.id.navigation)
-//    BottomNavigationView navigation;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
     @BindView(R.id.main_drawer)
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private boolean isTablet;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
             displayHomeScreen();
         }
         displayUserData();
-
-     //   navigation.setOnNavigationItemSelectedListener(mOnBottomNavigationItemSelectedListener);
         navigationView.setNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
@@ -91,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.share:
                     shareThisApp();
+                    break;
+                case R.id.about:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new AboutFragment()).commit();
                     break;
                 case R.id.nav_signOut:
                     signOutOfApp();
@@ -183,14 +188,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, SigningActivity.class));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void displayUserData(){
 
-        String id = auth.getCurrentUser().getUid();
+        String id = Objects.requireNonNull(auth.getCurrentUser()).getUid();
         FirebaseDatabase.getInstance().getReference("users/" + id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User userData = dataSnapshot.getValue(User.class);
-                String name = userData.getUserName();
+                assert userData != null;
+                String name = Objects.requireNonNull(userData).getUserName();
                 name = name.substring(0,1).toUpperCase() + name.substring(1);
                 String email = userData.getEmail();
                 View headerView = navigationView.getHeaderView(0);

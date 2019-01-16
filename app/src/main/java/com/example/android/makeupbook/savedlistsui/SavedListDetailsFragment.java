@@ -3,27 +3,26 @@ package com.example.android.makeupbook.savedlistsui;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.android.makeupbook.Database.Item;
 import com.example.android.makeupbook.R;
-import com.example.android.makeupbook.ui.ItemsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -53,14 +52,14 @@ public class SavedListDetailsFragment extends Fragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_saved_list_details, container, false);
         ButterKnife.bind(this,view);
-        Toast.makeText(getContext(),"on create called",Toast.LENGTH_SHORT).show();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).hide();
 
         if(getArguments() !=null){
             savedLinearLayout.setVisibility(View.VISIBLE);
@@ -72,23 +71,26 @@ public class SavedListDetailsFragment extends Fragment {
         return view;
     }
 
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 @Override
 public void onResume() {
     super.onResume();
-    ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).hide();
 }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).show();
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void displayData(){
         String name = itemDetails.getName();
         if(name == null || name.isEmpty()){
             savedDataTextViews.get(0).setVisibility(View.GONE);
         }else {
             String cap = name.substring(0, 1).toUpperCase() + name.substring(1);
-            ((MyListsMainActivity) getActivity()).getSupportActionBar().setTitle(cap);
+            Objects.requireNonNull(((MyListsMainActivity) getActivity()).getSupportActionBar()).setTitle(cap);
             savedDataTextViews.get(0).setVisibility(View.VISIBLE);
             savedDataTextViews.get(0).setText(cap.trim());
         }
@@ -162,18 +164,11 @@ public void onResume() {
 
     }
 
-//    @OnClick(R.id.savedOther_button)
-//    public void otherColorProductLink(){
-//        String url = itemValue.getProduct_link();
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setData(Uri.parse(url));
-//        startActivity(intent);
-//    }
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @OnClick(R.id.share_product_image)
     public void shareThisProduct(){
         String shareText = "Share "+itemDetails.getName();
-        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(Objects.requireNonNull(getActivity()))
                 .setType(getString(R.string.share_type))
                 .setText(itemDetails.getProduct_link())
                 .getIntent(), shareText));

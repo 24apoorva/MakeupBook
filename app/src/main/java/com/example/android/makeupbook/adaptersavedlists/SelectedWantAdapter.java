@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.transition.Fade;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
@@ -19,13 +18,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.android.makeupbook.Database.Item;
-import com.example.android.makeupbook.DetailsTransition;
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.savedlistsui.MyListsMainActivity;
 import com.example.android.makeupbook.savedlistsui.SavedListDetailsFragment;
-import com.example.android.makeupbook.ui.ItemDetailsFragment;
 import com.example.android.makeupbook.ui.ItemsActivity;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.SelectedWantViewHolder> {
     private Context mContext;
@@ -82,7 +81,7 @@ public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.Se
         }else {
             selectedItemViewHolder.brand.setVisibility(View.VISIBLE);
             StringBuilder cap = new StringBuilder("By: ");
-            cap.append(brand.substring(0, 1).toUpperCase() + brand.substring(1).trim());
+            cap.append(brand.substring(0, 1).toUpperCase()).append(brand.substring(1).trim());
             selectedItemViewHolder.brand.setText(cap);
 
         }
@@ -145,7 +144,7 @@ public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.Se
                             .replace(R.id.lists_frame_right,savedListDetailsFragment).commit();
                 }else {
                     activity.getSupportFragmentManager().beginTransaction()
-                            .hide(activity.getSupportFragmentManager().findFragmentByTag(MyListsMainActivity.FRAGMENTUSERSAVEDLIST))
+                            .hide(Objects.requireNonNull(activity.getSupportFragmentManager().findFragmentByTag(MyListsMainActivity.FRAGMENTUSERSAVEDLIST)))
                             .add(R.id.lists_frame, savedListDetailsFragment).addToBackStack(null).commit();
                 }
 

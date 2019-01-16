@@ -48,12 +48,6 @@ public class ItemsActivity extends AppCompatActivity{
         }
         }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-    }
-
     private ProductsFragment openFragment(String url1,String url2, Boolean isBrand){
         ProductsFragment productsFragment = new ProductsFragment();
         Bundle bundle = new Bundle();

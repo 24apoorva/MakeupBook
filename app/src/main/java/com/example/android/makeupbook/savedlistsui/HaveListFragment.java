@@ -4,6 +4,7 @@ package com.example.android.makeupbook.savedlistsui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.android.makeupbook.Database.Item;
 import com.example.android.makeupbook.Database.ItemViewModel;
 import com.example.android.makeupbook.MainActivity;
@@ -28,6 +27,7 @@ import com.example.android.makeupbook.adaptersavedlists.SelectedHaveItem;
 import com.example.android.makeupbook.adaptersavedlists.SummeryHaveAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -43,11 +43,10 @@ public class HaveListFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_have_list, container, false);
-        Toast.makeText(getContext(),"on create called",Toast.LENGTH_SHORT).show();
         displayHaveData(view);
         return view;
     }
@@ -97,12 +96,12 @@ public class HaveListFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Integer integer) {
 
-                if (integer == 0) {
-                    layout.setVisibility(View.VISIBLE);
-                } else {
+                if (integer != 0) {
                     layout.setVisibility(View.GONE);
                     String countString = getContext().getResources().getString(R.string.youHave)+" "+integer+" "+getContext().getResources().getString(R.string.products);
                     countText.setText(countString);
+                } else {
+                    layout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -118,7 +117,9 @@ public class HaveListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                    Intent intent = new Intent(getContext(),MainActivity.class);
-                    getContext().startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(getContext()).startActivity(intent);
+                }
             }
         });
 

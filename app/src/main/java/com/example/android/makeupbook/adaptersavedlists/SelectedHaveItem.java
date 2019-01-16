@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
@@ -20,9 +21,10 @@ import com.example.android.makeupbook.Database.Item;
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.savedlistsui.MyListsMainActivity;
 import com.example.android.makeupbook.savedlistsui.SavedListDetailsFragment;
-import com.example.android.makeupbook.ui.ItemDetailsFragment;
 import com.example.android.makeupbook.ui.ItemsActivity;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class SelectedHaveItem extends ListAdapter<Item,SelectedHaveItem.SelectedItemViewHolder>{
 private Context mContext;
@@ -49,7 +51,7 @@ private Context mContext;
 
     @NonNull
     @Override
-    public SelectedItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public SelectedItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         mContext = viewGroup.getContext();
         View v = LayoutInflater.from(mContext).inflate(R.layout.list_items_display,viewGroup,false);
         return new SelectedItemViewHolder(v);
@@ -108,6 +110,7 @@ private Context mContext;
         }
 
         selectedItemViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                AppCompatActivity activity = (AppCompatActivity) v.getContext();
@@ -123,7 +126,7 @@ private Context mContext;
                 }else {
 
                 activity.getSupportFragmentManager().beginTransaction()
-                        .hide(activity.getSupportFragmentManager().findFragmentByTag(MyListsMainActivity.FRAGMENTUSERSAVEDLIST))
+                        .hide(Objects.requireNonNull(activity.getSupportFragmentManager().findFragmentByTag(MyListsMainActivity.FRAGMENTUSERSAVEDLIST)))
                         .add(R.id.lists_frame,savedListDetailsFragment).addToBackStack(null).commit();
 
             }}

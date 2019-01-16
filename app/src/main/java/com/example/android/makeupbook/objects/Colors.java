@@ -3,10 +3,6 @@ package com.example.android.makeupbook.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-
 public class Colors implements Parcelable {
 
     private String hex_value;

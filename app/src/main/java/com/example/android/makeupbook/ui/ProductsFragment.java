@@ -1,9 +1,13 @@
 package com.example.android.makeupbook.ui;
 
+import android.annotation.TargetApi;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +26,8 @@ import com.example.android.makeupbook.objects.Products;
 import com.example.android.makeupbook.Database.Item;
 import com.example.android.makeupbook.Database.ItemViewModel;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,7 +60,7 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
             View rootView = inflater.inflate(R.layout.fragment_products_tab, container, false);
@@ -87,9 +93,10 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void displaySelectedProducts(ArrayList<Products> productsList,
                                          boolean footer) {
-        itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
+        itemViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ItemViewModel.class);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -113,6 +120,7 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
          mRecyclerView.setAdapter(mAdapter);
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         switch (resultCode) {
@@ -128,16 +136,12 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
                     startDataService(mainUrl);
                 }else{
                     progressBar.setVisibility(View.GONE);
-                    boolean footer;
                     if (isBrand ) {
-                    footer = false;
-                    displaySelectedProducts(makeupProducts, footer);
+                    displaySelectedProducts(makeupProducts, false);
                 } else if (code == 1) {
-                    footer = false;
-                    displaySelectedProducts(makeupProducts, footer);
+                    displaySelectedProducts(makeupProducts, false);
                 } else {
-                    footer = true;
-                    displaySelectedProducts(makeupProducts, footer);
+                    displaySelectedProducts(makeupProducts, true);
                 }}
 
 

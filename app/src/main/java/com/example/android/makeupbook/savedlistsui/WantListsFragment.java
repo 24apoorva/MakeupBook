@@ -42,7 +42,7 @@ public class WantListsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_want, container, false);
@@ -95,12 +95,12 @@ public class WantListsFragment extends Fragment {
                     @Override
                     public void onChanged(@Nullable Integer integer) {
 
-                        if (integer == 0) {
-                            layout.setVisibility(View.VISIBLE);
-                        } else {
+                        if (integer != 0) {
                             layout.setVisibility(View.GONE);
                             String countString = getContext().getResources().getString(R.string.youWant)+" "+integer+" "+getContext().getResources().getString(R.string.products);
                             countText.setText(countString);
+                        } else {
+                            layout.setVisibility(View.VISIBLE);
                         }
                     }
                 }

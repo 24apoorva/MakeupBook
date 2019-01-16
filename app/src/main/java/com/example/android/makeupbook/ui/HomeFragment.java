@@ -3,34 +3,25 @@ package com.example.android.makeupbook.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.accounts.User;
 import com.example.android.makeupbook.adapters.TagsRecyAdapter;
-import com.example.android.makeupbook.network.MyResultReceiver;
-import com.example.android.makeupbook.network.NetworkingService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +45,7 @@ public class HomeFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -68,11 +59,15 @@ public class HomeFragment extends Fragment {
 
     private void displayUserData(final TextView view){
 
-        String id = auth.getCurrentUser().getUid();
+        String id = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            id = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        }
         FirebaseDatabase.getInstance().getReference("users/" + id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User userData = dataSnapshot.getValue(User.class);
+                assert userData != null;
                 String name = userData.getUserName();
                 name = name.substring(0,1).toUpperCase() + name.substring(1);
                 String displayText = "Hello "+name+" !";
