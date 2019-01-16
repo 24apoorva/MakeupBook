@@ -60,18 +60,15 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_height_50"
-        android:id="@+id/signUpButton"
         android:layout_margin="@dimen/margin_5dp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:onClick="signUpPressed"
-        android:backgroundTint="@color/colorPrimary"
         android:text="@string/signUp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/alredyMember"
         android:text="@string/member"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_10"

@@ -1,10 +1,7 @@
 package com.example.android.makeupbook.adapters;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,24 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.android.makeupbook.R;
-import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.ui.ItemsActivity;
 import com.squareup.picasso.Picasso;
 
 public class TagsRecyAdapter extends RecyclerView.Adapter<TagsRecyAdapter.TagsViewHolder> {
-    private Context mContext;
-
-    public TagsRecyAdapter(){
-
-    }
-
+    private final Context mContext;
     public TagsRecyAdapter(Context context){
         mContext = context;
     }
 
 
+    @NonNull
     @Override
     public TagsRecyAdapter.TagsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.grid_tag_list,viewGroup,false);
@@ -69,11 +60,11 @@ public class TagsRecyAdapter extends RecyclerView.Adapter<TagsRecyAdapter.TagsVi
         return mContext.getResources().getStringArray(R.array.tagsArray).length;
     }
 
-    public class TagsViewHolder extends RecyclerView.ViewHolder {
-          TextView tagText;
-          ImageView tagImage;
-        CardView cardView;
-        public TagsViewHolder(@NonNull View itemView) {
+    class TagsViewHolder extends RecyclerView.ViewHolder {
+          final TextView tagText;
+          final ImageView tagImage;
+        final CardView cardView;
+        TagsViewHolder(@NonNull View itemView) {
             super(itemView);
             tagText = itemView.findViewById(R.id.tag_names);
             tagImage = itemView.findViewById(R.id.tag_images);

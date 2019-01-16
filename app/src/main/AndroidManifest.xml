@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        tools:replace="android:appComponentFactory">
+        tools:replace="android:appComponentFactory"
+        tools:targetApi="p"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity
             android:name=".accounts.SigningActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
@@ -31,16 +33,16 @@
         <activity android:name=".accounts.SignUpActivity" />
         <activity
             android:name=".ui.ItemsActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".ui.FilterActivity">
-        </activity>
         <activity android:name=".savedlistsui.MyListsMainActivity"
-            android:parentActivityName=".MainActivity">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

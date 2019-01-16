@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.ResultReceiver;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,14 +12,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.Products;
-import com.google.gson.JsonArray;
-
+import com.example.android.makeupbook.ui.ProductsFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.math.BigDecimal;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +28,9 @@ public class NetworkingService extends IntentService {
     }
 
     protected void onHandleIntent(Intent intent) {
-        final ResultReceiver receiver = intent.getParcelableExtra("receiver");
-        String command = intent.getStringExtra("command");
-        String url = intent.getStringExtra("urlvaluereciver");
+        final ResultReceiver receiver = intent.getParcelableExtra(ProductsFragment.RECEIVER);
+        String command = intent.getStringExtra(ProductsFragment.NETWORKCOMMAND);
+        String url = intent.getStringExtra(ProductsFragment.URLRECEIVER);
         Bundle b = new Bundle();
         if(command.equals("query")) {
             receiver.send(STATUS_RUNNING, Bundle.EMPTY);
@@ -67,6 +61,10 @@ public class NetworkingService extends IntentService {
                         String description = currentProduct.optString("description");
                         double rating = currentProduct.optDouble("rating");
                         String category = currentProduct.optString("category");
+
+                        if(Double.isNaN(rating)){
+                            rating = 0.0;
+                        }
                         ArrayList<String> tags = new ArrayList<>();
                         try {
                             JSONArray tagValues = currentProduct.getJSONArray("tag_list");

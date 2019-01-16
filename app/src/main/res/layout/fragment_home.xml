@@ -11,21 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
-        android:background="@color/white"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_10"
-            android:elevation="4dp">
+            android:layout_marginTop="@dimen/dim_15dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_10">
 
             <TextView
                 android:id="@+id/home_name"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_margin="15dp"
+                android:layout_margin="@dimen/dim_15dp"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/colorPrimaryDark"
@@ -36,23 +38,25 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/card_gradiant"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="65dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="@dimen/dim_15dp"
+                android:layout_marginTop="@dimen/dim_65"
+                android:layout_marginRight="@dimen/dim_15dp"
+                android:layout_marginBottom="@dimen/dim_15dp"
                 android:gravity="center"
                 android:text="@string/welcomMessage"
                 android:textColor="@color/colorPrimaryDark" />
         </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_250"
+            android:layout_margin="@dimen/margin_10">
         <RelativeLayout
             android:id="@+id/toprated_home"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:elevation="@dimen/elev_4dp">
+            android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/home_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/margin_10"
@@ -64,22 +68,17 @@
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="114dp"
-                android:layout_marginLeft="114dp"
-                android:layout_marginBottom="31dp"
+                android:layout_centerInParent="true"
                 android:background="@color/white"
                 android:padding="@dimen/margin_10"
                 android:text="@string/high_rated_text" />
         </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/elev_4dp"
-            android:layout_marginTop="@dimen/margin_20">
+            android:layout_margin="@dimen/margin_10">
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="match_parent"
@@ -93,7 +92,7 @@
                 android:background="@drawable/card_gradiant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="@dimen/dim_40"
                 android:orientation="horizontal" />
         </android.support.v7.widget.CardView>
 

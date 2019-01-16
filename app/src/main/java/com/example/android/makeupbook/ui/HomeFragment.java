@@ -40,7 +40,7 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
     @BindView(R.id.home_name)
     TextView welcomeName;
     @BindView(R.id.tags_recy)
@@ -99,8 +99,8 @@ public class HomeFragment extends Fragment {
     @OnClick(R.id.toprated_home)
     public void displayTopRatedProducts(){
         String item = "Top Rated Products";
-        String urlOne ="http://makeup-api.herokuapp.com/api/v1/products.json?rating_greater_than=4.99&product_tags=Natural";
-        String urltwo ="http://makeup-api.herokuapp.com/api/v1/products.json?rating_greater_than=4.99";
+        String urlOne ="https://makeup-api.herokuapp.com/api/v1/products.json?rating_greater_than=4.99&product_tags=Natural";
+        String urltwo ="https://makeup-api.herokuapp.com/api/v1/products.json?rating_greater_than=4.99";
         Intent intent = new Intent(getContext(),ItemsActivity.class);
         intent.putExtra(ItemsActivity.ITEMTYPE,item);
         intent.putExtra(ItemsActivity.ISBRAND,false);

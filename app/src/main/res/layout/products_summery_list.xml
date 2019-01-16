@@ -6,15 +6,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_5dp"
-    app:cardCornerRadius="12dp"
-    android:elevation="@dimen/elev_4dp">
+    app:cardCornerRadius="@dimen/dim_12dp">
 
     <TextView
         android:id="@+id/type_display_id"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/light_gradiant"
+        android:background="@drawable/primary_light_grad"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:gravity="center"

@@ -10,13 +10,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.example.android.makeupbook.Database.ItemViewModel;
 import com.example.android.makeupbook.R;
+import com.example.android.makeupbook.ui.ItemsActivity;
 
 public class MyListsMainActivity extends AppCompatActivity {
-    private ItemViewModel itemViewModel;
     public static final String LISTTYPE = "com.example.android.makeupbook.savedlistsui.listtype";
     private final int HAVEID = 1;
-    private final int WANTID = 2;
-    private String title;
+    public static final String FRAGMENTUSERSAVEDLIST = "usersavedlistfragment";
     private int pageId;
 
     @Override
@@ -26,8 +25,9 @@ public class MyListsMainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
 
-         pageId = intent.getIntExtra(LISTTYPE,0);
-        if(pageId== HAVEID){
+         pageId = intent.getIntExtra(LISTTYPE,HAVEID);
+            String title;
+            if(pageId== HAVEID){
             title = getResources().getString(R.string.havePage_title);
         }else {
             title = getResources().getString(R.string.wantPage_title);
@@ -35,12 +35,23 @@ public class MyListsMainActivity extends AppCompatActivity {
         Toolbar toolBar = findViewById(R.id.toolbar_userlists);
         toolBar.setTitle(title);
         setSupportActionBar(toolBar);
-        if(pageId == HAVEID){
-            getSupportFragmentManager().beginTransaction().replace(R.id.lists_frame, new HaveListFragment()).commit();
-        }else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.lists_frame, new WantListsFragment()).commit();
+        Boolean isTablet = ItemsActivity.getIsTablet();
+        if(isTablet){
+            if(pageId == HAVEID){
+                getSupportFragmentManager().beginTransaction().add(R.id.lists_frame, new HaveListFragment()).add(R.id.lists_frame_right,new SavedListDetailsFragment()).commit();
+            }else {
+                getSupportFragmentManager().beginTransaction().add(R.id.lists_frame, new WantListsFragment()).add(R.id.lists_frame_right, new SavedListDetailsFragment()).commit();
 
+            }
+        }else {
+            if(pageId == HAVEID){
+                getSupportFragmentManager().beginTransaction().replace(R.id.lists_frame, new HaveListFragment(),FRAGMENTUSERSAVEDLIST).commit();
+            }else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.lists_frame, new WantListsFragment(),FRAGMENTUSERSAVEDLIST).commit();
+
+            }
         }
+
 
     }}
 
@@ -57,7 +68,7 @@ public class MyListsMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.delete_all){
-            itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+            ItemViewModel itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
             if(pageId == HAVEID){
                 itemViewModel.removeAllHaveItems();
                 return true;

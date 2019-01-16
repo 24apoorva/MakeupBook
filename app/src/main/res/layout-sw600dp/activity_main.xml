@@ -1,53 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    android:orientation="horizontal"
     android:id="@+id/main_drawer"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <RelativeLayout
-        android:id="@+id/container"
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="start"
-        tools:context=".MainActivity">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:elevation="4dp"/>
-
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+        <include layout="@layout/app_bar_navigation"
+            android:layout_weight="0.35"
+            android:layout_height="match_parent"
+            android:layout_width="@dimen/zerodp"/>
         <FrameLayout
             android:id="@+id/main_frame"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/zerodp"
             android:layout_height="match_parent"
-            android:layout_above="@id/navigation"
-            android:layout_below="@id/main_toolbar"
-            android:animateLayoutChanges="true"/>
+            android:animateLayoutChanges="true"
+            android:layout_weight="0.67"/>
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="0dp"
-            app:itemIconTint="@android:color/white"
-            app:itemTextColor="@color/white"
-            app:menu="@menu/navigation"
-            android:background="@drawable/bottom_nav_bar"
-            android:elevation="@dimen/elev_4dp"
-            app:labelVisibilityMode="labeled"
-            android:layout_alignParentLeft="true" />
+    </LinearLayout>
 
-    </RelativeLayout>
-    <include layout="@layout/app_bar_navigation"/>
 </LinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>

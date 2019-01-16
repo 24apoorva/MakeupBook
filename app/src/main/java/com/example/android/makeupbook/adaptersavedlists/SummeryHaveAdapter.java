@@ -1,5 +1,6 @@
 package com.example.android.makeupbook.adaptersavedlists;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.makeupbook.R;
+import com.example.android.makeupbook.adapters.ProductsRecyclerViewAdapter;
 import com.example.android.makeupbook.objects.ProductCount;
 
 public class SummeryHaveAdapter extends ListAdapter<ProductCount,SummeryHaveAdapter.SummeryViewHolder> {
@@ -37,21 +39,19 @@ public class SummeryHaveAdapter extends ListAdapter<ProductCount,SummeryHaveAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SummeryHaveAdapter.SummeryViewHolder summeryViewHolder, int i) {
-        ProductCount productCount = getItem(i);
+    public void onBindViewHolder(@NonNull final SummeryHaveAdapter.SummeryViewHolder summeryViewHolder, int i) {
+        final ProductCount productCount = getItem(i);
+        final String productType = productCount.getType();
         String value = productCount.getType().trim() +" "+String.valueOf(productCount.getCount());
         String cap = value.substring(0, 1).toUpperCase() + value.substring(1);
         summeryViewHolder.type.setText(cap);
-       // summeryViewHolder.number.setText(String.valueOf(productCount.getCount()));
     }
 
-    public class SummeryViewHolder extends RecyclerView.ViewHolder {
-        TextView type;
-        TextView number;
-        public SummeryViewHolder(@NonNull View itemView) {
+    class SummeryViewHolder extends RecyclerView.ViewHolder {
+        final TextView type;
+        SummeryViewHolder(@NonNull View itemView) {
             super(itemView);
             type = itemView.findViewById(R.id.type_display_id);
-           // number = itemView.findViewById(R.id.count_id);
         }
     }
 }

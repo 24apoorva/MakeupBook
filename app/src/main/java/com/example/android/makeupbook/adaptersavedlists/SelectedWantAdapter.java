@@ -21,8 +21,10 @@ import android.widget.TextView;
 import com.example.android.makeupbook.Database.Item;
 import com.example.android.makeupbook.DetailsTransition;
 import com.example.android.makeupbook.R;
+import com.example.android.makeupbook.savedlistsui.MyListsMainActivity;
 import com.example.android.makeupbook.savedlistsui.SavedListDetailsFragment;
 import com.example.android.makeupbook.ui.ItemDetailsFragment;
+import com.example.android.makeupbook.ui.ItemsActivity;
 import com.squareup.picasso.Picasso;
 
 public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.SelectedWantViewHolder> {
@@ -39,11 +41,11 @@ public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.Se
 
         @Override
         public boolean areContentsTheSame( Item oldItem, Item newItem) {
-            Boolean x =  oldItem.getId() == (newItem.getId())
+            return   oldItem.getId() == (newItem.getId())
                     &&(oldItem.getName() != null &&oldItem.getName().equals(newItem.getName()))
                     && (oldItem.getImage_link() != null && oldItem.getImage_link().equals(newItem.getImage_link()))
                     && (oldItem.getColorName() != null && oldItem.getColorName().equals(newItem.getColorName()));
-            return x;
+
         }
     };
 
@@ -137,9 +139,15 @@ public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.Se
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("savedItemDb",item);
                 savedListDetailsFragment.setArguments(bundle);
-
-                activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.lists_frame,savedListDetailsFragment).addToBackStack(null).commit();
+                Boolean isTablet = ItemsActivity.getIsTablet();
+                if(isTablet){
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.lists_frame_right,savedListDetailsFragment).commit();
+                }else {
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .hide(activity.getSupportFragmentManager().findFragmentByTag(MyListsMainActivity.FRAGMENTUSERSAVEDLIST))
+                            .add(R.id.lists_frame, savedListDetailsFragment).addToBackStack(null).commit();
+                }
 
 
             }
@@ -164,15 +172,15 @@ public class SelectedWantAdapter extends ListAdapter<Item,SelectedWantAdapter.Se
 
 
     public class SelectedWantViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private TextView name;
-        private TextView brand;
-        private TextView price;
-        private LinearLayout colorLayout;
-        private TextView colorName;
-        private ImageView colorValue;
-        private CardView cardView;
-        public SelectedWantViewHolder(@NonNull View itemView) {
+        private final ImageView imageView;
+        private final TextView name;
+        private final TextView brand;
+        private final TextView price;
+        private final LinearLayout colorLayout;
+        private final TextView colorName;
+        private final ImageView colorValue;
+        private final CardView cardView;
+        SelectedWantViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.itemImage);
             name = itemView.findViewById(R.id.itemName);

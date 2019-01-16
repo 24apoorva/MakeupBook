@@ -1,7 +1,8 @@
 package com.example.android.makeupbook.accounts;
 
 public class User {
-    public String userName, email;
+    private String userName;
+    public String email;
 
     public User(){
 

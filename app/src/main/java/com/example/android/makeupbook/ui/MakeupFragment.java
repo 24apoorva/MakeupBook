@@ -2,7 +2,6 @@ package com.example.android.makeupbook.ui;
 
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,15 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.makeupbook.R;
-import com.example.android.makeupbook.objects.ItemDetails;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,14 +36,7 @@ public class MakeupFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_makeup, container, false);
         if(getArguments() != null){
             String selected = getArguments().getString("makeupItem");
-            int image = getArguments().getInt("image");
-            ImageView imageView = view.findViewById(R.id.image_makeup);
-            imageView.setImageResource(image);
-            if(selected == getContext().getResources().getString(R.string.brands)){
-                isBrand = true;
-            }else{
-                isBrand = false;
-            }
+            isBrand = selected == getContext().getResources().getString(R.string.brands);
             displayMakeupList(view,selected);
         }
         return view;

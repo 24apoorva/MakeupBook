@@ -35,7 +35,6 @@ import java.util.List;
 public class WantListsFragment extends Fragment {
 
     private ItemViewModel itemViewModel;
-    private int count;
 
     public WantListsFragment() {
         // Required empty public constructor

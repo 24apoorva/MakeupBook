@@ -5,14 +5,14 @@
     <string name="transition_photo_details">transition image</string>
     <string name="passwordhint">Password</string>
     <string name="forgotPassword">Forgot Password?</string>
-    <string name="newUser">New User? SignUp Here</string>
+    <string name="newUser">New User? SignUp with Email Here</string>
     <string name="usernameMissingToast">Enter email address!</string>
     <string name="passwordToast">Enter password!</string>
     <string name="auth_failed">Email or Password incorrect</string>
     <string name="resetPassword">Reset Password</string>
     <string name="wantPage_title">I want these Items</string>
     <string name="havePage_title">I have these Items</string>
-    <string name="resetText">Plese enter your e-mail adress below and we will send you password reset instructions.</string>
+    <string name="resetText">Plese enter your e-mail address below and we will send you password reset instructions.</string>
     <string name="resendemail">Email Address</string>
     <string name="logo_description">This is the app logo</string>
     <string name="enterEmail">Enter your registered email address.</string>
@@ -23,35 +23,18 @@
     <string name="passwordTooShotToast">Password too short, enter minimum 6 characters!</string>
     <string name="registrationFailed">Registration Failed !</string>
     <string name="userNameHint">Name</string>
-    <string name="favPage">Favorites</string>
-    <string name="title_activity_navigation">NavigationActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
     <string name="home">Home</string>
-    <string name="allProducts">All</string>
     <string name="eyes">Eyes</string>
     <string name="face">Face</string>
     <string name="lips">Lips</string>
     <string name="nails">Nails</string>
-    <string name="view_list">Your Lists</string>
     <string name="about">About Us</string>
-    <string name="eyeshadow">eyeshadow</string>
-    <string name="eyebrow">eyebrow</string>
-    <string name="eyeliner">eyeliner</string>
-    <string name="mascara">Mascara</string>
-    <string name="nailPolish">nail_polish</string>
-    <string name="blush">blush</string>
-    <string name="bronzer">bronzer</string>
     <string name="foundation">foundation</string>
-    <string name="lip_liner">lip_liner</string>
-    <string name="lipstick">lipstick</string>
     <string name="signOut">Sign out</string>
     <string name="welcomMessage">Welcome to your Makeup book</string>
-    <string name="filter">Filter</string>
     <string name="imagedes">Image of the product</string>
     <string name="by">By</string>
     <string name="brands">Brands</string>
@@ -122,71 +105,7 @@
     <string name="addProducts_button">Add Items</string>
     <string name="deleteAll">Delete all Products</string>
 
-    <string-array name="product_type">
-        <item>Blush</item>
-        <item>Bronzer</item>
-        <item>Eyebrow</item>
-        <item>Eyeliner</item>
-        <item>Eyeshadow</item>
-        <item>Foundation</item>
-        <item>Lip liner</item>
-        <item>Lipstick</item>
-        <item>Mascara</item>
-        <item>Nail polish</item>
-    </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="youWant">You Want</string>
-
-    <string-array name="foundationArray">
-        <item>Liquid</item>
-        <item>Contour</item>
-        <item>Bb cc</item>
-        <item>Concealer</item>
-        <item>Cream</item>
-        <item>Mineral</item>
-        <item>Powder</item>
-        <item>Highlighter</item>
-    </string-array>
-
-    <string-array name="eyelinerArray">
-        <item>Liquid</item>
-        <item>Pencil</item>
-        <item>Gel</item>
-        <item>Cream</item>
-    </string-array>
-
-    <string-array name="lipstickArray">
-        <item>Lipstick</item>
-        <item>Lip gloss</item>
-        <item>Liquid</item>
-        <item>Lip stain</item>
-    </string-array>
-
-    <string-array name="eyeShadowArray">
-        <item>Palette</item>
-        <item>Pencil</item>
-        <item>Cream</item>
-    </string-array>
-
-    <string-array name="blushArray">
-        <item>Powder</item>
-        <item>Cream</item>
-    </string-array>
-
-    <string-array name="MakeupArray">
-        <item>EyeBrow</item>
-        <item>Eyeliner</item>
-        <item>Eyeshadow</item>
-        <item>Mascara</item>
-        <item>Blush</item>
-        <item>Bronzer</item>
-        <item>Foundation</item>
-        <item>Lip liner</item>
-        <item>Lipstick</item>
-        <item>Nail polish</item>
-    </string-array>
 
     <string-array name="categoryEyesArray">
         <item>EyeBrow</item>
@@ -206,11 +125,6 @@
         <item>Lipstick</item>
     </string-array>
 
-    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
-    <string name="title_home">Home</string>
-    <string name="makeUp">Makeup</string>
-    <string name="pencil">Pencil</string>
-    <string name="powder">Powder</string>
     <string name="share">Share</string>
     <string name="shareMakeupBook">Share Makeup Book</string>
     <string name="share_type">text/plain</string>
@@ -250,31 +164,11 @@
     <string name="wantButton_title">I want to buy this</string>
     <string name="itemDescriptionText">About this product</string>
     <string name="seeAll">See all the products</string>
-    <string name="itemAddedToHaveList">Item added to I have list</string>
-    <string name="item_added_havelist">Item added to have List</string>
-    <string name="transition_photoenter">Treasition entername</string>
     <string name="transition_product_details">praduct details transaction</string>
     <string name="chooseHave">Choose the colour You have</string>
     <string name="chooseWant">Choose the colour you want</string>
     <string name="selectColor">Please select a color</string>
-    <string name="liquid">Liquid</string>
-    <string name="gel">Gel</string>
-    <string name="cream">Cream</string>
-    <string name="palette">Palette</string>
-    <string name="contour">Contour</string>
-    <string name="bbcc">Bb cc</string>
-    <string name="concealer">Concealer</string>
-    <string name="minaral">Mineral</string>
-    <string name="highlighter">Highlighter</string>
-    <string name="lipgloss">Lip Gloss</string>
-    <string name="lip_stain">Lip stain</string>
-    <string name="customerRating">Rating</string>
-    <string name="ratingHigh">Rating above 4.0</string>
-    <string name="ratingmid">Rating above 3.0</string>
-    <string name="rating_any">Any Rating</string>
-    <string name="price">Price</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
     <string name="action_share">Action share</string>
+    <string name="widgetimagedes">widget have list image</string>
 
 </resources>

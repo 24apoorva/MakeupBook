@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/margin_5dp"
-    android:id="@+id/card_recy_products"
-    android:elevation="@dimen/elev_4dp">
+    android:id="@+id/card_recy_products">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -15,8 +14,8 @@
     android:padding="@dimen/margin_5dp">
 
     <ImageView
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="@dimen/dim_130"
+        android:layout_height="@dimen/dim_130"
         android:layout_gravity="center"
         android:scaleType="fitCenter"
         android:layout_margin="@dimen/margin_10"
@@ -26,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_10"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_10">
 
         <TextView
             android:layout_width="match_parent"
@@ -63,18 +63,20 @@
                 tools:text="$10.66"/>
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/dim_40"
+                android:layout_height="@dimen/dp_30"
                 android:id="@+id/have_this"
                 android:layout_margin="@dimen/margin_10"
-                app:srcCompat="@drawable/ic_have_yes"/>
+                app:srcCompat="@drawable/ic_have_yes"
+                android:contentDescription="@string/imagedes"/>
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/dim_40"
+                android:layout_height="@dimen/dp_30"
                 android:id="@+id/want_this"
                 android:layout_margin="@dimen/margin_10"
-                app:srcCompat="@drawable/ic_want_cart"/>
+                app:srcCompat="@drawable/ic_want_cart"
+                android:contentDescription="@string/imagedes"/>
 
         </LinearLayout>
 

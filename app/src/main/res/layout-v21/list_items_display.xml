@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dim_150"
+    android:layout_margin="@dimen/margin_5dp"
+    android:id="@+id/card_recy_products"
+    android:elevation="@dimen/elev_4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_5dp">
+
+        <ImageView
+            android:id="@+id/itemImage"
+            android:layout_width="@dimen/dim_130"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/imagedes" />
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/margin_10">
+
+            <TextView
+                android:id="@+id/itemName"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_5dp"
+                tools:text="Eyeliner of the year " />
+
+            <TextView
+                android:id="@+id/itemBrand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:layout_marginRight="@dimen/margin_5dp"
+                tools:text="By Sheir " />
+
+            <TextView
+                android:id="@+id/itemPrice"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_5dp"
+                tools:text="$10.66" />
+
+            <LinearLayout
+                android:id="@+id/color_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_5dp"
+                    android:text="@string/color" />
+
+                <TextView
+                    android:id="@+id/itemColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_5dp"
+                    tools:text="Black" />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/displayItemColor"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/margin_20"
+                android:layout_margin="@dimen/margin_5dp"
+                android:contentDescription="@string/imagedes"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.ItemDetailsFragment">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/details_linearlayout"
+        android:transitionName="@string/transition_photo_details">
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads = "http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adv_frame"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="?attr/actionBarSize"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
+
+        <TextView
+            android:id="@+id/itemName_text"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/margin_5dp"
+            android:textStyle="bold"
+            tools:text="Liquid liner"
+            android:layout_marginStart="@dimen/margin_10" />
+
+        <TextView
+            android:id="@+id/itemBrand_text"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/margin_5dp"
+            tools:text="By Lakme"
+            android:layout_marginStart="@dimen/margin_10" />
+        <include layout="@layout/image_with_sharefab"/>
+        <TextView
+            android:id="@+id/itemprice_text"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/margin_5dp"
+            tools:text="$0.00"
+            android:layout_marginStart="@dimen/margin_10" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="5"
+            android:stepSize="1"
+            android:layout_marginStart="@dimen/margin_10" />
+
+        <TextView
+            android:id="@+id/color_Text"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:padding="@dimen/margin_5dp"
+            android:textStyle="bold"
+            tools:text="Color: White" />
+
+        <GridView
+            android:id="@+id/color_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:columnWidth="@dimen/dp_30"
+            android:gravity="center"
+            android:horizontalSpacing="@dimen/margin_5dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/margin_5dp" />
+
+        <Button
+            android:id="@+id/iHave_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_height_50"
+            android:layout_margin="@dimen/margin_5dp"
+            android:backgroundTint="@color/light_background"
+            android:padding="@dimen/margin_10"
+            android:text="@string/haveButton_title"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/iWant_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_height_50"
+            android:layout_marginLeft="@dimen/margin_5dp"
+            android:layout_marginRight="@dimen/margin_5dp"
+            android:backgroundTint="@color/light_background"
+            android:text="@string/wantButton_title"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buy_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_5dp"
+            android:backgroundTint="@color/light_background"
+            android:text="@string/buyNow"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10"
+            android:text="@string/itemDescriptionText"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/type_product"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5dp"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5dp"
+            tools:text="Category: Powder" />
+
+        <TextView
+            android:id="@+id/tags_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5dp"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5dp"
+            tools:text="Tags: " />
+
+        <TextView
+            android:id="@+id/description_item_textview"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5dp"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_10" />
+
+    </LinearLayout>
+
+</ScrollView>

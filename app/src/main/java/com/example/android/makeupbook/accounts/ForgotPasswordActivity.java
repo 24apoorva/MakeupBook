@@ -5,15 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.android.makeupbook.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,6 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     }
 
+    //reset button pressed
     public void resetButtonPressed(View view){
         String email = emailId.getText().toString().trim();
         //Checking if email field is empty

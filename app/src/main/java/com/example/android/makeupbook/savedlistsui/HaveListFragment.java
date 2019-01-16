@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.makeupbook.Database.Item;
 import com.example.android.makeupbook.Database.ItemViewModel;
@@ -46,6 +47,7 @@ public class HaveListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_have_list, container, false);
+        Toast.makeText(getContext(),"on create called",Toast.LENGTH_SHORT).show();
         displayHaveData(view);
         return view;
     }
@@ -68,6 +70,7 @@ public class HaveListFragment extends Fragment {
         final SelectedHaveItem listHaveAdapter = new SelectedHaveItem();
         listHave.setAdapter(listHaveAdapter);
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+
         itemViewModel.loadHaveList().observe(this, new Observer<List<Item>>() {
             @Override
             public void onChanged(@Nullable List<Item> items) {
@@ -118,6 +121,8 @@ public class HaveListFragment extends Fragment {
                     getContext().startActivity(intent);
             }
         });
+
+
     }
 
 }

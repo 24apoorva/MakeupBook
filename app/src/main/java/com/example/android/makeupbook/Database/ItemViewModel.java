@@ -4,20 +4,18 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-
-import com.example.android.makeupbook.objects.MakeupItems;
 import com.example.android.makeupbook.objects.ProductCount;
 
 import java.util.List;
 
 public class ItemViewModel extends AndroidViewModel {
-    private ItemRepository itemRepository;
-    private LiveData<List<Item>> iHaveItems;
-    private LiveData<List<Item>> iWantItems;
-    private LiveData<Integer> haveCount;
-    private LiveData<Integer> wantCount;
-    private LiveData<List<ProductCount>> wantCountProductsList;
-    private LiveData<List<ProductCount>> haveCountProductsList;
+    private final ItemRepository itemRepository;
+    private final LiveData<List<Item>> iHaveItems;
+    private final LiveData<List<Item>> iWantItems;
+    private final LiveData<Integer> haveCount;
+    private final LiveData<Integer> wantCount;
+    private final LiveData<List<ProductCount>> wantCountProductsList;
+    private final LiveData<List<ProductCount>> haveCountProductsList;
 
 
     public ItemViewModel(@NonNull Application application) {
@@ -30,6 +28,7 @@ public class ItemViewModel extends AndroidViewModel {
         wantCountProductsList = itemRepository.getWantCountProductsList();
         haveCountProductsList = itemRepository.getHaveCountProductsList();
     }
+
     public LiveData<List<ProductCount>> getHaveCountProductsList() {
         return haveCountProductsList;
     }

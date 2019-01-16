@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,8 @@ public class SavedListDetailsFragment extends Fragment {
     @BindView(R.id.savedColor_grid)
     View viewColor;
     private Item itemDetails;
+    @BindView(R.id.saved_linearlayout)
+    LinearLayout savedLinearLayout;
 
 
     public SavedListDetailsFragment() {
@@ -56,20 +59,19 @@ public class SavedListDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_saved_list_details, container, false);
         ButterKnife.bind(this,view);
-//        setHasOptionsMenu(true);
+        Toast.makeText(getContext(),"on create called",Toast.LENGTH_SHORT).show();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
 
         if(getArguments() !=null){
+            savedLinearLayout.setVisibility(View.VISIBLE);
             itemDetails = getArguments().getParcelable("savedItemDb");
             displayData();
+        }else{
+            savedLinearLayout.setVisibility(View.GONE);
         }
         return view;
     }
 
-//    @Override
-//    public void onPrepareOptionsMenu(Menu menu) {
-//        menu.clear();
-//    }
 @Override
 public void onResume() {
     super.onResume();

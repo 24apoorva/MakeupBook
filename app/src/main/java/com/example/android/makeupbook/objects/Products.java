@@ -3,8 +3,6 @@ package com.example.android.makeupbook.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 
 public class Products implements Parcelable{
@@ -20,9 +18,6 @@ public class Products implements Parcelable{
     private String category;
     private ArrayList<Colors> product_colors;
     private ArrayList<String> tag_list;
-    public Products(){
-
-    }
 
     public Products(int product_id, String brand, String name, String price, String image_link, String product_link, String product_type, String description, float rating, String category, ArrayList<Colors> product_colors, ArrayList<String> tag_list) {
         this.product_id = product_id;
@@ -39,7 +34,7 @@ public class Products implements Parcelable{
         this.tag_list = tag_list;
     }
 
-    protected Products(Parcel in) {
+    private Products(Parcel in) {
         product_id = in.readInt();
         brand = in.readString();
         name = in.readString();

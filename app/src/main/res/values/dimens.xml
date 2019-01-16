@@ -10,7 +10,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="elev_4dp">4dp</dimen>
     <dimen name="dim_12dp">12dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
@@ -19,7 +18,18 @@
 Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
-    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+    <dimen name="dp_200">200dp</dimen>
+    <dimen name="widgetheight">72dp</dimen>
+    <dimen name="dim_15dp">15dp</dimen>
+    <dimen name="dim_65">65dp</dimen>
+    <dimen name="dim_250">250dp</dimen>
+    <dimen name="dim_40">40dp</dimen>
+    <dimen name="dime_60">60dp</dimen>
+    <dimen name="dim_150">150dp</dimen>
+    <dimen name="fabdimen">56dp</dimen>
+    <dimen name="dim_130">130dp</dimen>
+    <dimen name="zerodp">0dp</dimen>
 
 
 </resources>

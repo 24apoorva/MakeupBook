@@ -3,21 +3,19 @@ package com.example.android.makeupbook.Database;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
-
-import com.example.android.makeupbook.objects.MakeupItems;
 import com.example.android.makeupbook.objects.ProductCount;
 
 import java.util.List;
 
-public class ItemRepository {
-    private ItemsDao itemsDao;
-    private LiveData<List<Item>> allItems;
-    private LiveData<List<Item>> iHaveItems;
-    private LiveData<List<Item>> iWantItem;
-    private LiveData<Integer> wantCount;
-    private LiveData<Integer> haveCount;
-    private LiveData<List<ProductCount>> wantCountProductsList;
-    private LiveData<List<ProductCount>> haveCountProductsList;
+class ItemRepository {
+    private final ItemsDao itemsDao;
+    private final LiveData<List<Item>> iHaveItems;
+    private final LiveData<List<Item>> iWantItem;
+    private final LiveData<Integer> wantCount;
+    private final LiveData<Integer> haveCount;
+    private final LiveData<List<ProductCount>> wantCountProductsList;
+    private final LiveData<List<ProductCount>> haveCountProductsList;
+
 
 
 
@@ -32,7 +30,6 @@ public class ItemRepository {
         haveCountProductsList = itemsDao.getHaveProductCountList();
 
     }
-
 
     public LiveData<List<ProductCount>> getHaveCountProductsList() {
         return haveCountProductsList;
@@ -76,7 +73,7 @@ public class ItemRepository {
 
     private static class InsertItemAsynTask extends AsyncTask<Item,Void,Void>{
 
-        private ItemsDao itemsDao;
+        private final ItemsDao itemsDao;
 
         private InsertItemAsynTask(ItemsDao itemsDao){
 
@@ -91,7 +88,7 @@ public class ItemRepository {
 
     private static class DeleteItemAsynTask extends AsyncTask<Item,Void,Void>{
 
-        private ItemsDao itemsDao;
+        private final ItemsDao itemsDao;
 
         private DeleteItemAsynTask(ItemsDao itemsDao){
             this.itemsDao = itemsDao;
@@ -105,7 +102,7 @@ public class ItemRepository {
 
     private static class DeleteHaveItemsAsynTask extends AsyncTask<Void,Void,Void>{
 
-        private ItemsDao itemsDao;
+        private final ItemsDao itemsDao;
 
         private DeleteHaveItemsAsynTask(ItemsDao itemsDao){
             this.itemsDao = itemsDao;
@@ -120,7 +117,7 @@ public class ItemRepository {
 
     private static class DeleteWantItemsAsynTask extends AsyncTask<Void,Void,Void>{
 
-        private ItemsDao itemsDao;
+        private final ItemsDao itemsDao;
 
         private DeleteWantItemsAsynTask(ItemsDao itemsDao){
             this.itemsDao = itemsDao;

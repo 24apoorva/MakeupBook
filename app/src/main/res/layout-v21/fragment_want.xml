@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/background_light"
+    tools:context="com.example.android.makeupbook.savedlistsui.WantListsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/notAddedLayout"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_height_50"
+            android:layout_margin="@dimen/dimen_height_50"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_want_cart"
+            android:contentDescription="@string/imagedes"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/noItemsText"
+            android:gravity="center"
+            style="@style/TextAppearance.AppCompat.Medium"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addItems"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/colorPrimary"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_20"
+            android:text="@string/addProducts_button"/>
+
+    </LinearLayout>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_5dp"
+        app:cardCornerRadius="@dimen/dim_12dp"
+        android:elevation="@dimen/elev_4dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/youWantTextview"
+        android:background="@drawable/light_gradiant"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        tools:text="You Want 10 makeup products"
+        android:gravity="center"
+        android:padding="@dimen/margin_5dp"
+        style="@style/TextAppearance.AppCompat.Medium"/>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_5dp"
+        android:layout_marginRight="@dimen/margin_5dp"
+        android:id="@+id/typeNum"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/wantList"/>
+
+</LinearLayout>

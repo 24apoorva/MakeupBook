@@ -6,12 +6,12 @@
         android:id="@+id/navigation_iWant"
         android:icon="@drawable/ic_want_cart"
         android:title="@string/wantPage_title"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/navigation_iHave"
         android:icon="@drawable/ic_have_yes"
         android:title="@string/havePage_title"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

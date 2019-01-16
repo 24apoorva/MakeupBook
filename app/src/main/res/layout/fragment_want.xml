@@ -16,11 +16,11 @@
         android:orientation="vertical">
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_margin="50dp"
-            android:id="@+id/want_logo"
+            android:layout_height="@dimen/dimen_height_50"
+            android:layout_margin="@dimen/dimen_height_50"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_want_cart"/>
+            app:srcCompat="@drawable/ic_want_cart"
+            android:contentDescription="@string/imagedes"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/addItems"
             android:textColor="@color/white"
-            android:backgroundTint="@color/colorPrimary"
             style="@style/Widget.AppCompat.Button.Small"
             android:textStyle="bold"
             android:gravity="center"
@@ -46,8 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_5dp"
-        app:cardCornerRadius="12dp"
-        android:elevation="@dimen/elev_4dp">
+        app:cardCornerRadius="@dimen/dim_12dp">
 
     <TextView
         android:layout_width="match_parent"

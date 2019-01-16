@@ -4,12 +4,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,32 +15,21 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.adapters.ColorAdapter;
-import com.example.android.makeupbook.network.VolleySingleton;
 import com.example.android.makeupbook.objects.Colors;
-import com.example.android.makeupbook.objects.ItemDetails;
 import com.example.android.makeupbook.Database.Item;
 import com.example.android.makeupbook.Database.ItemViewModel;
 import com.example.android.makeupbook.objects.Products;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
-import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -54,7 +41,6 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class ItemDetailsFragment extends Fragment {
-    public static String DETAILSURL = "item details url";
     @BindViews({ R.id.itemName_text, R.id.itemBrand_text,
             R.id.itemprice_text,R.id.description_item_textview , R.id.type_product,R.id.color_Text, R.id.tags_tv})
     List<TextView> detailsTextViews;
@@ -70,6 +56,10 @@ public class ItemDetailsFragment extends Fragment {
     private ItemViewModel itemViewModel;
     private Colors selectedColor;
     private Animation anim;
+    @BindView(R.id.details_linearlayout)
+    LinearLayout linearLayout;
+    public static final String MAKEUPITEMDETAILS = "com.example.android.makeupbook.ui.makeupItemDetails";
+    private static final String MAKEUPITEMSAVING = "com.example.android.makeupbook.ui.saveitem";
 
 
     public ItemDetailsFragment() {
@@ -83,41 +73,40 @@ public class ItemDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_item_details, container, false);
         ButterKnife.bind(this, view);
-        //setHasOptionsMenu(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        if(getArguments()!=null){
-            itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
-            details = getArguments().getParcelable("makeupItemDetails");
-           // String url = getArguments().getString(DETAILSURL);
-            loadAdd();
-            displayDetails(details);
-            //loadDetails(url);
-        }
+        if(savedInstanceState != null){
+            if(savedInstanceState.containsKey(MAKEUPITEMSAVING)){
+                details = savedInstanceState.getParcelable(MAKEUPITEMSAVING);
+            }
+        }else{
+            linearLayout.setVisibility(View.VISIBLE);
+            if(getArguments()!=null){
+                loadAdd();
+                itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
+                details = getArguments().getParcelable(MAKEUPITEMDETAILS);
+            }else {
+                hidePage();
+            }}
+        displayDetails(details);
 
         return view;
     }
 
-//    @Override
-//    public void onPrepareOptionsMenu(Menu menu) {
-//        menu.clear();
-//    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MAKEUPITEMSAVING,details);
+    }
+
+    private void hidePage(){
+        linearLayout.setVisibility(View.GONE);
+    }
 
     private void loadAdd(){
         MobileAds.initialize(getContext(),"ca-app-pub-3940256099942544~3347511713");
         AdRequest adRequest= new AdRequest.Builder().
-         addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("19C5BDCAE5E5F1A7A997B6A2115679CD").build();
         mAdView.loadAd(adRequest);
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
     private void displayDetails(final Products itemDetails){
@@ -243,10 +232,9 @@ public class ItemDetailsFragment extends Fragment {
     }
 
     private Item addItem(Products product,String nameColor,String valueColor,Boolean inHaveList,Boolean inWantList){
-        Item item = new Item(product.getProduct_id(),product.getBrand(),product.getName(),product.getPrice()
+        return new Item(product.getProduct_id(),product.getBrand(),product.getName(),product.getPrice()
                 ,product.getImage_link(),product.getProduct_type(),nameColor
                 ,valueColor,product.getDescription(),product.getRating(),product.getCategory(),product.getProduct_link(),inHaveList,inWantList);
-        return item;
     }
 
     @OnClick(R.id.iHave_button)
@@ -254,16 +242,12 @@ public class ItemDetailsFragment extends Fragment {
         Item item;
         if(details.getProduct_colors() == null || details.getProduct_colors().isEmpty()){
             item = addItem(details,null,null,true,false);
-//            item= new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
-//                    details.getProduct_type(),null,null,true,false);
+
         }else{
             if(selectedColor.getColour_name() ==null){
                 selectedColor.setColour_name("color");
             }
             item = addItem(details,selectedColor.getColour_name(),selectedColor.getHex_value(),true,false);
-
-//            item = new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
-//                    details.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),true,false);
         }
 
         itemViewModel.insertItem(item);
@@ -277,12 +261,8 @@ public class ItemDetailsFragment extends Fragment {
         if(details.getProduct_colors() == null  || details.getProduct_colors().isEmpty()){
             item = addItem(details,null,null,false,true);
 
-//            item= new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
-//                    details.getProduct_type(),null,null,false,true);
         }else{
             item = addItem(details,selectedColor.getColour_name(),selectedColor.getHex_value(),false,true);
-//            item = new Item(details.getProduct_id(),details.getBrand(),details.getName(),details.getPrice(),details.getImage_link(),
-//                    details.getProduct_type(),selectedColor.getColour_name(),selectedColor.getHex_value(),false,true);
         }
 
         itemViewModel.insertItem(item);
@@ -290,7 +270,7 @@ public class ItemDetailsFragment extends Fragment {
 
 
     }
-
+    //calculating grid height
     private void setDynamicHeight(GridView gridView) {
         ListAdapter gridViewAdapter = gridView.getAdapter();
         if (gridViewAdapter == null) {
@@ -298,18 +278,17 @@ public class ItemDetailsFragment extends Fragment {
             return;
         }
 
-        int totalHeight = 0;
+        int totalHeight;
         int items = gridViewAdapter.getCount();
-        int rows = 0;
+        int rows;
 
         View listItem = gridViewAdapter.getView(0, null, gridView);
         listItem.measure(0, 0);
         totalHeight = listItem.getMeasuredHeight();
-        int number = gridView.getNumColumns();
 
         float x = 1;
-        if( items > number ){
-            x = items/number;
+        if( items > 9 ){
+            x = items/9;
             rows = (int) (x + 1);
             totalHeight *= rows;
         }
@@ -318,5 +297,6 @@ public class ItemDetailsFragment extends Fragment {
         params.height = totalHeight;
         gridView.setLayoutParams(params);
     }
+
 
 }

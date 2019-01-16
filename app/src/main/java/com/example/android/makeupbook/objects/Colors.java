@@ -22,7 +22,7 @@ public class Colors implements Parcelable {
         this.hex_value = hex_value;
     }
 
-    protected Colors(Parcel in) {
+    private Colors(Parcel in) {
         hex_value = in.readString();
         colour_name = in.readString();
     }
@@ -49,10 +49,6 @@ public class Colors implements Parcelable {
 
     public String getHex_value() {
         return hex_value;
-    }
-
-    public void setHex_value(String hex_value) {
-        this.hex_value = hex_value;
     }
 
 

@@ -32,13 +32,14 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_toolbar)
     Toolbar toolBar;
-    @BindView(R.id.navigation)
-    BottomNavigationView navigation;
+//    @BindView(R.id.navigation)
+//    BottomNavigationView navigation;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
     @BindView(R.id.main_drawer)
     DrawerLayout drawerLayout;
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
+    private boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +48,25 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolBar);
         auth = FirebaseAuth.getInstance();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolBar,
-                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        isTablet = getResources().getBoolean(R.bool.isTablet);
+        if(!isTablet){
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolBar,
+                    R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+            drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+        }
+
         if(savedInstanceState == null){
             displayHomeScreen();
         }
         displayUserData();
 
-        navigation.setOnNavigationItemSelectedListener(mOnBottomNavigationItemSelectedListener);
+     //   navigation.setOnNavigationItemSelectedListener(mOnBottomNavigationItemSelectedListener);
         navigationView.setNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
 
-    private NavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
+    private final NavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             int id = menuItem.getItemId();
@@ -70,19 +75,19 @@ public class MainActivity extends AppCompatActivity {
                     displayHomeScreen();
                     break;
                 case R.id.nav_eyes:
-                    displayMakeupScreen(getResources().getString(R.string.eyes),R.drawable.eyemakeup_background);
+                    displayMakeupScreen(getResources().getString(R.string.eyes));
                     break;
                 case R.id.nav_brands:
-                    displayMakeupScreen(getResources().getString(R.string.brands),R.drawable.makeup_products);
+                    displayMakeupScreen(getResources().getString(R.string.brands));
                     break;
                 case R.id.nav_face:
-                    displayMakeupScreen(getResources().getString(R.string.face),R.drawable.beauty_all_products);
+                    displayMakeupScreen(getResources().getString(R.string.face));
                     break;
                 case R.id.nav_lips:
-                    displayMakeupScreen(getResources().getString(R.string.lips),R.drawable.lips);
+                    displayMakeupScreen(getResources().getString(R.string.lips));
                     break;
                 case R.id.nav_nails:
-                    displayMakeupScreen(getResources().getString(R.string.nails),R.drawable.nailpolish_beauty);
+                    displayMakeupScreen(getResources().getString(R.string.nails));
                     break;
                 case R.id.share:
                     shareThisApp();
@@ -91,7 +96,9 @@ public class MainActivity extends AppCompatActivity {
                     signOutOfApp();
                     break;
             }
-            drawerLayout.closeDrawer(GravityCompat.START);
+            if(!isTablet) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
             return true;
         }
     };
@@ -99,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
+            if(!isTablet) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
         }else {
             if (checkNavigationMenuItem() != 0)
             {
@@ -142,24 +151,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //for Bottom navigation
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnBottomNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_iWant:
-                    displayIwantFragment();
-                    return true;
-                case R.id.navigation_iHave:
-                    displayIhaveFragment();
-                    return true;
-            }
-            return false;
-        }
-    };
-
     private void displayIwantFragment(){
         Intent intent = new Intent(MainActivity.this,MyListsMainActivity.class);
         intent.putExtra(MyListsMainActivity.LISTTYPE,2);
@@ -178,10 +169,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeFragment()).commit();
     }
 
-    private void displayMakeupScreen(String makeUp, int image){
+    private void displayMakeupScreen(String makeUp){
         Bundle bundle = new Bundle();
         bundle.putString("makeupItem",makeUp);
-        bundle.putInt("image",image);
         MakeupFragment makeupFragment = new MakeupFragment();
         makeupFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,makeupFragment).commit();

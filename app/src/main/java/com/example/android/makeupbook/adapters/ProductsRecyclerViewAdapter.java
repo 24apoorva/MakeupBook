@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.transition.Fade;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,29 +16,28 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.makeupbook.DetailsTransition;
 import com.example.android.makeupbook.R;
 import com.example.android.makeupbook.objects.Colors;
 import com.example.android.makeupbook.objects.Products;
 import com.example.android.makeupbook.ui.ItemDetailsFragment;
 import com.example.android.makeupbook.Database.Item;
+import com.example.android.makeupbook.ui.ItemsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<Products> mProducts = new ArrayList<>();
-    private Context mContext;
+    private final ArrayList<Products> mProducts;
+    private final Context mContext;
     private static final int TYPE_FOOTER = 1;
     private static final int TYPE_ITEM = 0;
-    private boolean hasFooter;
+    private final boolean hasFooter;
     //declare interface
-    private OnItemClicked onClick;
+    private final OnItemClicked onClick;
 
-    //make interface like this
     public interface OnItemClicked {
-        void onFooterClick(int position);
+        void onFooterClick();
         void imageClick(Item item);
 
     }
@@ -51,25 +49,20 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         this.onClick = onClick;
     }
 
-    public ProductsRecyclerViewAdapter(boolean hasFooter){
-        this.hasFooter = hasFooter;
-    }
-
-
-    public class ProductsViewHolder extends RecyclerView.ViewHolder {
-        public ImageView productImage;
-        public TextView productName;
-        public TextView brandDisplay;
-        public TextView price;
-        public CardView cardView;
-        private ImageView haveImage;
-        private ImageView wantImage;
-        public ProductsViewHolder(@NonNull View itemView) {
+    class ProductsViewHolder extends RecyclerView.ViewHolder {
+        final ImageView productImage;
+         final TextView productName;
+        final TextView brandDisplay;
+        final TextView price;
+        final CardView cardView;
+        private final ImageView haveImage;
+        private final ImageView wantImage;
+        ProductsViewHolder(@NonNull View itemView) {
             super(itemView);
-            productImage = (ImageView)itemView.findViewById(R.id.listImage);
-            productName = (TextView)itemView.findViewById(R.id.productName);
-            brandDisplay = (TextView)itemView.findViewById(R.id.brandName);
-            price = (TextView)itemView.findViewById(R.id.price);
+            productImage = itemView.findViewById(R.id.listImage);
+            productName = itemView.findViewById(R.id.productName);
+            brandDisplay =itemView.findViewById(R.id.brandName);
+            price = itemView.findViewById(R.id.price);
             cardView = itemView.findViewById(R.id.card_recy_products);
             haveImage = itemView.findViewById(R.id.have_this);
             wantImage=itemView.findViewById(R.id.want_this);
@@ -77,9 +70,9 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     private class ProductsFooterViewHolder extends RecyclerView.ViewHolder {
-        Button footerText;
+        final Button footerText;
 
-        public ProductsFooterViewHolder(View view) {
+        ProductsFooterViewHolder(View view) {
             super(view);
             footerText = view.findViewById(R.id.loadmore_data);
         }
@@ -87,6 +80,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        //Checking if there is a footer
         if(viewType == TYPE_ITEM){
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.products_list,viewGroup,false);
         return new ProductsViewHolder(v);
@@ -96,16 +90,16 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         }}
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+        final Boolean isTablet = ItemsActivity.getIsTablet();
         if (holder instanceof ProductsFooterViewHolder) {
             ProductsFooterViewHolder footerHolder = (ProductsFooterViewHolder) holder;
             if(hasFooter){
             footerHolder.footerText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClick.onFooterClick(mProducts.size());
+                    onClick.onFooterClick();
                 }
             });}else {
                 footerHolder.footerText.setVisibility(View.GONE);
@@ -124,7 +118,9 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     .placeholder(R.color.white)
                     .noFade()
                     .into(itemViewHolder.productImage);
-            itemViewHolder.productImage.setTransitionName(currentProduct.getName()+position);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemViewHolder.productImage.setTransitionName(currentProduct.getName()+position);
+            }
             String name = currentProduct.getName();
             if(name == null){
                 itemViewHolder.productName.setVisibility(View.INVISIBLE);
@@ -153,30 +149,41 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 @Override
                 public void onClick(View v) {
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                   // String end = Integer.toString(mProducts.get(holder.getAdapterPosition()).getProduct_id())+".json";
-                   // String url = "https://makeup-api.herokuapp.com/api/v1/products/";
-                   // String sendUrl = url+end;
+
                     ItemDetailsFragment itemDetailsFragment = new ItemDetailsFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("makeupItemDetails",mProducts.get(holder.getAdapterPosition()));
-                   // bundle.putString(ItemDetailsFragment.DETAILSURL,sendUrl);
+                    bundle.putParcelable(ItemDetailsFragment.MAKEUPITEMDETAILS,currentProduct);
                     itemDetailsFragment.setArguments(bundle);
 
+                    if(isTablet){
 
+                        activity.getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.items_frame_right, itemDetailsFragment).commit();
+                    }else{
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        itemDetailsFragment.setSharedElementEnterTransition(new DetailsTransition());
-                        itemDetailsFragment.setEnterTransition(new Fade());
-                        itemDetailsFragment.setExitTransition(new Fade());
-                        itemDetailsFragment.setSharedElementReturnTransition(new DetailsTransition());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            itemDetailsFragment.setSharedElementEnterTransition(new DetailsTransition());
+                            itemDetailsFragment.setEnterTransition(new Fade());
+                            itemDetailsFragment.setExitTransition(new Fade());
+                            itemDetailsFragment.setSharedElementReturnTransition(new DetailsTransition());
+                        }
+                        activity.getSupportFragmentManager().beginTransaction()
+                                .hide(activity.getSupportFragmentManager().findFragmentByTag(ItemsActivity.PRODUCTFRAGMENTTAG))
+                                 .addSharedElement(itemViewHolder.productImage,mContext.getResources().getString(R.string.transition_photo_details))
+                                .add(R.id.items_frame, itemDetailsFragment).addToBackStack(null).commit();
+
                     }
-                    activity.getSupportFragmentManager().beginTransaction()
-                    .addSharedElement(itemViewHolder.productImage, mContext.getResources().getString(R.string.transition_photo_details))
-                            .replace(R.id.items_frame, itemDetailsFragment).addToBackStack(null).commit();
-
-                }
+                   }
             });
 
+            if(isTablet){
+                //if it is a tablet images will be hidden
+                itemViewHolder.wantImage.setVisibility(View.GONE);
+                itemViewHolder.haveImage.setVisibility(View.GONE);
+
+            }else {
+                itemViewHolder.wantImage.setVisibility(View.VISIBLE);
+                itemViewHolder.haveImage.setVisibility(View.VISIBLE);
             itemViewHolder.wantImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -202,18 +209,30 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 }
             });
-        }
+        }}
     }
 
+    /**
+     * This method adds product data to item
+     * @param product - current product
+     * @param nameColor - color name
+     * @param valueColor - color value
+     * @param inHaveList - is it added to have list
+     * @param inWantList - is it in want list
+     * @return an item
+     */
     private Item addItem(Products product,String nameColor,String valueColor,Boolean inHaveList,Boolean inWantList){
-        float rating = product.getRating();
-
-        Item item = new Item(product.getProduct_id(),product.getBrand(),product.getName(),product.getPrice()
+        return new Item(product.getProduct_id(),product.getBrand(),product.getName(),product.getPrice()
                 ,product.getImage_link(),product.getProduct_type(),nameColor
                 ,valueColor,product.getDescription(),product.getRating(),product.getCategory(),product.getProduct_link(),inHaveList,inWantList);
-        return item;
     }
 
+    /**
+     * This method displays dialog box with colors lists
+     * @param colours Array list of Colours
+     * @param currentProduct selected product
+     * @param isHave is it a have list or want list
+     */
     private void displayDialog(final ArrayList<Colors> colours, final Products currentProduct, final boolean isHave){
         final String[] listItems = getColorNamesArry(colours);
         final String[] col = getColorvalueArry(colours);
@@ -264,6 +283,11 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         dialog.show();
     }
 
+    /**
+     * used to get colour values from Colors object
+     * @param colors ArrayList of colors
+     * @return string array
+     */
     private String[] getColorNamesArry(ArrayList<Colors> colors){
         String[] name = new String[colors.size()];
         for(int i=0; i<colors.size(); i++){
@@ -277,7 +301,12 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         return name;
     }
 
-    public String[] getColorvalueArry(ArrayList<Colors> colors){
+    /**
+     * used to get colour values from Colors object
+     * @param colors ArrayList of colors
+     * @return string array
+     */
+    private String[] getColorvalueArry(ArrayList<Colors> colors){
         String[] name = new String[colors.size()];
         for(int i=0; i<colors.size(); i++){
             name[i] = colors.get(i).getHex_value();

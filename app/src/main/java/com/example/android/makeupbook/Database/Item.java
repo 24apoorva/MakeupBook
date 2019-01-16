@@ -12,20 +12,20 @@ public class Item implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @NotNull
     private int id;
-    private int product_id;
-    private String brand;
-    private String name;
-    private String price;
-    private String image_link;
-    private String productType;
-    private String colorName;
-    private String colorValue;
-    private String description;
-    private float rating;
-    private String category;
-    private String product_link;
-    private boolean inHaveList;
-    private boolean inWantList;
+    private final int product_id;
+    private final String brand;
+    private final String name;
+    private final String price;
+    private final String image_link;
+    private final String productType;
+    private final String colorName;
+    private final String colorValue;
+    private final String description;
+    private final float rating;
+    private final String category;
+    private final String product_link;
+    private final boolean inHaveList;
+    private final boolean inWantList;
 
 
     public Item(int product_id, String brand, String name, String price, String image_link, String productType, String colorName, String colorValue,
@@ -46,7 +46,7 @@ public class Item implements Parcelable {
         this.inWantList = inWantList;
     }
 
-    protected Item(Parcel in) {
+    Item(Parcel in) {
         id = in.readInt();
         product_id = in.readInt();
         brand = in.readString();

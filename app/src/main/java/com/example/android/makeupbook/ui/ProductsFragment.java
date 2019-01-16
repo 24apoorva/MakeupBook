@@ -2,7 +2,6 @@ package com.example.android.makeupbook.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -27,14 +26,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProductsFragment extends Fragment implements MyResultReceiver.Receiver{
-    public ProgressBar p;
-    public static String PRODUCTSURL = "urlReq";
-    public static String FULLURL = "full data url";
-    public static String BRANDTYPE = "com.example.android.makeupbook.ui.isbrand";
+    public static final String PRODUCTSURL = "com.example.android.makeupbook.ui.urlReq";
+    public static final String FULLURL = "com.example.android.makeupbook.ui.fulldataurl";
+    public static final String BRANDTYPE = "com.example.android.makeupbook.ui.isbrand";
+    public static final String URLRECEIVER = "com.example.android.makeupbook.ui.urlvaluereciver";
+    public static final String RECEIVER = "com.example.android.makeupbook.ui.reciver";
+    public static final String NETWORKCOMMAND = "com.example.android.makeupbook.ui.command";
     private boolean isBrand = false;
-    private final String SAVEDATA = "savedlist";
     private String mainUrl;
-    private View rootView;
     private ItemViewModel itemViewModel;
     private MyResultReceiver mReceiver;
     private static final int RUNNING = 24;
@@ -45,30 +44,27 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
     private int code;
     @BindView(R.id.products_framelayout)
     FrameLayout frameLayout;
+    @BindView(R.id.progress_rec)
+    ProgressBar progressBar;
 
 
     public ProductsFragment() {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        if (rootView == null) {
-            // Inflate the layout for this fragment
-            rootView = inflater.inflate(R.layout.fragment_products_tab, container, false);
+        // Inflate the layout for this fragment
+            View rootView = inflater.inflate(R.layout.fragment_products_tab, container, false);
             ButterKnife.bind(this, rootView);
-            p = rootView.findViewById(R.id.progress_rec);
-            if (getArguments() != null) {
+                if (getArguments() != null) {
                 String url = getArguments().getString(PRODUCTSURL);
                 mainUrl = getArguments().getString(FULLURL);
                 isBrand = getArguments().getBoolean(BRANDTYPE);
                startDataService(url);
             }
-
-        }
-
 
         return rootView;
     }
@@ -77,16 +73,18 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
         mReceiver = new MyResultReceiver(new Handler());
         mReceiver.setReceiver(this);
         final Intent intent = new Intent(Intent.ACTION_SYNC, null,getContext(),NetworkingService.class);
-        intent.putExtra("urlvaluereciver",url);
-        intent.putExtra("receiver", mReceiver);
-        intent.putExtra("command", "query");
+        intent.putExtra(URLRECEIVER,url);
+        intent.putExtra(RECEIVER, mReceiver);
+        intent.putExtra(NETWORKCOMMAND, "query");
         getContext().startService(intent);
     }
 
     public void onPause() {
         super.onPause();
         mReceiver.setReceiver(null); // clear receiver so no leaks.
+
     }
+
 
 
     private void displaySelectedProducts(ArrayList<Products> productsList,
@@ -99,7 +97,7 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
         final ProductsRecyclerViewAdapter mAdapter = new ProductsRecyclerViewAdapter(getContext(), productsList, footer,
                 new ProductsRecyclerViewAdapter.OnItemClicked() {
                     @Override
-                    public void onFooterClick(int position) {
+                    public void onFooterClick() {
                         code=1;
                         startDataService(mainUrl);
                     }
@@ -119,7 +117,7 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
     public void onReceiveResult(int resultCode, Bundle resultData) {
         switch (resultCode) {
             case RUNNING:
-                p.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
                 break;
             case FINISHED:
@@ -129,13 +127,17 @@ public class ProductsFragment extends Fragment implements MyResultReceiver.Recei
                     code = 1;
                     startDataService(mainUrl);
                 }else{
-                p.setVisibility(View.GONE);
-                if (isBrand ) {
-                    displaySelectedProducts(makeupProducts,false);
+                    progressBar.setVisibility(View.GONE);
+                    boolean footer;
+                    if (isBrand ) {
+                    footer = false;
+                    displaySelectedProducts(makeupProducts, footer);
                 } else if (code == 1) {
-                    displaySelectedProducts(makeupProducts,false);
+                    footer = false;
+                    displaySelectedProducts(makeupProducts, footer);
                 } else {
-                    displaySelectedProducts(makeupProducts,true);
+                    footer = true;
+                    displaySelectedProducts(makeupProducts, footer);
                 }}
 
 

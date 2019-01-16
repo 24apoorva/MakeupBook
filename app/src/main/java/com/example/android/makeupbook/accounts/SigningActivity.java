@@ -1,43 +1,31 @@
 package com.example.android.makeupbook.accounts;
 
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.makeupbook.MainActivity;
 import com.example.android.makeupbook.R;
-import com.example.android.makeupbook.network.NetworkingService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.List;
-
-import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SigningActivity extends AppCompatActivity {
 
     @BindViews({R.id.username_id, R.id.password_id})
     List<EditText> user_login_views;
     private FirebaseAuth auth;
-    private FirebaseDatabase mFirebaseDatabase;
+    private final String TAG = SigningActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +34,20 @@ public class SigningActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
 
         if (auth.getCurrentUser() != null) {
             openHomeScreen();
         }
 
     }
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+       if(auth.getCurrentUser() != null) {
+           openHomeScreen();
+       }
+    }
     //When SignUp button pressed
     public void signUpButtonPressed(View view) {
         startActivity(new Intent(SigningActivity.this, SignUpActivity.class));
@@ -61,25 +55,10 @@ public class SigningActivity extends AppCompatActivity {
 
     //geting userName and displaying home screen
     private void openHomeScreen() {
-//        String id = auth.getCurrentUser().getUid();
-//        mFirebaseDatabase.getReference("users/" + id).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                User userData = dataSnapshot.getValue(User.class);
-//                String name = userData.getUserName();
-//                String email = userData.getEmail();
                 Intent homeScreenIntent = new Intent(SigningActivity.this, MainActivity.class);
                 startActivity(homeScreenIntent);
                 finish();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
     }
-
     //When forgot password is clicked
     public void forgotEmailPressed(View view) {
         startActivity(new Intent(SigningActivity.this, ForgotPasswordActivity.class));
@@ -111,7 +90,8 @@ public class SigningActivity extends AppCompatActivity {
                             if (password.length() < 6) {
                                 user_login_views.get(1).setError(getString(R.string.passwordTooShotToast));
                             } else {
-                                Toast.makeText(SigningActivity.this, getResources().getString(R.string.auth_failed) + task.getException(), Toast.LENGTH_LONG).show();
+                                Log.d(TAG,getResources().getString(R.string.auth_failed)+task.getException());
+                                Toast.makeText(SigningActivity.this, getResources().getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                             }
                         } else {
                             openHomeScreen();

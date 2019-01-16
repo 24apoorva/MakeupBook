@@ -24,10 +24,10 @@ public interface ItemsDao {
     @Query("DELETE FROM myList_Products WHERE inWantList = 1 ")
     void deleteAllWantList();
 
-    @Query("SELECT * FROM myList_Products WHERE inHaveList = 1")
+    @Query("SELECT * FROM myList_Products WHERE inHaveList = 1 ORDER BY productType")
     LiveData<List<Item>> loadHaveList();
 
-    @Query("SELECT * FROM myList_Products WHERE inWantList = 1")
+    @Query("SELECT * FROM myList_Products WHERE inWantList = 1 ORDER BY productType")
     LiveData<List<Item>> loadWantList();
 
     @Query("SELECT COUNT(*) FROM myList_Products WHERE inHaveList = 1")
@@ -41,6 +41,5 @@ public interface ItemsDao {
 
     @Query("SELECT DISTINCT productType,COUNT(productType) as count FROM myList_Products WHERE inHaveList=1 GROUP BY productType")
     LiveData<List<ProductCount>> getHaveProductCountList();
-
 
 }

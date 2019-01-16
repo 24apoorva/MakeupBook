@@ -20,13 +20,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class ColorAdapter extends ArrayAdapter<Colors> {
-    private Context mContext;
-    private ArrayList<Colors> mColors;
-    private LayoutInflater inflater;
+    private final ArrayList<Colors> mColors;
+    private final LayoutInflater inflater;
 
     public ColorAdapter(Context c, ArrayList<Colors> colors) {
         super(c, R.layout.display_color, colors);
-        mContext = c;
+        Context mContext = c;
         this.mColors = colors;
         inflater = LayoutInflater.from(c);
     }

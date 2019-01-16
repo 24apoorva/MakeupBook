@@ -50,9 +50,9 @@ public class SummeryAdapter extends ListAdapter<ProductCount,SummeryAdapter.Summ
 
 
     public class SummeryViewHolder extends RecyclerView.ViewHolder {
-        TextView type;
-        TextView number;
-        public SummeryViewHolder(@NonNull View itemView) {
+        final TextView type;
+
+        SummeryViewHolder(@NonNull View itemView) {
             super(itemView);
             type = itemView.findViewById(R.id.type_display_id);
           //  number = itemView.findViewById(R.id.count_id);
